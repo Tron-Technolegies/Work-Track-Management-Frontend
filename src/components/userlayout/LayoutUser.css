@@ -1,0 +1,55 @@
+/* ═══════════════════════════════
+   LayoutUser — Base layout
+═══════════════════════════════ */
+
+.user-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.layout-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.user-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+  min-width: 0; /* prevent overflow on flex child */
+}
+
+/* Extra left margin when leave-sidebar is fixed on desktop */
+.user-main.with-leave-sidebar {
+  margin-left: 250px; /* leave sidebar width */
+}
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 768px) {
+  /* Sidebar is taken out of flow (fixed/absolute), so body spans full width */
+  .layout-body {
+    flex-direction: column;
+  }
+
+  /* Main takes full width — sidebar overlays it */
+  .user-main {
+    margin-left: 0 !important;
+    padding: 16px;
+  }
+
+  /* Leave sidebar margin removed on mobile (it overlays) */
+  .user-main.with-leave-sidebar {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-main {
+    padding: 12px;
+  }
+}

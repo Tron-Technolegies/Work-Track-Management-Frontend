@@ -1,0 +1,324 @@
+/* =========================
+   Apply Leave Page
+========================= */
+
+.leave-apply-leave-page {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* =========================
+   Page Heading
+========================= */
+
+.leave-page-heading {
+    margin-bottom: 25px;
+}
+
+.leave-heading-small {
+    font-size: 12px;
+    color: #9f8fd6;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.leave-page-heading h1 {
+    font-size: 34px;
+    color: #241b4b;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.leave-page-heading span {
+    color: #8f8ca8;
+    font-size: 15px;
+}
+
+/* =========================
+   Card
+========================= */
+
+.leave-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 25px rgba(32, 33, 36, .06);
+    box-sizing: border-box;
+}
+
+.leave-card-title {
+    font-size: 20px;
+    color: #261f4b;
+    margin-bottom: 18px;
+}
+
+.leave-card hr {
+    border: none;
+    border-top: 1px solid #ece9f7;
+    margin: 20px 0;
+}
+
+/* =========================
+   Form Layout
+========================= */
+
+.leave-form-row {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+.leave-form-row.three-column{
+    grid-template-columns: repeat(3,1fr);
+}
+
+.leave-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.leave-form-group.full {
+    margin-bottom: 24px;
+}
+
+/* =========================
+   Labels
+========================= */
+
+.leave-form-group label {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4f4a73;
+}
+
+.leave-optional{
+    color:#9ca3af;
+    font-weight:400;
+}
+
+/* =========================
+   Inputs
+========================= */
+
+.leave-form-group input,
+.leave-form-group select,
+.leave-form-group textarea{
+
+    width:100%;
+
+    border:1px solid #e6defb;
+
+    border-radius:10px;
+
+    padding:14px 16px;
+
+    font-size:15px;
+
+    color:#444;
+
+    background:#fff;
+
+    outline:none;
+
+    transition:.25s;
+    box-sizing: border-box;
+}
+
+.leave-form-group textarea{
+    resize:none;
+}
+
+.leave-form-group input:focus,
+.leave-form-group select:focus,
+.leave-form-group textarea:focus{
+
+    border-color:#8b5cf6;
+
+    box-shadow:0 0 0 3px rgba(139,92,246,.15);
+}
+
+/* =========================
+   Total Days
+========================= */
+
+.leave-readonly{
+
+    background:#f5efff !important;
+
+    color:#7c3aed;
+
+    text-align:center;
+
+    font-weight:600;
+}
+
+/* =========================
+   Upload
+========================= */
+
+.leave-upload-box{
+
+    height:150px;
+
+    border:2px dashed #d8c8ff;
+
+    border-radius:12px;
+
+    background:#faf7ff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.leave-upload-box:hover{
+
+    border-color:#8b5cf6;
+
+    background:#f6f1ff;
+}
+
+.leave-upload-icon{
+
+    font-size:40px;
+
+    color:#8b5cf6;
+
+    margin-bottom:12px;
+}
+
+.leave-upload-box p{
+
+    font-size:15px;
+
+    color:#5b4d8d;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+}
+
+.leave-upload-box span{
+
+    color:#9ca3af;
+
+    font-size:13px;
+}
+
+/* =========================
+   Buttons
+========================= */
+
+.leave-button-group{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:25px;
+}
+
+.leave-submit-btn{
+
+    border:none;
+
+    background:#8b5cf6;
+
+    color:#fff;
+
+    padding:13px 28px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.leave-submit-btn:hover{
+
+    background:#7c3aed;
+}
+
+.leave-clear-btn{
+
+    border:none;
+
+    background:#efe8ff;
+
+    color:#7c3aed;
+
+    padding:13px 28px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.leave-clear-btn:hover{
+
+    background:#e3d6ff;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media(max-width:992px){
+
+    .leave-form-row{
+        grid-template-columns:1fr;
+    }
+
+    .leave-form-row.three-column{
+        grid-template-columns:1fr;
+    }
+
+    .leave-button-group{
+        flex-direction:column;
+    }
+
+    .leave-submit-btn,
+    .leave-clear-btn{
+        width:100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .leave-page-heading { margin-bottom: 18px; }
+    .leave-page-heading h1 { font-size: 26px; }
+    .leave-card { border-radius: 14px; padding: 18px; }
+    .leave-card-title { font-size: 18px; }
+    .leave-form-row { gap: 16px; margin-bottom: 16px; }
+    .leave-form-group.full { margin-bottom: 18px; }
+    .leave-form-group input,
+    .leave-form-group select,
+    .leave-form-group textarea { padding: 12px; font-size: 14px; }
+    .leave-upload-box { height: 130px; padding: 12px; text-align: center; }
+    .leave-upload-box p { margin: 0 0 6px; overflow-wrap: anywhere; }
+    .leave-button-group { gap: 10px; margin-top: 18px; }
+}

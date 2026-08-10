@@ -1,0 +1,165 @@
+.my-projects{
+    width:100%;
+    background:#F5EDF8;
+    border-radius:18px;
+    padding:24px;
+    box-sizing:border-box;
+}
+
+/* Header */
+
+.projects-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.projects-header h2{
+    margin:0;
+    font-size:34px;
+    font-weight:500;
+    color:#1a1a1a;
+}
+
+.projects-view-btn{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    color:#A689AE;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    transition:.3s;
+}
+
+.projects-view-btn:hover{
+    color:#8A2BE2;
+    transform:translateX(3px);
+}
+
+/* List */
+
+.projects-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+/* Card */
+
+.project-card{
+    background:#fff;
+    border-radius:14px;
+    padding:16px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+
+.project-info{
+    flex:1;
+}
+
+.project-info h3{
+    margin:0;
+    font-size:21px;
+    font-weight:500;
+    color:#222;
+}
+
+.project-info p{
+    margin-top:6px;
+    color:#9a9a9a;
+    font-size:14px;
+}
+
+/* Progress */
+
+.project-progress{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width:120px;
+}
+
+.progress-bar{
+    width:110px;
+    height:8px;
+    background:#9D9D9D;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        #8B2CF5,
+        #A94AF8
+    );
+    border-radius:50px;
+}
+
+.project-progress span{
+    font-size:15px;
+    font-weight:500;
+    color:#555;
+}
+
+/* Tablet */
+
+@media(max-width:768px){
+
+.project-card{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.project-progress{
+    width:100%;
+}
+
+.progress-bar{
+    flex:1;
+    width:100%;
+}
+
+.projects-header h2{
+    font-size:28px;
+}
+
+.project-info h3{
+    font-size:18px;
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:480px){
+
+.my-projects{
+    padding:18px;
+}
+
+.projects-header h2{
+    font-size:24px;
+}
+
+.project-info h3{
+    font-size:16px;
+}
+
+.project-info p{
+    font-size:13px;
+}
+
+.project-progress span{
+    font-size:14px;
+}
+
+}

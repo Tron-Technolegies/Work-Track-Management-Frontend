@@ -1,0 +1,43 @@
+.td-app-usage-card {
+  background: #f8f6ff;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.td-app-usage-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+.td-app-usage-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.td-app-usage-table th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: #9333ea;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.td-app-usage-table td {
+  padding: 14px 0;
+  font-size: 14px;
+  color: #1e293b;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.atd-pp-name {
+  font-weight: 500;
+}
+
+.td-app-usage-table tr:last-child td {
+  border-bottom: none;
+}

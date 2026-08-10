@@ -1,0 +1,159 @@
+.task-details-form-new {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 10px;
+}
+
+.section-label {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.task-hero-title {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  outline: none;
+  font-family: 'Outfit', sans-serif;
+}
+
+.task-description-box {
+  width: 100%;
+  min-height: 120px;
+  padding: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #64748b;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  resize: none;
+  outline: none;
+}
+
+.deadline-priority-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.deadline-group {
+  flex: 1;
+}
+
+.deadline-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.cal-icon {
+  font-size: 18px;
+  color: #94a3b8;
+}
+
+.priority-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.priority-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+  font-family: 'Outfit', sans-serif;
+}
+
+.priority-pill-new {
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.priority-pill-new.high {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.priority-pill-new.medium {
+  background: #dcfce7;
+  color: #10b981;
+}
+
+.priority-pill-new.low {
+  background: #e2fce6;
+  color: #57d47c;
+}
+
+/* Light green as per ref */
+
+.comments-section-new {
+  width: 100%;
+}
+
+.comment-box-wrapper {
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.comment-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 16px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+}
+
+.comment-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+}
+
+.comment-post-btn {
+  background: #8b5cf6;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.comment-tools {
+  display: flex;
+  gap: 16px;
+  color: #94a3b8;
+  font-size: 18px;
+}
+
+.comment-tools svg {
+  cursor: pointer;
+}

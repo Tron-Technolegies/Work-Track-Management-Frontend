@@ -1,0 +1,181 @@
+.employee-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.employee-modal-card {
+    width: 750px;
+    max-height: 90vh;
+    overflow: auto;
+    background: #fff;
+    border-radius: 18px;
+}
+
+.employee-card {
+    padding: 35px;
+}
+
+.employee-header h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #171717;
+}
+
+.employee-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.employee-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.employee-form label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.employee-form input,
+.employee-form select,
+.employee-form textarea {
+    width: 100%;
+    height: 46px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    padding: 0 14px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.employee-form textarea {
+    height: 100px;
+    padding: 12px 14px;
+    resize: none;
+    font-family: inherit;
+}
+
+.employee-form select[multiple] {
+    height: 80px;
+    padding: 8px 14px;
+}
+
+.attachment-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-attachment-link {
+    width: 46px;
+    height: 46px;
+    background: #fff;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.icon-img {
+    width: 18px;
+    height: 18px;
+}
+
+.small-link-input {
+    flex: 1;
+    height: 46px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    padding: 0 14px;
+    font-size: 14px;
+}
+
+.files-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #dbe4ef;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.remove-file {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.password-box {
+    position: relative;
+}
+
+.password-box span {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.employee-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.cancel-btn {
+    background: #f1f5f9;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.create-btn {
+    background: #6c63ff;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media(max-width:768px) {
+    .employee-modal-card {
+        width: 95%;
+    }
+
+    .employee-grid {
+        grid-template-columns: 1fr;
+    }
+}

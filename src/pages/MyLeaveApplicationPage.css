@@ -1,0 +1,16 @@
+.my-leave-application-page{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+    padding-right:40px;
+    width:100%;
+    min-width:0;
+    box-sizing:border-box;
+}
+*{
+    font-family: inter, sans-serif;
+}
+
+@media (max-width: 768px) {
+    .my-leave-application-page { gap: 20px; padding-right: 0; }
+}

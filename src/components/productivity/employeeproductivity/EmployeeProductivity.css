@@ -1,0 +1,140 @@
+.employee-status-container {
+  background-color: var(--bg-main);
+}
+
+.employee-name-title {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 20px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-standard);
+}
+
+.arrow:hover {
+  transform: translateX(-4px);
+  box-shadow: var(--shadow-medium);
+}
+
+.employee-name {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.employee-avatar-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #7c3aed;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.employee-name .name {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.employee-name .designation {
+  font-size: 16px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.employee-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, var(--glass-border), transparent);
+  margin: 20px 0;
+}
+
+.employee-status-space {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.employee-status-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 16px;
+  min-height: 120px;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--transition-standard);
+}
+
+.employee-status-card:hover {
+  transform: translateY(-5px);
+  background-color: white;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-icon {
+  font-size: 24px;
+}
+
+.stats_name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.numbers {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+}
+
+@media (max-width: 992px) {
+  .employee-status-space {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .employee-status-space {
+    grid-template-columns: 1fr;
+  }
+
+  .employee-status-card {
+    min-height: 100px;
+    padding: 14px;
+  }
+
+  .numbers {
+    font-size: 28px;
+  }
+
+  .stats_name {
+    font-size: 12px;
+  }
+}

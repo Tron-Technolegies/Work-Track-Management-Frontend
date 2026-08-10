@@ -1,0 +1,41 @@
+/* DateRangePicker — responsive */
+.date-picker-container {
+  position: relative;
+}
+
+.date-picker-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: #2f3442;
+  white-space: nowrap;
+  padding: 6px 0;
+}
+
+.date-popup {
+  position: absolute;
+  top: 46px;
+  right: 0;
+  z-index: 999;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  /* ✅ constrain on very small screens */
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+}
+
+/* ── Mobile: anchor popup to the left so it doesn't go off-screen ── */
+@media (max-width: 600px) {
+  .date-popup {
+    right: auto;
+    left: 0;
+  }
+
+  .date-picker-btn { font-size: 13px; }
+}

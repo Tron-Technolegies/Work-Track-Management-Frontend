@@ -1,0 +1,63 @@
+.project-navbar {
+  height: var(--navbar-height);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  transition: var(--transition-standard);
+}
+
+.project-navtitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+}
+
+.project-search-box {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-small);
+  height: 40px;
+  padding: 0 16px;
+  gap: 12px;
+  width: 400px;
+  max-width: 40vw;
+  transition: var(--transition-standard);
+}
+
+.project-search-box:focus-within {
+  border-color: var(--primary-purple);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 4px rgba(178, 121, 197, 0.1);
+}
+
+.project-search-icon {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.project-search-input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  width: 100%;
+  color: var(--text-main);
+}
+
+@media (max-width: 1024px) {
+  .project-navbar {
+    margin-left: 0;
+    padding: 0 20px;
+  }
+}

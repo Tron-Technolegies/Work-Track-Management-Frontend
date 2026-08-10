@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════════════
+   MyWorkTrackPage — Layout wrapper
+═══════════════════════════════════════════════════════ */
+
+.worktrack-page {
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Middle section: left column + unfinished tasks ── */
+.worktrack-tasks-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-top: 24px;
+  min-width: 0;
+}
+
+.worktrack-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── 1024px: compress gap ── */
+@media (max-width: 1024px) {
+  .worktrack-tasks-row { gap: 16px; }
+}
+
+/* ── 992px: stack left col + unfinished vertically ── */
+@media (max-width: 992px) {
+  .worktrack-tasks-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Make unfinished tasks full width when stacked */
+  .worktrack-tasks-row > * {
+    width: 100%;
+  }
+}
+
+/* ── 768px: tighter gap ── */
+@media (max-width: 768px) {
+  .worktrack-tasks-row { margin-top: 16px; gap: 14px; }
+  .worktrack-left-col { gap: 16px; }
+}
+
+/* ── 480px ── */
+@media (max-width: 480px) {
+  .worktrack-tasks-row { margin-top: 12px; gap: 12px; }
+  .worktrack-left-col { gap: 12px; }
+}

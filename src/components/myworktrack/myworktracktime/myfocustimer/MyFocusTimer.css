@@ -1,0 +1,97 @@
+/* MyFocusTimer — responsive, no hardcoded px sizes */
+.focus-container {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* ── Tick ring (decorative outer ring) ── */
+.focus-circle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.tick-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.tick {
+  position: absolute;
+  width: 2px;
+  height: 10px;
+  background: #c7c7c7;
+  left: 50%;
+  top: 0;
+  transform-origin: center 50%;
+}
+
+.tick.major {
+  height: 18px;
+  background: #9d9d9d;
+}
+
+/* ── Inner white circle ── */
+.focus-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 84%;
+  height: 84%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.focus-title {
+  margin: 0;
+  color: #8b8b8b;
+  font-size: 13px;
+}
+
+.focus-bars {
+  display: flex;
+  gap: 4px;
+  margin: 8px 0 12px;
+}
+
+.focus-bars span {
+  width: 10px;
+  height: 4px;
+  border-radius: 10px;
+  background: #8a3ffc;
+}
+
+.focus-inner h2 {
+  margin: 0;
+  font-size: clamp(18px, 4vw, 28px);  /* ✅ fluid font size */
+  color: #222;
+  font-weight: 700;
+}
+
+/* ── Responsive: shrink on tablet/mobile ── */
+@media (max-width: 1024px) {
+  .focus-container { max-width: 280px; }
+}
+
+@media (max-width: 768px) {
+  .focus-container { max-width: 260px; }
+}
+
+@media (max-width: 480px) {
+  .focus-container { max-width: 220px; }
+  .focus-title { font-size: 11px; }
+  .focus-bars span { width: 8px; height: 3px; }
+}

@@ -1,0 +1,106 @@
+/* ═══════════════════════════════════════════════════════
+   MyWorkTrackTime — Top time/stats bar
+═══════════════════════════════════════════════════════ */
+
+.worktrack-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;               /* ✅ always wraps at any size */
+  gap: 20px;
+  padding: 28px 32px;
+  background: linear-gradient(90deg, #f6f4f8 0%, #f3e6ff 100%);
+  border-radius: 14px;
+  box-sizing: border-box;
+  overflow: hidden;              /* ✅ clip overflow */
+}
+
+/* ── Individual sections — fluid widths ── */
+.progress-section {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.focus-section {
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.cards-section {
+  width: 160px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.time-section {
+  width: 160px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.efficiency-section {
+  width: 160px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── 1200px: start wrapping ── */
+@media (max-width: 1200px) {
+  .worktrack-container {
+    justify-content: center;
+    gap: 20px;
+    padding: 24px 24px;
+  }
+}
+
+/* ── 1024px: tighter padding ── */
+@media (max-width: 1024px) {
+  .worktrack-container { padding: 22px 20px; gap: 18px; }
+  .focus-section { width: 320px; }
+}
+
+/* ── 768px: stack everything single column ── */
+@media (max-width: 768px) {
+  .worktrack-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 22px 18px;
+    gap: 20px;
+  }
+
+  /* All sections go full width */
+  .progress-section,
+  .focus-section,
+  .time-section,
+  .efficiency-section {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  /* Cards row side by side */
+  .cards-section {
+    width: 100%;
+    max-width: 420px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 14px;
+  }
+}
+
+/* ── 480px: very compact ── */
+@media (max-width: 480px) {
+  .worktrack-container {
+    padding: 18px 14px;
+    gap: 16px;
+    border-radius: 10px;
+  }
+}

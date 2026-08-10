@@ -1,0 +1,85 @@
+.statistics-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  border: 1px solid #f8fafc;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+}
+
+.statistics-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 32px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.statistics-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+/* ===== Legend ===== */
+.statistics-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #64748b;
+  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot.completed {
+  background-color: #c084fc;
+}
+
+.dot.progress {
+  background-color: #8b5cf6;
+}
+
+.dot.not-started {
+  background-color: #e9d5ff;
+}
+
+/* ===== Donut Chart ===== */
+.donut-chart {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-hole {
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+@media (max-width: 1280px) {
+  .statistics-content {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+}

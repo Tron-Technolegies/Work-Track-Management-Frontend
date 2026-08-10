@@ -1,0 +1,135 @@
+/* AttendanceLog Component Styles */
+
+.att-log-container {
+  width: 100%;
+}
+
+.att-filters-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.att-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.att-filter-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.att-input-date, .att-select {
+  padding: 8px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+}
+
+.att-input-date:focus, .att-select:focus {
+  border-color: #2563eb;
+}
+
+.att-btn-apply {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.att-btn-apply:hover {
+  background-color: #1d4ed8;
+}
+
+.att-subheading {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.att-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.att-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.att-table th {
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.att-table td {
+  padding: 16px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.att-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.att-emp-name-bold {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.att-branch-cell {
+  color: #64748b;
+}
+
+.att-duration-cell {
+  font-weight: 500;
+  color: #475569;
+}
+
+.att-status-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-present {
+  background-color: #e6f4ea;
+  color: #137333;
+}
+
+.status-late {
+  background-color: #fef7e0;
+  color: #b06000;
+}
+
+.status-absent {
+  background-color: #fce8e6;
+  color: #c5221f;
+}
+
+.status-onleave, .status-on_leave {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+}

@@ -1,0 +1,191 @@
+.settings-sidebar {
+
+    width: 270px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,.05);
+
+    padding: 24px;
+
+    box-sizing: border-box;
+
+    flex-shrink: 0;
+
+}
+
+/* Header */
+
+.settings-sidebar-header{
+
+    margin-bottom:30px;
+
+}
+
+.settings-sidebar-header h2{
+
+    margin:0;
+
+    font-size:24px;
+
+    color:#2c2548;
+
+    font-weight:700;
+
+}
+
+.settings-sidebar-header p{
+
+    margin-top:6px;
+
+    color:#8f8fa3;
+
+    font-size:14px;
+
+}
+
+/* Menu */
+
+.settings-menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+/* Item */
+
+.settings-menu-item{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:14px 16px;
+
+    background:transparent;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    color:#555;
+
+    text-align:left;
+
+}
+
+.settings-menu-item:hover{
+
+    background:#f6f2ff;
+
+    color:#7C3AED;
+
+}
+
+/* Active */
+
+.settings-menu-item.active{
+
+    background:#8B5CF6;
+
+    color:#fff;
+
+    box-shadow:0 6px 20px rgba(139,92,246,.25);
+
+}
+
+.settings-menu-item.active .settings-icon{
+
+    color:#fff;
+
+}
+
+/* Icon */
+
+.settings-icon{
+
+    font-size:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+/* =======================
+      Tablet
+======================= */
+
+@media (max-width:992px){
+
+    .settings-sidebar{
+
+        width:220px;
+
+        padding:20px;
+
+    }
+
+}
+
+/* =======================
+      Mobile
+======================= */
+
+@media (max-width:768px){
+
+    .settings-sidebar{
+
+        width:100%;
+
+        margin-bottom:20px;
+
+    }
+
+    .settings-menu{
+
+        flex-direction:row;
+
+        overflow-x:auto;
+
+        gap:10px;
+
+        scrollbar-width:none;
+
+    }
+
+    .settings-menu::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
+    .settings-menu-item{
+
+        min-width:170px;
+
+        white-space:nowrap;
+
+    }
+
+}

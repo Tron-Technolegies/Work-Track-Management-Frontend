@@ -1,0 +1,160 @@
+.graph-card {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-standard);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-standard);
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.graph-card:hover {
+  border-color: var(--primary-purple);
+  box-shadow: var(--shadow-hover);
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.graph-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+}
+
+.graph-subtle {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-main);
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-standard);
+}
+
+.graph-body {
+  display: flex;
+  gap: 16px;
+  min-height: 240px;
+}
+
+.graph-yaxis {
+  width: 48px;
+  display: flex;
+  flex-direction: column-reverse;
+  /* Bottom to top */
+  justify-content: space-between;
+  padding: 10px 0 30px 0;
+}
+
+.graph-y-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.graph-plot {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 240px;
+}
+
+.graph-grid {
+  position: absolute;
+  inset: 0;
+  padding-bottom: 30px;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.graph-grid-line {
+  height: 1px;
+  background-color: var(--border-light);
+  width: 100%;
+}
+
+.graph-bars {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 8px 30px;
+  gap: 12px;
+}
+
+.graph-bar-col {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.graph-bar-viewport {
+  width: 100%;
+  max-width: 40px;
+  height: 100%;
+  background-color: var(--bg-main);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.graph-bar-fill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--primary-purple), var(--primary-dark));
+  border-radius: 4px 4px 0 0;
+  transition: height 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.graph-day-label {
+  position: absolute;
+  bottom: -24px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+@media (max-width: 1024px) {
+  .graph-card { padding: 20px; }
+  .graph-title { font-size: 16px; }
+}
+
+@media (max-width: 768px) {
+  .graph-card { padding: 16px; }
+  .graph-body { min-height: 180px; gap: 10px; }
+  .graph-plot { height: 180px; }
+  .graph-title { font-size: 15px; }
+  .graph-header { flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .graph-bars { gap: 6px; padding: 0 4px 28px; }
+  .graph-bar-viewport { max-width: 32px; }
+  .graph-yaxis { width: 36px; }
+  .graph-y-label { font-size: 10px; }
+  .graph-day-label { font-size: 10px; }
+}
+
+@media (max-width: 480px) {
+  .graph-card { padding: 14px; }
+  .graph-body { min-height: 150px; }
+  .graph-plot { height: 150px; }
+  .graph-bars { gap: 4px; }
+  .graph-bar-viewport { max-width: 24px; }
+  .graph-yaxis { width: 28px; }
+}

@@ -1,0 +1,118 @@
+.login-title{
+    font-size:32px;
+    font-weight:700;
+    color:#241b4b;
+    margin-bottom:8px;
+}
+
+.login-subtitle{
+    color:#8d8d8d;
+    margin-bottom:35px;
+    font-size:15px;
+}
+
+.forgot-link{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    color:#8B5CF6;
+    text-decoration:none;
+    font-size:14px;
+}
+.divider{
+    height:1px;
+    background:#ececec;
+    margin:35px 0;
+}
+
+.company-box{
+    text-align:center;
+}
+
+.company-title{
+    font-size:18px;
+    font-weight:600;
+    color:#222;
+}
+
+.company-subtitle{
+    color:#777;
+    margin:10px 0 25px;
+    line-height:1.6;
+}
+
+.register-company-btn{
+
+    width:100%;
+    height:48px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#fff;
+
+    border:2px solid #D19BE3;
+
+    color:#8B5CF6;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.register-company-btn:hover{
+
+    background:#8B5CF6;
+
+    color:white;
+}
+
+.signup-left-section{
+
+    background:linear-gradient(135deg,#B66DFF,#8B5CF6);
+
+    color:white;
+
+    flex-direction:column;
+
+    text-align:center;
+
+    gap:20px;
+}
+
+.signup-left-section h1{
+
+    font-size:34px;
+
+    letter-spacing:2px;
+}
+
+.signup-left-section p{
+
+    opacity:.9;
+
+    width:260px;
+
+    line-height:1.8;
+}
+
+.signup-left-section ul{
+
+    margin-top:20px;
+
+    list-style:none;
+
+    padding:0;
+
+    text-align:left;
+}
+
+.signup-left-section li{
+
+    margin:14px 0;
+
+    font-size:15px;
+}

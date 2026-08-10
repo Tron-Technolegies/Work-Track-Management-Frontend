@@ -1,0 +1,57 @@
+/* MyTaskCard — responsive task count cards */
+.task-cards-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.task-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.task-card h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.task-count {
+  margin-top: 14px;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ── 1024px ── */
+@media (max-width: 1024px) {
+  .task-count { font-size: 40px; }
+}
+
+/* ── 768px ── */
+@media (max-width: 768px) {
+  .task-cards-container { flex-direction: row; gap: 14px; }
+  .task-card { flex: 1; }
+  .task-count { font-size: 36px; }
+  .task-card h3 { font-size: 14px; }
+}
+
+/* ── 480px ── */
+@media (max-width: 480px) {
+  .task-cards-container { flex-direction: row; gap: 10px; }
+  .task-count { font-size: 30px; }
+  .task-card { padding: 16px; }
+}

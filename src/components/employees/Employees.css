@@ -1,0 +1,213 @@
+.users-table-container{
+    width:100%;
+}
+
+.users-table-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.users-table-header h2{
+    font-size:36px;
+    font-weight:700;
+    color:#171717;
+}
+
+.add-user-btn{
+    border:none;
+    background:#A66BC9;
+    color:#fff;
+    padding:13px 28px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.add-user-btn:hover{
+    background:#8B5CF6;
+}
+
+.users-table-wrapper{
+    width:100%;
+    overflow-x:auto;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+.users-table{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+}
+
+.users-table thead{
+    background:#F5F0FF;
+}
+
+.users-table th{
+    text-align:left;
+    padding:18px 24px;
+    color:#8B3FE6;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+}
+
+.users-table td{
+    padding:20px 24px;
+    border-bottom:1px solid #ECECEC;
+    color:#333;
+    font-size:15px;
+}
+
+.users-table tbody tr{
+    transition:.25s;
+}
+
+.users-table tbody tr:hover{
+    background:#FAF8FF;
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+}
+
+.user-avatar{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.avatar-placeholder{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#A66BC9;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:18px;
+}
+
+.delete-btn{
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:#F4F4F4;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.3s;
+}
+
+.delete-btn svg{
+    font-size:18px;
+    color:#666;
+}
+
+.delete-btn:hover{
+    background:#FFE7E7;
+}
+
+.delete-btn:hover svg{
+    color:#E53935;
+}
+
+.empty-row{
+    text-align:center;
+    padding:40px;
+    color:#888;
+}
+
+.action-cell{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.icon-btn{
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:18px;
+    transition:all .25s ease;
+}
+
+/* Edit */
+.edit-btn{
+    background:#eef6ff;
+    color:#2563eb;
+}
+
+.edit-btn:hover{
+    background:#2563eb;
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+/* Delete */
+.delete-btn{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+.delete-btn:hover{
+    background:#dc2626;
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+/* Tablet */
+
+@media(max-width:992px){
+
+.users-table-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+}
+
+.add-user-btn{
+    width:100%;
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.users-table th,
+.users-table td{
+    padding:16px;
+    font-size:14px;
+}
+
+.users-table-header h2{
+    font-size:28px;
+}
+
+.user-avatar,
+.avatar-placeholder{
+    width:40px;
+    height:40px;
+}
+
+}

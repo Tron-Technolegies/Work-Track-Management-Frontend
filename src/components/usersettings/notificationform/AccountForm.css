@@ -1,0 +1,145 @@
+.account-page {
+  width: 100%;
+}
+
+.account-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-standard);
+  padding: 40px;
+  max-width: 800px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.account-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border-standard);
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Form layout */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+  margin-bottom: 16px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+input {
+  height: 48px;
+  border-radius: var(--radius-small);
+  border: 1px solid var(--glass-border);
+  padding: 0 16px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.4);
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: var(--transition-standard);
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--primary-purple);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 4px rgba(178, 121, 197, 0.1);
+}
+
+/* Helper text */
+.helper-text {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--primary-purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-small);
+  padding: 10px 24px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: var(--transition-standard);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: var(--bg-card);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-small);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  transition: var(--transition-standard);
+}
+
+.btn-outline:hover {
+  background: var(--bg-main);
+  border-color: var(--border-standard);
+}
+
+/* Footer buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (max-width: 1024px) {
+  .account-page {
+    margin-left: 0;
+    padding: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

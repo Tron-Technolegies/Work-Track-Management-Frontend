@@ -1,0 +1,226 @@
+.project-container {
+  padding: 32px;
+  background-color: var(--bg-main);
+  min-height: calc(100vh - var(--navbar-height));
+  transition: var(--transition-standard);
+
+
+}
+
+.project-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.PRoject {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+}
+
+.new-project-btn {
+  background-color: var(--primary-purple);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: var(--radius-small);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition-standard);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.new-project-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.project-filter-sort-div {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.proj-sort-filt-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  transition: var(--transition-standard);
+}
+
+.proj-sort-filt-btn:hover {
+  border-color: var(--primary-purple);
+  background-color: var(--bg-main);
+}
+
+.filt-sort {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.project-detail-status {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-standard);
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 200px 120px 140px 1fr 40px;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-standard);
+  animation: slideUp 0.5s ease-out forwards;
+  position: relative;
+}
+
+.project-detail-status:hover {
+  border-color: var(--primary-purple);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.project-Name {
+  min-width: 0;
+}
+
+.project-Name-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-Name span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.project-Status {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  background-color: #faf4fc;
+  color: var(--primary-dark);
+  border: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+
+.project-day-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.clock-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-purple);
+}
+
+.progress-bar-per {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-container {
+  flex: 1;
+  height: 8px;
+  background-color: var(--border-light);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-purple), var(--primary-dark));
+  border-radius: 999px;
+  transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.progress-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  min-width: 32px;
+}
+
+.three-dot-wrapper {
+  position: relative;
+  z-index: 10000;
+}
+
+.three-dot {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-popup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 120px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 9999;
+  overflow: visible;
+
+}
+
+.menu-popup p {
+  margin: 0;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.menu-popup p:hover {
+  background: #f5f5f5;
+}
+
+.menu-popup a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 1024px) {
+  .project-container {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .project-detail-status {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,48 @@
+.user-apply-leave-page {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 20px 20px 40px 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    min-width: 0;
+}
+
+.apply-leave-form {
+    flex: 1;
+    min-width: 0;
+}
+
+.leave-info {
+    margin-top: 170px;
+    width: min(300px, 100%);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media (max-width: 1400px) {
+    .user-apply-leave-page {
+        flex-direction: column;
+        padding-right: 0;
+    }
+
+    .leave-info {
+        width: 100%;
+        margin-top: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+    }
+}
+
+@media (max-width: 1024px) {
+    .leave-info { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .user-apply-leave-page { gap: 18px; padding: 8px 0 24px; }
+    .leave-info { grid-template-columns: 1fr; gap: 18px; }
+}

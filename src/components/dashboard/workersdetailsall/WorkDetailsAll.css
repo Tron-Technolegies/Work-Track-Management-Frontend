@@ -1,0 +1,255 @@
+.workers-details-all-container {
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* top bar */
+.wokers-details-all-title-box {
+  width: 100%;
+  height: 55px;
+  margin-top: 35px;
+  background-color: #faf4fc;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 30px;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  justify-content: space-between;
+}
+
+.workers-detail-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.working-details {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.date-and-status {
+  font-size: 14px;
+  color: #8b8b8b;
+}
+
+.workers-details-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.worker-detail-status {
+  font-size: 14px;
+  color: #8b8b8b;
+  text-transform: capitalize;
+}
+
+.worker-detail-dates {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* table wrapper */
+.workers-details-tables {
+  margin-top: 20px;
+  overflow-x: auto;              /* horizontal scroll on small screens */
+}
+
+/* table */
+.dashboard-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  background: transparent;
+  min-width: 720px;              /* so columns keep shape on small screens */
+}
+
+.dashboard-header-row {
+  background: #f3e9ff;
+}
+
+.dashboard-th {
+  text-align: left;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  color: black;
+  white-space: nowrap;
+}
+
+.dashboard-tr {
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(15, 15, 15, 0.03);
+}
+
+.dashboard-td {
+  padding: 14px 20px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  border-top: 1px solid #f3f3f3;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+/* rounded corners for first & last row */
+.dashboard-tr:first-child .dashboard-td:first-child {
+  border-top-left-radius: 12px;
+}
+.dashboard-tr:first-child .dashboard-td:last-child {
+  border-top-right-radius: 12px;
+}
+.dashboard-tr:last-child .dashboard-td:first-child {
+  border-bottom-left-radius: 12px;
+}
+.dashboard-tr:last-child .dashboard-td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* user cell */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffe3e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+/* pills */
+.status-pill,
+.priority-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.status-pill.in-progress {
+  background: rgba(124, 106, 216, 0.1);
+  color: #7c6ad8;
+}
+
+.status-pill.pending {
+  background: rgba(250, 204, 21, 0.12);
+  color: #a16207;
+}
+
+.status-pill.to-do {
+  background: rgba(148, 163, 184, 0.18);
+  color: #475569;
+}
+
+.status-pill.task-done {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.priority-pill.high {
+  background: rgba(248, 113, 113, 0.18);
+  color: #b91c1c;
+}
+
+.priority-pill.medium {
+  background: rgba(74, 222, 128, 0.15);
+  color: #15803d;
+}
+
+.priority-pill.low {
+  background: rgba(96, 165, 250, 0.18);
+  color: #1d4ed8;
+}
+
+/* ================= TABLET (<= 920px) ================= */
+@media (max-width: 920px) {
+  .workers-details-all-container {
+    padding: 16px;
+  }
+
+  .wokers-details-all-title-box {
+    margin-top: 24px;
+    padding: 0 16px;
+  }
+
+  .working-details {
+    font-size: 17px;
+  }
+
+  .dashboard-th {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .dashboard-td {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .status-pill,
+  .priority-pill {
+    font-size: 12px;
+    padding: 3px 10px;
+  }
+}
+
+/* ================= MOBILE (<= 600px) ================= */
+@media (max-width: 600px) {
+  .workers-details-all-container {
+    padding: 12px;
+  }
+
+  .wokers-details-all-title-box {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 12px;
+  }
+
+  .workers-detail-left {
+    padding-left: 0;
+  }
+
+  .workers-details-right {
+    padding-right: 0;
+  }
+
+  .working-details {
+    font-size: 16px;
+  }
+
+  .date-and-status {
+    font-size: 13px;
+  }
+
+  .workers-details-tables {
+    margin-top: 16px;
+  }
+
+  .dashboard-table {
+    min-width: 640px;    /* still scroll, but slightly smaller */
+  }
+}

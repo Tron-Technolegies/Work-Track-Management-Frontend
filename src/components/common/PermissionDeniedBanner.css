@@ -1,0 +1,58 @@
+/* PermissionDeniedBanner styles */
+
+/* Full panel variant */
+.pdb-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 48px 32px;
+  background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
+  border: 1px solid #fecaca;
+  border-radius: 16px;
+  text-align: center;
+  margin: 24px auto;
+  max-width: 480px;
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.08);
+}
+
+.pdb-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: #fee2e2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #dc2626;
+}
+
+.pdb-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #991b1b;
+  margin: 0;
+}
+
+.pdb-message {
+  font-size: 14px;
+  color: #7f1d1d;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Compact inline badge variant */
+.pdb-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}

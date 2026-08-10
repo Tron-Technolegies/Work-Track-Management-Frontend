@@ -1,0 +1,111 @@
+:root {
+    /* Colors - Modern Purple Lavender */
+    --primary-purple: #8b5cf6;
+    --primary-purple-light: #f3f0ff;
+    --primary-purple-dark: #7c3aed;
+
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-400: #94a3b8;
+    --slate-600: #475569;
+    --slate-900: #0f172a;
+
+    --bg-main: #f8f9fa;
+    --bg-card: #ffffff;
+    --bg-sidebar: #f5f5f5;
+    --bg-dashboard: #fef7ff;
+
+    --text-dark: #1e293b;
+    --text-main: #475569;
+    --text-muted: #94a3b8;
+    --border-light: #f1f5f9;
+
+    /* Layout & Surface */
+    --sidebar-width: 250px;
+    --navbar-height: 80px;
+    --radius-xl: 32px;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px rgba(139, 92, 246, 0.05);
+    --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 20px 40px rgba(139, 92, 246, 0.08);
+
+    --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* prevent horizontal scroll globally */
+}
+
+h1,
+h2,
+h3,
+h4,
+.brand-font {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    color: var(--text-dark);
+}
+
+/* Common Animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-fade-in-long {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Scrollbar Style */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-standard);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}

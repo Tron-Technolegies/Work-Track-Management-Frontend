@@ -1,0 +1,131 @@
+.worktask-card{
+    background:#fff;
+    border-radius:18px;
+    padding:24px;
+    width:100%;
+    box-sizing:border-box;
+}
+
+.worktask-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.worktask-header h2{
+    font-size:26px;
+    font-weight:600;
+}
+
+.date-picker-wrapper{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.date-btn{
+    border:none;
+    background:transparent;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.worktask-body{
+    display:flex;
+    gap:30px;
+}
+
+.worktask-summary{
+    width:220px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:35px;
+}
+
+.summary-item span{
+    color:#555;
+    font-size:20px;
+}
+
+.summary-item h2{
+    color:#9853c7;
+    font-size:35px;
+    margin-top:6px;
+    font-weight:600;
+}
+
+.chart-wrapper{
+    flex:1;
+    min-width:0;
+}
+
+.recharts-default-legend{
+    margin-top:20px!important;
+}
+
+@media(max-width:992px){
+
+.worktask-body{
+    flex-direction:column;
+}
+
+.worktask-summary{
+    width:100%;
+    flex-direction:row;
+    justify-content:space-between;
+    flex-wrap:wrap;
+}
+
+.summary-item{
+    width:30%;
+}
+
+}
+
+@media(max-width:768px){
+
+.worktask-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+}
+
+.summary-item{
+    width:100%;
+}
+
+.summary-item h2{
+    font-size:32px;
+}
+
+.chart-wrapper{
+    height:320px;
+}
+
+}
+
+@media(max-width:480px){
+
+.worktask-card{
+    padding:15px;
+}
+
+.worktask-header h2{
+    font-size:22px;
+}
+
+.summary-item span{
+    font-size:16px;
+}
+
+.summary-item h2{
+    font-size:28px;
+}
+
+.chart-wrapper{
+    height:280px;
+}
+
+}

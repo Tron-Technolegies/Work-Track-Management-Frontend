@@ -1,0 +1,165 @@
+.leave-history-card{
+    width:100%;
+    box-sizing:border-box;
+    background:#fff;
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 6px 20px rgba(76,61,145,.08);
+    gap:20px;
+    flex-direction:column;
+    display:flex;
+}
+
+.leave-history-title{
+    font-size:18px;
+    font-weight:700;
+    color:#231942;
+    margin-bottom:28px;
+}
+
+/* Row */
+
+.history-row{
+    display:grid;
+    grid-template-columns:
+        1.2fr
+        1.5fr
+        .7fr
+        1fr
+        2fr
+        .9fr;
+
+    align-items:center;
+    gap:24px;
+}
+
+/* Leave Type */
+
+.history-type{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:14px;
+    font-weight:600;
+    color:#241b5d;
+}
+
+.leave-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#8b5cf6;
+}
+
+/* Dates */
+
+.history-date{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:#8a88a7;
+    font-size:13px;
+}
+
+/* Days */
+
+.history-days{
+    font-size:14px;
+    font-weight:600;
+    color:#433878;
+}
+
+/* Applied Date */
+
+.history-applied{
+    font-size:13px;
+    color:#8a88a7;
+}
+
+/* Reason */
+
+.history-reason{
+    font-size:13px;
+    color:#6b7280;
+    line-height:1.5;
+}
+
+/* Status */
+
+.history-status{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    width:95px;
+    height:32px;
+
+    border-radius:30px;
+
+    font-size:13px;
+    font-weight:600;
+}
+
+.history-status.pending{
+    background:#fff3e7;
+    color:#f59e0b;
+    border:1px solid #ffd9a5;
+}
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:1200px){
+
+    .history-row{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+    .history-type,
+    .history-date,
+    .history-days,
+    .history-applied,
+    .history-reason,
+    .history-status{
+        width:100%;
+    }
+
+    .history-status{
+        justify-content:flex-start;
+        width:fit-content;
+        padding:0 14px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .leave-history-card{
+        padding:18px;
+    }
+
+    .leave-history-title{
+        font-size:16px;
+    }
+
+    .history-type{
+        font-size:15px;
+    }
+
+    .history-date,
+    .history-days,
+    .history-applied,
+    .history-reason{
+        font-size:13px;
+    }
+
+}
+
+@media(max-width:480px){
+    .leave-history-card{ padding:16px; gap:16px; border-radius:14px; }
+    .history-row{ gap:10px; }
+    .history-date{ flex-wrap:wrap; }
+}

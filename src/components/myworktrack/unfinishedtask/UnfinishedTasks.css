@@ -1,0 +1,185 @@
+.unfinished-card{
+    flex: 1.5;
+    background:#F6ECF8;
+    border-radius:18px;
+    padding:24px;
+    box-sizing:border-box;
+}
+
+.unfinished-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.unfinished-header h2{
+    font-size:32px;
+    font-weight:500;
+    color:#111;
+    margin:0;
+}
+
+.unfinished-view-btn{
+    width:36px;
+    height:36px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#A98BAE;
+    font-size:28px;
+    transition:.25s;
+}
+
+.unfinished-view-btn:hover{
+    color:#8B2FD6;
+    transform:translateX(3px);
+}
+
+.unfinished-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.unfinished-task-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+
+.unfinished-top{
+    padding:22px 20px 30px;
+}
+
+.unfinished-top h3{
+    font-size:22px;
+    font-weight:500;
+    color:#222;
+    margin-bottom:8px;
+}
+
+.unfinished-top p{
+    font-size:14px;
+    color:#888;
+}
+
+.unfinished-bottom{
+    border-top:1px solid #ECECEC;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.priority-badge{
+    background:linear-gradient(90deg,#74F19A,#95F3B8);
+    color:#24954B;
+    padding:10px 24px;
+    border-radius:30px;
+    font-size:15px;
+    font-weight:500;
+}
+
+.task-meta{
+    display:flex;
+    gap:28px;
+}
+
+.meta-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#888;
+    font-size:16px;
+}
+
+.meta-item svg{
+    font-size:18px;
+}
+
+/* Tablet */
+
+@media(max-width:992px){
+
+.unfinished-header h2{
+    font-size:28px;
+}
+
+.unfinished-top h3{
+    font-size:20px;
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.unfinished-card{
+    padding:18px;
+}
+
+.unfinished-header{
+    margin-bottom:18px;
+}
+
+.unfinished-header h2{
+    font-size:24px;
+}
+
+.unfinished-top{
+    padding:18px;
+}
+
+.unfinished-top h3{
+    font-size:18px;
+}
+
+.unfinished-top p{
+    font-size:13px;
+    line-height:1.5;
+}
+
+.unfinished-bottom{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+}
+
+.task-meta{
+    gap:20px;
+}
+
+}
+
+/* Small Mobile */
+
+@media(max-width:480px){
+
+.unfinished-card{
+    padding:15px;
+}
+
+.unfinished-header h2{
+    font-size:22px;
+}
+
+.priority-badge{
+    padding:8px 20px;
+    font-size:14px;
+}
+
+.meta-item{
+    font-size:14px;
+}
+
+.meta-item svg{
+    font-size:16px;
+}
+
+}

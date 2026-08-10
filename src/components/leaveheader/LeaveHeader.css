@@ -1,0 +1,30 @@
+.leave-header{
+    margin-bottom:28px;
+}
+
+.leave-category{
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:#B6A7E4;
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.leave-title{
+    font-size:30px;
+    font-weight:700;
+    color:#231942;
+    margin-bottom:8px;
+}
+
+.leave-subtitle{
+    font-size:14px;
+    color:#8E88B5;
+}
+
+@media (max-width:600px){
+    .leave-header{ margin-bottom:20px; }
+    .leave-title{ font-size:26px; line-height:1.2; }
+    .leave-subtitle{ font-size:13px; line-height:1.5; }
+}

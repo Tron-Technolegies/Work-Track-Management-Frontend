@@ -1,0 +1,217 @@
+.monitor-page{
+
+    width:100%;
+
+}
+
+.monitor-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:32px;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.05);
+
+}
+
+.monitor-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+}
+
+.monitor-header h2{
+
+    margin:0;
+
+    color:#2A2356;
+
+    font-size:34px;
+
+}
+
+.monitor-header p{
+
+    color:#8087a2;
+
+    margin-top:8px;
+
+}
+
+.monitor-icon{
+
+    font-size:42px;
+
+    color:#7C3AED;
+
+}
+
+.monitor-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:24px;
+
+}
+
+.monitor-input{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.monitor-input label{
+
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#444;
+
+}
+
+.monitor-input input{
+
+    height:48px;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    padding:0 16px;
+
+    font-size:15px;
+
+}
+
+.monitor-input input:focus{
+
+    outline:none;
+
+    border-color:#7C3AED;
+
+    box-shadow:0 0 0 4px rgba(124,58,237,.12);
+
+}
+
+.monitor-options{
+
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+.monitor-options label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-weight:600;
+
+    color:#4a4a4a;
+
+}
+
+.monitor-options input{
+
+    width:18px;
+
+    height:18px;
+
+}
+
+.monitor-footer{
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
+.monitor-btn{
+
+    border:none;
+
+    background:#7C3AED;
+
+    color:#fff;
+
+    padding:14px 26px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+}
+
+.monitor-btn:hover{
+
+    background:#6D28D9;
+
+}
+
+@media(max-width:768px){
+
+.monitor-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.monitor-options{
+
+grid-template-columns:1fr;
+
+}
+
+.monitor-footer{
+
+justify-content:center;
+
+}
+
+.monitor-btn{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+}

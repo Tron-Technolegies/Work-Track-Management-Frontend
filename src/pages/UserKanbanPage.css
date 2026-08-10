@@ -1,0 +1,16 @@
+.kanban-page-container {
+    background-color: var(--bg-main);
+    min-height: 100vh;
+    transition: var(--transition-standard);
+}
+
+.kanban-content-area {
+    padding: 20px;
+}
+
+@media (max-width: 1024px) {
+    .kanban-content-area {
+        margin-left: 0;
+        padding: 20px;
+    }
+}

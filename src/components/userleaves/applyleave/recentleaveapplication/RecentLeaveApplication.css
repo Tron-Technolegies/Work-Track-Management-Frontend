@@ -1,0 +1,77 @@
+.recent-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(180deg, #f9edff 0%, #f7e8ff 100%);
+    border: 1px solid #efd6ff;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(125, 92, 246, 0.08);
+    font-family: "Outfit", sans-serif;
+}
+
+/* Title */
+
+.recent-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2c2157;
+    margin-bottom: 24px;
+}
+
+/* Application */
+
+.application-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.application-info h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2c2157;
+    line-height: 1.4;
+}
+
+.application-info span {
+    font-size: 14px;
+    color: #b39bd8;
+}
+
+/* Divider */
+
+.divider {
+    height: 1px;
+    background: #e7d5fa;
+    margin: 18px 0;
+}
+
+/* Status */
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.status.approved {
+    background: #dff7e8;
+    border: 1px solid #8fd4a5;
+    color: #16a34a;
+}
+
+.status svg {
+    font-size: 15px;
+}
+
+@media (max-width: 600px) {
+    .recent-card { border-radius: 14px; padding: 18px; }
+    .recent-title { font-size: 20px; margin-bottom: 18px; }
+    .application-item { align-items: flex-start; flex-direction: column; gap: 10px; }
+}

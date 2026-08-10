@@ -1,0 +1,311 @@
+.all-leave-history-container {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+/* ===========================
+   Header
+=========================== */
+
+.all-leave-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.all-leave-filter-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.all-leave-filter-buttons button {
+  border: 1px solid #ece8f8;
+  background: #fff;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: .3s;
+}
+
+/* Active */
+
+.all-leave-filter-buttons .active {
+  background: #6D35F0;
+  color: #fff;
+  border-color: #6D35F0;
+}
+
+/* Pending */
+
+.all-leave-filter-buttons .pending-btn {
+  color: #F59E0B;
+  border-color: #FFE3B3;
+}
+
+.all-leave-filter-buttons .pending-btn:hover {
+  background: #FFF6E8;
+}
+
+/* Approved */
+
+.all-leave-filter-buttons .approved-btn {
+  color: #16A34A;
+  border-color: #CDEFD8;
+}
+
+.all-leave-filter-buttons .approved-btn:hover {
+  background: #F1FFF6;
+}
+
+/* Denied */
+
+.all-leave-filter-buttons .denied-btn {
+  color: #EF4444;
+  border-color: #FFD6D6;
+}
+
+.all-leave-filter-buttons .denied-btn:hover {
+  background: #FFF2F2;
+}
+
+/* ===========================
+   Search
+=========================== */
+
+.all-leave-search-box {
+  width: 280px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: #F6F2FF;
+  border: 1px solid #E5DBFF;
+}
+
+.all-leave-search-box svg {
+  color: #7C6BC2;
+}
+
+.all-leave-search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 10px;
+}
+
+.all-leave-search-box input::placeholder {
+  color: #999;
+}
+
+/* ===========================
+   Table
+=========================== */
+
+.all-leave-table-wrapper {
+  overflow-x: auto;
+}
+
+.all-leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.all-leave-table thead {
+  background: #F3EEFF;
+}
+
+.all-leave-table th {
+  text-align: left;
+  padding: 14px 20px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #7E74B7;
+}
+
+.all-leave-table td {
+  padding: 18px 20px;
+  font-size: 14px;
+  border-bottom: 1px solid #F2F2F2;
+}
+
+.all-leave-table tbody tr {
+  transition: .25s;
+}
+
+.all-leave-table tbody tr:hover {
+  background: #FAF8FF;
+}
+
+/* ===========================
+   Employee
+=========================== */
+
+.all-leave-employee-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.all-leave-employee-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.all-leave-employee-info span {
+  font-weight: 600;
+  color: #222;
+}
+
+/* ===========================
+   Status Badge
+=========================== */
+
+.all-leave-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.all-leave-status.pending {
+  background: #FFF4E5;
+  color: #F59E0B;
+  border: 1px solid #FFD58A;
+}
+
+.all-leave-status.approved {
+  background: #ECFDF3;
+  color: #16A34A;
+  border: 1px solid #B8F1CB;
+}
+
+.all-leave-status.denied {
+  background: #FEF2F2;
+  color: #EF4444;
+  border: 1px solid #FFCACA;
+}
+
+/* ===========================
+   Action
+=========================== */
+
+.all-leave-view-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  background: #F4EEFF;
+  color: #6D35F0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.all-leave-view-btn:hover {
+  background: #6D35F0;
+  color: #fff;
+}
+
+/* ===========================
+   Tablet
+=========================== */
+
+@media (max-width: 992px) {
+
+  .all-leave-history-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .all-leave-search-box {
+    width: 100%;
+  }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width: 768px) {
+
+  .all-leave-history-header {
+    padding: 16px;
+  }
+
+  .all-leave-filter-buttons {
+    width: 100%;
+  }
+
+  .all-leave-filter-buttons button {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .all-leave-table {
+    min-width: 750px;
+  }
+
+  .all-leave-table th,
+  .all-leave-table td {
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  .all-leave-employee-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+}
+
+/* ===========================
+   Small Mobile
+=========================== */
+
+@media (max-width: 480px) {
+
+  .all-leave-history-header {
+    padding: 14px;
+  }
+
+  .all-leave-filter-buttons {
+    gap: 8px;
+  }
+
+  .all-leave-filter-buttons button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .all-leave-search-box {
+    height: 40px;
+  }
+
+}

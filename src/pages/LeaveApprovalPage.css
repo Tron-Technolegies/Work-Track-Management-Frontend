@@ -1,0 +1,10 @@
+.leave-approval-page{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+    padding-right:40px;
+
+}
+*{
+    font-family: inter, sans-serif;
+}

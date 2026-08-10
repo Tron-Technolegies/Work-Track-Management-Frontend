@@ -1,0 +1,29 @@
+.dashboard-navbar {
+    height: var(--navbar-height);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    transition: var(--transition-standard);
+}
+
+.dashboard-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    font-family: 'Outfit', sans-serif;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-navbar {
+        margin-left: 0;
+        padding: 0 20px;
+    }
+}

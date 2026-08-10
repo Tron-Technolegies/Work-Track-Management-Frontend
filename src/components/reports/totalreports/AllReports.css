@@ -1,0 +1,310 @@
+/* AllReports Component Styles */
+
+.all-reports-container {
+  width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+}
+
+/* ── Monthly / Yearly period export bar ─────────────────────── */
+.all-rep-period-bar {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  flex-wrap: wrap;
+}
+
+.period-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 280px;
+  flex-wrap: wrap;
+}
+
+.period-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.period-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.period-divider {
+  width: 1px;
+  height: 40px;
+  background: #e2e8f0;
+  margin: 0 20px;
+  flex-shrink: 0;
+}
+
+.year-select {
+  min-width: 100px !important;
+}
+
+/* Period export buttons */
+.btn-period-excel {
+  background-color: #16a34a;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+}
+.btn-period-excel:hover:not(:disabled) { background-color: #15803d; }
+.btn-period-excel:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-period-pdf {
+  background-color: #b91c1c;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+}
+.btn-period-pdf:hover:not(:disabled) { background-color: #991b1b; }
+.btn-period-pdf:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* Loading indicator */
+.table-loading {
+  text-align: center;
+  padding: 12px;
+  font-size: 13px;
+  color: #64748b;
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .all-rep-period-bar { flex-direction: column; align-items: flex-start; }
+  .period-divider { width: 100%; height: 1px; margin: 10px 0; }
+  .period-section { width: 100%; }
+}
+
+
+/* ================= TOP FILTER BAR ================= */
+.all-rep-filter-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  flex-wrap: wrap;
+}
+
+.all-rep-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 14px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.all-rep-search-box .search-icon {
+  color: #94a3b8;
+}
+
+.all-rep-search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #1e293b;
+  width: 100%;
+}
+
+.all-rep-select {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 14px;
+  color: #475569;
+  outline: none;
+  cursor: pointer;
+  min-width: 130px;
+}
+
+.all-rep-select:focus {
+  border-color: #2563eb;
+}
+
+.all-rep-date-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+.all-rep-date-picker input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #475569;
+  font-family: inherit;
+  background: transparent;
+}
+
+.all-rep-date-picker .date-icon {
+  color: #64748b;
+}
+
+.all-rep-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.btn-excel {
+  background-color: #16a34a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-excel:hover {
+  background-color: #15803d;
+}
+
+.btn-export-pdf {
+  background-color: #b91c1c;
+  color: #ffffff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-export-pdf:hover {
+  background-color: #991b1b;
+}
+
+/* ================= TABLE CARD ================= */
+.all-rep-table-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.all-rep-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.all-rep-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.all-rep-table th {
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  background-color: #f3e8ff; /* Lavender background matching mockup */
+  border-bottom: 1px solid #e9d5ff;
+}
+
+.all-rep-table th:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.all-rep-table th:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.all-rep-table td {
+  padding: 18px 16px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.all-rep-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.all-rep-table .emp-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.all-rep-table .total-hours {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.all-rep-table .empty-row {
+  text-align: center;
+  padding: 48px !important;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+@media print {
+  .all-rep-filter-card, .att-tab-bar {
+    display: none !important;
+  }
+}

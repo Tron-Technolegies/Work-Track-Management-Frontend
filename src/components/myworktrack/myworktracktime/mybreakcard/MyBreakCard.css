@@ -1,0 +1,54 @@
+/* MyBreakCard — responsive */
+.work-card {
+  width: 100%;
+  max-width: 140px;
+  min-width: 110px;
+  height: 96px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid #c58cff;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.work-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(140, 63, 255, 0.18);
+}
+
+.play-button {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #8b4dff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.play-icon {
+  color: white;
+  font-size: 13px;
+  margin-left: 2px;
+}
+
+.work-card h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2f3442;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .work-card { height: 82px; }
+  .work-card h3 { font-size: 13px; }
+}

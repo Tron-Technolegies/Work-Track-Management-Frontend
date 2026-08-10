@@ -1,0 +1,56 @@
+/* MyEfficiencyCard — responsive */
+.efficiency-card {
+  width: 100%;
+  max-width: 180px;
+  height: 108px;
+  background: #ffffff;
+  border-radius: 18px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.efficiency-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.efficiency-title {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.efficiency-value {
+  margin: 4px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #232736;
+  line-height: 1;
+}
+
+.efficiency-goal {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .efficiency-card { max-width: 100%; height: 96px; }
+  .efficiency-value { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  .efficiency-card { height: 88px; }
+  .efficiency-title { font-size: 12px; }
+  .efficiency-value { font-size: 18px; }
+  .efficiency-goal { font-size: 11px; }
+}

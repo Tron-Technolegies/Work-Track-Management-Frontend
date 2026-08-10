@@ -1,0 +1,102 @@
+.card-space {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 0 40px 32px;
+}
+
+.dashboard-card-div {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+  transition: var(--transition-standard);
+  border: 1px solid #f8fafc;
+}
+
+.dashboard-card-div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.08);
+  border-color: #f1f0ff;
+}
+
+.dashboard-card-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.dashboard-card-icon-count {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dashboard-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f0ff;
+  color: #8b5cf6;
+  flex-shrink: 0;
+}
+
+.dashboard-card-count {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 42px;
+  color: #1e293b;
+  line-height: 1;
+}
+
+.dashboard-card-icon img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Individual accent colors if needed, but the design is very purple-centric */
+.dashboard-card-div.blue .dashboard-card-icon {
+  background-color: #f0f9ff;
+  color: #3b82f6;
+}
+
+.dashboard-card-div.purple .dashboard-card-icon {
+  background-color: #f5f3ff;
+  color: #8b5cf6;
+}
+
+.dashboard-card-div.orange .dashboard-card-icon {
+  background-color: #fffaf0;
+  color: #f59e0b;
+}
+
+.dashboard-card-div.green .dashboard-card-icon {
+  background-color: #f0fdf4;
+  color: #10b981;
+}
+
+@media (max-width: 1440px) {
+  .dashboard-card-count {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .card-space {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .card-space {
+    grid-template-columns: 1fr;
+    padding: 0 20px 24px;
+  }
+}

@@ -1,0 +1,118 @@
+.new-task-page-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Modal Context */
+.new-task-modal-body .newtask-container {
+  grid-template-columns: 1fr;
+  /* Solid design often favors single column for forms */
+  gap: 24px;
+}
+
+.newtask-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.newtask-form-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.newtask-input,
+.description-input,
+.date-input,
+.esthour-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 15px;
+  color: #1e293b;
+  height: 48px;
+}
+
+.newtask-input:focus,
+.description-input:focus,
+.date-input:focus,
+.esthour-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.description-input {
+  height: 150px !important;
+  padding: 12px !important;
+  resize: none;
+}
+
+.date-hour-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.modal-actions-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.btn-save {
+  padding: 12px 36px;
+  background: #7c3aed;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .new-task-modal-body .newtask-container {
+    padding: 0;
+  }
+}

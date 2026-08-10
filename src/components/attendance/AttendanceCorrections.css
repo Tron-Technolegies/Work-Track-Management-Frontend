@@ -1,0 +1,239 @@
+/* AttendanceCorrections Component Styles */
+
+.att-corrections-container {
+  width: 100%;
+}
+
+.att-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.att-panel-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.att-btn-apply {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.att-btn-apply:hover {
+  background-color: #1d4ed8;
+}
+
+.att-corrections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.att-corr-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.att-corr-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.att-corr-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.att-corr-sub {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.att-corr-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.att-btn-approve {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #a8dab5;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.att-btn-approve:hover {
+  background-color: #c6e7ce;
+}
+
+.att-btn-reject {
+  background-color: #fce8e6;
+  color: #c5221f;
+  border: 1px solid #f5b7b1;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.att-btn-reject:hover {
+  background-color: #fadbd8;
+}
+
+.att-status-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-pending {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.status-approved {
+  background-color: #e6f4ea;
+  color: #137333;
+}
+
+.status-rejected {
+  background-color: #fce8e6;
+  color: #c5221f;
+}
+
+.att-empty-corrections {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* ================= MODAL STYLES ================= */
+.att-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.att-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.att-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.att-modal-header h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.att-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.att-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.att-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.att-form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.att-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.att-modal-input, .att-modal-textarea {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  font-family: inherit;
+}
+
+.att-modal-input:focus, .att-modal-textarea:focus {
+  border-color: #2563eb;
+}
+
+.att-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.att-btn-cancel {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}

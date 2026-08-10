@@ -1,0 +1,15 @@
+.projects-page-container {
+    background-color: var(--bg-main);
+    min-height: 100vh;
+    transition: var(--transition-standard);
+}
+
+.projects-content-area {
+    padding: 20px;
+}
+
+@media (max-width: 1024px) {
+    .projects-content-area {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,137 @@
+.kanban-top {
+  padding: 32px;
+  background-color: var(--bg-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kanban-title-text {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+}
+.filter_user{
+  display: flex;
+  gap: 15px;
+}
+
+.kanban-wrapper-main {
+  background-color: var(--bg-main);
+  min-height: calc(100vh - 200px);
+}
+
+.kanban-content {
+  padding: 0 32px 32px;
+}
+
+.kanban-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.kanban-column {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.column-header {
+  padding: 8px 0 16px 0;
+}
+
+.column-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.column-body {
+  background-color: rgba(0, 0, 0, 0.02);
+  border: 1px dashed var(--border-standard);
+  border-radius: var(--radius-standard);
+  padding: 16px;
+  min-height: 600px;
+  transition: var(--transition-standard);
+}
+
+.column-over {
+  background-color: rgba(178, 121, 197, 0.05);
+  border-color: var(--primary-purple);
+  border-style: solid;
+}
+
+.kanban-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-small);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-standard);
+  cursor: grab;
+}
+
+.kanban-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-purple);
+}
+
+.card-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+}
+
+.card-content p {
+  font-size: 13px;
+  color: var(--text-main);
+  margin: 4px 0;
+}
+
+.card-content b {
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.empty-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  border: 1px dashed var(--border-standard);
+  border-radius: var(--radius-small);
+  color: var(--text-muted);
+  font-size: 13px;
+  background: transparent;
+  pointer-events: none;
+}
+
+@media (max-width: 1200px) {
+  .kanban-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+
+  .kanban-top,
+  .kanban-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .kanban-grid {
+    grid-template-columns: 1fr;
+  }
+}

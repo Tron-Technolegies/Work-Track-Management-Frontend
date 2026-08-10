@@ -1,0 +1,57 @@
+.leave-policy-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(45, 35, 66, 0.08);
+    font-family: "Outfit", sans-serif;
+}
+
+/* Title */
+
+.policy-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #241B52;
+    margin-bottom: 24px;
+}
+
+/* List */
+
+.policy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Each Item */
+
+.policy-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+/* Icon */
+
+.policy-icon {
+    color: #7C3AED;
+    font-size: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Text */
+
+.policy-text {
+    color: #7F74B7;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .leave-policy-card { border-radius: 14px; padding: 18px; }
+    .policy-title { font-size: 20px; margin-bottom: 18px; }
+}

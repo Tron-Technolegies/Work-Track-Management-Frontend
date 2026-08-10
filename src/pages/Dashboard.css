@@ -1,0 +1,54 @@
+
+.dashboard-page {
+  padding: 28px;
+  background-color: var(--bg-main);
+  min-height: calc(100vh - var(--navbar-height));
+  transition: var(--transition-standard);
+  /* Prevent horizontal scroll if any child overflows */
+  overflow-x: hidden;
+}
+
+/* ── Top graph + efficiency row ── */
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.dashboard-main-left { min-width: 0; }
+.dashboard-main-right { min-width: 0; }
+
+.dashboard-bottom { margin-top: 24px; }
+
+.dashboard-work-task { margin-top: 24px; }
+
+/* ── 1280px — compact padding ── */
+@media (max-width: 1280px) {
+  .dashboard-page { padding: 24px; }
+}
+
+/* ── 1024px — slightly shrink efficiency column ── */
+@media (max-width: 1024px) {
+  .dashboard-page { padding: 20px; }
+  .dashboard-main { grid-template-columns: 1fr 280px; gap: 20px; }
+}
+
+/* ── 920px — stack Graph above Efficiency ── */
+@media (max-width: 920px) {
+  .dashboard-main { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* ── 768px — tighter spacing ── */
+@media (max-width: 768px) {
+  .dashboard-page { padding: 16px; }
+  .dashboard-main { gap: 14px; margin-top: 16px; }
+  .dashboard-bottom { margin-top: 16px; }
+  .dashboard-work-task { margin-top: 16px; }
+}
+
+/* ── 480px — small mobile ── */
+@media (max-width: 480px) {
+  .dashboard-page { padding: 12px; }
+  .dashboard-main { gap: 12px; }
+}

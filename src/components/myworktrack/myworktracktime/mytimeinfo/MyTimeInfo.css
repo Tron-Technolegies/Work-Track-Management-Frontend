@@ -1,0 +1,52 @@
+/* MyTimeInfo — responsive time display */
+.time-info {
+  width: 100%;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+.time-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.time-label {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+.clock-time {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 300;
+  color: #c47bf7;
+  line-height: 1.1;
+}
+
+.focus-time,
+.break-time {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 300;
+  color: #232736;
+  line-height: 1.1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  /* On mobile the time-section goes full width, so allow expansion */
+  .time-info { max-width: 100%; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+  .time-item { min-width: 120px; }
+}
+
+@media (max-width: 480px) {
+  .time-label { font-size: 13px; }
+  .clock-time, .focus-time, .break-time { font-size: 18px; }
+}

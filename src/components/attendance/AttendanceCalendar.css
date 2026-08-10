@@ -1,0 +1,88 @@
+/* AttendanceCalendar Component Styles */
+
+.att-calendar-tab-container {
+  width: 100%;
+}
+
+.att-calendar-container {
+  margin-top: 16px;
+}
+
+.cal-header-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.cal-cell {
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cal-cell.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.cal-cell.present {
+  background-color: #e6f4ea;
+  color: #137333;
+}
+
+.cal-cell.late {
+  background-color: #fef7e0;
+  color: #b06000;
+}
+
+.cal-cell.on-leave {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+}
+
+.cal-cell.absent {
+  background-color: #fce8e6;
+  color: #c5221f;
+}
+
+.cal-cell.selected {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.cal-cell:hover:not(.empty) {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+.att-select {
+  padding: 8px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+}
+
+.att-select:focus {
+  border-color: #2563eb;
+}

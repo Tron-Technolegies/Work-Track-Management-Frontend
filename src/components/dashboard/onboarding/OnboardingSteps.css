@@ -1,0 +1,230 @@
+/* ═══════════════════════════════════════════════════════
+   OnboardingSteps — Fully Responsive
+═══════════════════════════════════════════════════════ */
+
+.onboarding-banner {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 27, 75, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+  padding: 24px 30px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  /* ✅ Prevent any child from overflowing the banner */
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ── Title row ── */
+.onboarding-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;               /* ✅ wrap on narrow widths */
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.onboarding-title-row > div {
+  flex: 1;
+  min-width: 0;                  /* ✅ allow text to shrink */
+}
+
+.onboarding-title-row h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  word-break: break-word;        /* ✅ long text wraps */
+}
+
+.onboarding-title-row p {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Minimize button ── */
+.dismiss-btn {
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.dismiss-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── 3-column grid ── */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  /* ✅ Grid children won't push outside the container */
+  min-width: 0;
+}
+
+/* ── Individual step card ── */
+.step-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: all 0.25s ease;
+
+  /* ✅ Critical: prevents cell from growing beyond grid column */
+  min-width: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.step-card.completed {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.step-card.active {
+  border-color: rgba(139, 92, 246, 0.5);
+  background: rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+/* ── Step badge (number / checkmark) ── */
+.step-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;               /* ✅ never compress the badge */
+}
+
+.step-card.completed .step-badge {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.step-card.active .step-badge {
+  background: #8b5cf6;
+  color: #ffffff;
+}
+
+/* ── Step info (text + button) ── */
+.step-info {
+  flex: 1;
+  min-width: 0;                  /* ✅ allows shrinking inside flex */
+  overflow: hidden;
+}
+
+.step-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+  word-break: break-word;        /* ✅ wrap long headings */
+}
+
+.step-info p {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* ── Action button ── */
+.step-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+  color: #ffffff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  /* ✅ Never let button overflow its parent card */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.step-action-btn:hover {
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════
+   RESPONSIVE BREAKPOINTS
+═══════════════════════════════ */
+
+/* ── 1200px: slightly tighter padding ── */
+@media (max-width: 1200px) {
+  .onboarding-banner { padding: 22px 26px; }
+  .step-card { padding: 16px; gap: 12px; }
+}
+
+/* ── 1024px: collapse to 2 columns ── */
+@media (max-width: 1024px) {
+  .onboarding-banner { padding: 20px 22px; }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .step-info h4 { font-size: 14px; }
+}
+
+/* ── 768px: tighter spacing ── */
+@media (max-width: 768px) {
+  .onboarding-banner {
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+  }
+  .onboarding-title-row {
+    margin-bottom: 14px;
+  }
+  .onboarding-title-row h3 { font-size: 17px; }
+  .steps-grid { gap: 12px; }
+  .step-card { padding: 14px; gap: 10px; }
+}
+
+/* ── 600px: single column ── */
+@media (max-width: 600px) {
+  .steps-grid { grid-template-columns: 1fr; gap: 10px; }
+  .step-card { padding: 14px 16px; }
+}
+
+/* ── 480px: very compact ── */
+@media (max-width: 480px) {
+  .onboarding-banner {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+  .onboarding-title-row h3 { font-size: 15px; }
+  .onboarding-title-row p { font-size: 12px; }
+  .step-info h4 { font-size: 13px; }
+  .step-info p { font-size: 11px; }
+  .step-badge { width: 28px; height: 28px; font-size: 12px; }
+  .step-action-btn { font-size: 11px; padding: 6px 12px; }
+}

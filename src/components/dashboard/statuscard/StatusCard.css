@@ -1,0 +1,160 @@
+.dasboard-title-status-container {
+  width: 100%;
+}
+
+.dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.date-picker {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.dashboard-calendar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.dashboard-calendar img {
+  width: 18px;
+  height: 18px;
+}
+
+.calendar-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.date-arrow {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* ── Status card grid: fluid columns ── */
+.card-space {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.status-div {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-standard);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-standard);
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.5s ease-out forwards;
+  min-width: 0;
+}
+
+.status-div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary-purple);
+  opacity: 0.6;
+}
+
+.status-div:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--primary-purple);
+  background: linear-gradient(135deg, #ffffff 0%, #faf4fc 100%);
+}
+
+.status-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-icon-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status-icon {
+  width: 46px;
+  height: 46px;
+  background-color: var(--bg-main);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-shrink: 0;
+}
+
+.status-icon img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: hue-rotate(240deg) saturate(1.5) brightness(0.8);
+}
+
+.status-count {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+}
+
+/* ── 1024px ── */
+@media (max-width: 1024px) {
+  .card-space { gap: 16px; }
+}
+
+/* ── 768px ── */
+@media (max-width: 768px) {
+  .card-space {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .status-div { padding: 18px 16px; }
+  .status-count { font-size: 26px; }
+}
+
+/* ── 480px — 2 per row on small screens ── */
+@media (max-width: 480px) {
+  .card-space {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .status-div { padding: 16px 14px; gap: 12px; }
+  .status-name { font-size: 11px; }
+  .status-count { font-size: 22px; }
+  .status-icon { width: 38px; height: 38px; padding: 8px; }
+}
+
+/* ── 360px — single column ── */
+@media (max-width: 360px) {
+  .card-space { grid-template-columns: 1fr; }
+}

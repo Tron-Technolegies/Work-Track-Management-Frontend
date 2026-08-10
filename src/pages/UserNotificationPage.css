@@ -1,0 +1,15 @@
+.notifications-page-container {
+    background-color: var(--bg-main);
+    min-height: 100vh;
+    transition: var(--transition-standard);
+}
+
+.notifications-content-area {
+    padding: 20px;
+}
+
+@media (max-width: 1024px) {
+    .notifications-content-area {
+        padding: 20px;
+    }
+}
