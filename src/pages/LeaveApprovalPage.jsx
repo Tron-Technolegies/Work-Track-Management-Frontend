@@ -1,6 +1,6 @@
 import React from 'react'
 import './LeaveApprovalPage.css'
-import LeaveHeader from '../components/leaveheader/leaveheader'
+import LeaveHeader from '../components/leaveheader/LeaveHeader'
 import LeaveApprovalCards from '../components/adminleave/leaveapprovals/LeaveApprovalCards'
 import AllLeaveHistory from '../components/adminleave/leavehistory/AllLeaveHistory'
 

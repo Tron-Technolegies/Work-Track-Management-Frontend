@@ -1,6 +1,6 @@
 import React from 'react'
 import LeaveBalanceCard from '../components/userleaves/leavebalance/LeaveBalanceCard'
-import LeaveHeader from '../components/leaveheader/leaveheader'
+import LeaveHeader from '../components/leaveheader/LeaveHeader'
 import './LeaveBalancePage.css'
 
 function LeaveBalancePage() {

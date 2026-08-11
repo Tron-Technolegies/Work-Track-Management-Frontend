@@ -1,6 +1,6 @@
 import React from 'react'
 import MyLeaveApplicationCard from '../components/userleaves/myleaveapplications/myleaveapplicationcard/MyLeaveApplicationCard'
-import LeaveHeader from '../components/leaveheader/leaveheader'
+import LeaveHeader from '../components/leaveheader/LeaveHeader'
 import MyLeaveHistory from '../components/userleaves/myleaveapplications/myleavehistory/MyLeaveHistory'
 import "./MyLeaveApplicationPage.css"
 
