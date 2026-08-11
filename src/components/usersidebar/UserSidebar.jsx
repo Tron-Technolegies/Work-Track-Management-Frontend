@@ -50,7 +50,8 @@ const UserSidebar = () => {
     { to: "/user/project",       icon: "/Sidebar_icons/project.svg",label: "Projects" },
     { to: "/user/tasks",         icon: "/usertaskicon.svg", label: "Tasks" },
     { to: "/user/kanbanBoard",   icon: "/Sidebar_icons/Kanbanboard.svg", label: "Kanban Board" },
-    { to: "/user/productivity",  icon: "/Sidebar_icons/Reports.svg",label: "Reports" },
+    { to: "/user/productivity",  icon: "/Sidebar_icons/graph-time-series-svgrepo-com.svg",label: "Productivity" },
+    { to: "/user/reports",  icon: "/Sidebar_icons/Reports.svg",label: "Reports" },
     { to: "/user/leave",         icon: "/Sidebar_icons/leave.svg", label: "Leave" },
     { to: "/user/notification",  icon: "/Sidebar_icons/notification.svg",label: "Notifications" },
   ];
