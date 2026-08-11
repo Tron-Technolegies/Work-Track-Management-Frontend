@@ -4,7 +4,7 @@ import LeaveBalance from '../components/userleaves/applyleave/leavebalance/Leave
 import LeavePolicy from '../components/userleaves/applyleave/leavepolicy/LeavePolicy'
 import RecentLeaveApplication from '../components/userleaves/applyleave/recentleaveapplication/RecentLeaveApplication'
 import './UserApplyLeavePage.css'
-import LeaveHeader from '../components/leaveheader/leaveheader'
+import LeaveHeader from '../components/leaveheader/LeaveHeader'
 
 function UserApplyLeavePage() {
   return (
