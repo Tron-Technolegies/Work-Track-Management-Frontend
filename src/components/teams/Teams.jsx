@@ -114,36 +114,28 @@ const Teams = () => {
           };
 
           if (editingTeam) {
-
               const res = await api.put(
-
                   `admin_app/update-team/${editingTeam.id}/`,
-
                   payload
-
               );
-
               toast.success(res.data.message);
-
           }
 
           else {
-
               const res = await api.post(
-
                   "admin_app/create-team/",
-
                   payload
-
               );
 
               toast.success(res.data.message);
 
+              setTeams((prev) => [
+                  ...prev,
+                  res.data.data,
+              ]);
           }
 
           handleCloseModal();
-
-          fetchTeams();
 
       }
 
