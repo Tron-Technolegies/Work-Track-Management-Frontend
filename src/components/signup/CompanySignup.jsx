@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import api from "../../api/api";
+import api, { getErrorMessage } from "../../api/api";
 import { toast } from "react-toastify";
 
 const CompanySignup = () => {
@@ -43,8 +43,32 @@ const CompanySignup = () => {
     e.preventDefault();
     const { company_name, name, email, phone, password } = formData;
 
-    if (!company_name || !name || !email || !phone || !password) {
-      toast.error("Please fill all required fields");
+    if (!company_name.trim()) {
+      toast.error("Company Name is required");
+      return;
+    }
+    if (!name.trim()) {
+      toast.error("Admin Full Name is required");
+      return;
+    }
+    if (!email.trim()) {
+      toast.error("Admin Email Address is required");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    if (!phone.trim()) {
+      toast.error("Phone Number is required");
+      return;
+    }
+    if (!mobileRules.validLength || !mobileRules.validStart) {
+      toast.error("Phone number must be a valid 10-digit number starting with 6, 7, 8, or 9");
+      return;
+    }
+    if (!password) {
+      toast.error("Password is required");
       return;
     }
 
@@ -58,12 +82,7 @@ const CompanySignup = () => {
       passwordRules.special;
 
     if (!isPasswordValid) {
-      toast.error("Password does not meet complexity requirements");
-      return;
-    }
-
-    if (!mobileRules.validLength || !mobileRules.validStart) {
-      toast.error("Please enter a valid 10-digit mobile number starting with 6-9");
+      toast.error("Password does not meet complexity requirements (min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char)");
       return;
     }
 
@@ -71,12 +90,18 @@ const CompanySignup = () => {
       setLoading(true);
 
       // Step 1: Register Company & Admin user
-      const signupRes = await api.post("/admin_app/signup/", formData);
+      const signupRes = await api.post("/admin_app/signup/", {
+        ...formData,
+        company_name: company_name.trim(),
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim()
+      });
       toast.success(signupRes.data?.message || "Company registered successfully!");
 
       // Step 2: Auto Login Admin
       const loginRes = await api.post("/admin_app/login/", {
-        email: formData.email,
+        email: email.trim(),
         password: formData.password,
       });
 
@@ -93,11 +118,16 @@ const CompanySignup = () => {
       navigate("/user/dashboard");
 
     } catch (err) {
-      const msg =
+      console.log("ERROR OBJECT:", err);
+      console.log("ERROR RESPONSE:", err.response);
+      console.log("ERROR DATA:", err.response?.data);
+
+      const errorMessage =
         err.response?.data?.error ||
         err.response?.data?.detail ||
-        "Company signup failed. Please check inputs.";
-      toast.error(msg);
+        "Company signup failed. Please check your inputs.";
+
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -188,7 +218,7 @@ const CompanySignup = () => {
                 />
               </div>
               {formData.phone && (
-                <div className="mobile-rules" style={{ marginTop: "4px" }}>
+                <div className="mobile-rules">
                   <p className={mobileRules.validLength ? "valid" : "invalid"}>
                     {mobileRules.validLength ? "✓" : "✗"} 10 digits required
                   </p>
@@ -229,7 +259,7 @@ const CompanySignup = () => {
               </div>
 
               {(showPasswordValidation || formData.password) && (
-                <div className="password-rules" style={{ marginBottom: "16px" }}>
+                <div className="password-rules" >
                   <p className={passwordRules.minLength ? "valid" : "invalid"}>
                     {passwordRules.minLength ? "✓" : "✗"} Min 8 characters
                   </p>

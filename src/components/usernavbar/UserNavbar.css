@@ -311,6 +311,30 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
+}
+
+.profile-summary {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.2;
+}
+
+.profile-name {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.profile-role {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .dropdown-icon {
@@ -397,5 +421,10 @@
     .nav-search-container {
         max-width: 100%;
         margin: 0;
+    }
+
+    .profile-summary,
+    .dropdown-icon {
+        display: none;
     }
 }

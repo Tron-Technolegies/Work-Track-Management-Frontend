@@ -4,6 +4,7 @@ import { TbLogout } from "react-icons/tb";
 import { FaChevronDown, FaUser, FaCog, FaSearch, FaTimes, FaFolder, FaTasks, FaUsers, FaUserTie, FaCompass } from "react-icons/fa";
 import api from "../../api/api.jsx";
 import "./UserNavbar.css";
+import UserAvatar from "../common/UserAvatar.jsx";
 
 const ALL_PAGES = [
   { name: "Dashboard", path: "/user/dashboard" },
@@ -22,6 +23,7 @@ const ALL_PAGES = [
   { name: "My Leave Applications", path: "/user/leave/leave_application" },
   { name: "Leave Balance", path: "/user/leave/leave_balance" },
   { name: "Leave Approval", path: "/user/leave/leave_approval" },
+  { name: "Leave Types", path: "/user/leave/leave_types" },
   { name: "Notifications", path: "/user/notification" },
   { name: "Settings", path: "/user/settings" },
   { name: "Profile", path: "/user/profile" },
@@ -35,11 +37,53 @@ function UserNavbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [employeeName, setEmployeeName] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user")) || {};
+    } catch {
+      return {};
+    }
+  });
 
   const navigate = useNavigate();
   const location = useLocation();
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
+
+  const syncCurrentUser = async () => {
+    try {
+      const res = await api.get("admin_app/current_user/");
+      const user = res.data || {};
+      setCurrentUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user_role", user.role || "");
+      if (user.id) localStorage.setItem("user_id", user.id);
+    } catch (err) {
+      // Keep the last authenticated-user details visible if the refresh fails.
+      console.error("Failed to refresh navbar profile:", err);
+    }
+  };
+
+  useEffect(() => {
+    syncCurrentUser();
+    const handleProfileUpdated = (event) => {
+      if (event.detail) setCurrentUser(event.detail);
+      syncCurrentUser();
+    };
+
+    window.addEventListener("worktrack:profile-updated", handleProfileUpdated);
+    return () => window.removeEventListener("worktrack:profile-updated", handleProfileUpdated);
+  }, []);
+
+  const displayName = [currentUser.first_name, currentUser.last_name]
+    .filter(Boolean)
+    .join(" ") || currentUser.name || currentUser.username || currentUser.email || "User";
+  const displayRole = {
+    user: "User",
+    admin: "Admin",
+    super_admin: "Admin",
+    project_lead: "Project Lead",
+  }[currentUser.role] || currentUser.role || "User";
 
   // Fetch employee name if on individual productivity page
   useEffect(() => {
@@ -67,7 +111,7 @@ function UserNavbar() {
       try {
         const res = await api.get("admin_app/notifications/unread-count/");
         setUnreadCount(res.data?.unread_count || 0);
-      } catch (err) {
+      } catch {
         // ignore
       }
     };
@@ -100,6 +144,7 @@ function UserNavbar() {
     if (path.startsWith("/user/leave/leave_application")) return "My Leave Applications";
     if (path.startsWith("/user/leave/leave_balance")) return "Leave Balance";
     if (path.startsWith("/user/leave/leave_approval")) return "Leave Approval";
+    if (path.startsWith("/user/leave/leave_types")) return "Leave Types";
     if (path.startsWith("/user/leave")) return "Leave";
     if (path.startsWith("/user/notification")) return "Notifications";
     if (path.startsWith("/user/settings") || path.startsWith("/user/setting")) return "Settings";
@@ -261,14 +306,10 @@ function UserNavbar() {
                           onClick={() => handleSelectResult(`/user/individualproductivity/${emp.id}`)}
                         >
                           <div className="emp-item-left">
-                            <img
-                              src={emp.profile_picture || "/user icon.svg"}
-                              alt=""
+                            <UserAvatar
+                              src={emp.profile_picture}
+                              alt={emp.name}
                               className="search-emp-avatar"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = "/user icon.svg";
-                              }}
                             />
                             <div>
                               <div className="item-title">{emp.name}</div>
@@ -365,15 +406,15 @@ function UserNavbar() {
           </div>
           <div className="nav-profile">
             <div className="profile-dropdown" ref={dropdownRef} onClick={() => setOpen(!open)}>
-              <img
-                src="/Logos/profile.png"
-                alt="profile"
+              <UserAvatar
+                src={currentUser.profile_picture}
+                alt={`${displayName}'s profile`}
                 className="profile-img"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/user icon.svg";
-                }}
               />
+              <div className="profile-summary">
+                <span className="profile-name">{displayName}</span>
+                <span className="profile-role">{displayRole}</span>
+              </div>
               <FaChevronDown className="dropdown-icon" />
               {open && (
                 <div className="dropdown-menu">
@@ -382,10 +423,10 @@ function UserNavbar() {
                     <span>Profile</span>
                   </div>
 
-                  <div className="dropdown-item" onClick={() => navigate("/user/settings")}>
+                  {/* <div className="dropdown-item" onClick={() => navigate("/user/settings")}>
                     <FaCog />
                     <span>Settings</span>
-                  </div>
+                  </div> */}
                   <div className="dropdown-item logout" onClick={handleLogout}>
                     <TbLogout />
                     <span>Logout</span>

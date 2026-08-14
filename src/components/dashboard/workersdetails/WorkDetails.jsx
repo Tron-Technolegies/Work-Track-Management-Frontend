@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import "./WorkDetails.css"
-import { useNavigate  } from "react-router-dom"
-import api from "../../../api/api"
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useEffect, useState } from 'react';
+import "./WorkDetails.css";
+import { useNavigate } from "react-router-dom";
+import api from "../../../api/api";
 
 const WorkDetails = () => {
 
-  const [rows, setRows] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    fetchTasks(selectedDate);
-  }, [selectedDate]);
+    fetchTasks();
+  }, []);
 
-  const fetchTasks = async (date) => {
+  const fetchTasks = async () => {
     try {
-      const formattedDate =
-        date.toISOString().split("T")[0];
-
       const res = await api.get(
-        `admin_app/employees/efficiency/?date=${formattedDate}`
+        `admin_app/employees/efficiency/`
       );
 
       const formatted = res.data.map((user, index) => ({
@@ -43,27 +37,6 @@ const WorkDetails = () => {
     }
   };
 
-
-  const formatDisplayDate = (date) => {
-    const today = new Date();
-    const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-
-    if (date.toDateString() === today.toDateString()) {
-      return "Today";
-    }
-    if (date.toDateString() === yesterday.toDateString()) {
-      return "Yesterday";
-    }
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric"
-    })
-  };
-
-  if (loading) return <p>Loading...</p>
-
   return (
     <div className="work-detail-container">
       <div className="detail-head">
@@ -81,7 +54,7 @@ const WorkDetails = () => {
 </div>
         </div>
 
-        <div className="head-right-side">
+        {/* <div className="head-right-side">
           <span className="selected-date">
             {formatDisplayDate(selectedDate)}
           </span>
@@ -97,7 +70,7 @@ const WorkDetails = () => {
               />
             }
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="user-atwork-head">
@@ -110,7 +83,7 @@ const WorkDetails = () => {
           <div className="left-user"
             style={{ cursor: row.id ? 'pointer' : 'default' }}>
             <div className="user">
-              <img src="\user icon.svg" alt={row.name} />
+              <img src="/user icon.svg" alt={row.name} />
               <p>{row.name}</p>
             </div>
           </div>

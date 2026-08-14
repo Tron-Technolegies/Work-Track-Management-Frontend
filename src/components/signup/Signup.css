@@ -163,7 +163,16 @@
   color: red;
   margin: 2px 0;
 }
+.mobile-rules{
+  margin-top: "4px" ;
+  font-size:small;
 
+}
+.password-rules{
+  margin-top: "16px" ;
+  font-size:small;
+
+}
 @media (max-width: 900px) {
   .signupmain {
     background: #e1b4f0;

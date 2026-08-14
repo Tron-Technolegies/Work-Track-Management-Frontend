@@ -28,6 +28,7 @@ import Dashboard from "./pages/Dashboard";
 import WorkDetailsAllPage from "./pages/WorkDetailsAllPage";
 import IndividualProductivityPage from "./pages/IndividualProductivityPage";
 import LeaveApprovalPage from "./pages/LeaveApprovalPage";
+import LeaveTypesPage from "./pages/LeaveTypesPage";
 import ReportsPage from "./pages/ReportsPage";
 import TeamsPage from "./pages/TeamsPage";
 import CompanySignupPage from "./pages/CompanySignupPage";
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
           {
             path:"leave_approval",
             element:<LeaveApprovalPage/>
+          },
+          {
+            path:"leave_types",
+            element:<LeaveTypesPage/>
           }
 
         ]

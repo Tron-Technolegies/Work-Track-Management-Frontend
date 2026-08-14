@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import api from "../../api/api";
+import api, { getErrorMessage } from "../../api/api";
 import { toast } from "react-toastify";
 
 const Signup = ({ isModal = false, onClose, onSuccess }) => {
@@ -121,11 +121,7 @@ const Signup = ({ isModal = false, onClose, onSuccess }) => {
       }
 
     } catch (error) {
-      const msg =
-        error.response?.data?.error ||
-        error.message ||
-        "Failed to create user";
-      toast.error(msg);
+      toast.error(getErrorMessage(error, "Failed to create user"));
     } finally {
       setLoading(false);
     }

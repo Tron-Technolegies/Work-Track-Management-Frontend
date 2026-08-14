@@ -6,6 +6,13 @@ import { toast } from "react-toastify";
 import { FiSearch, FiDownload, FiCalendar } from "react-icons/fi";
 
 const AllReports = () => {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userRole = user?.role;
+  const canExport =
+    userRole === "admin" ||
+    userRole === "super_admin" ||
+    userRole === "project_lead";
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTeam, setSelectedTeam] = useState("All Teams");
@@ -18,6 +25,7 @@ const AllReports = () => {
     return `${year}-${month}-${day}`;
     
   });
+
 
   // Monthly / yearly pickers
   const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -250,17 +258,20 @@ const AllReports = () => {
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
           />
-          <FiCalendar className="date-icon" size={16} />
+          {/* <FiCalendar className="date-icon" size={16} /> */}
         </div>
 
-        <div className="all-rep-buttons">
-          <button className="btn-excel" onClick={handleExportExcel}>
-            Excel <FiDownload size={15} />
-          </button>
-          <button className="btn-export-pdf" onClick={handleExportPDF}>
-            Export <FiDownload size={15} />
-          </button>
-        </div>
+        {canExport && (
+            <div className="all-rep-buttons">
+                <button className="btn-excel" onClick={handleExportExcel}>
+                    Excel <FiDownload size={15} />
+                </button>
+
+                <button className="btn-export-pdf" onClick={handleExportPDF}>
+                    PDF <FiDownload size={15} />
+                </button>
+            </div>
+        )}
       </div>
 
       {/* ── Monthly & Yearly export bar ── */}
@@ -276,22 +287,29 @@ const AllReports = () => {
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
               />
-              <FiCalendar className="date-icon" size={14} />
+              {/* <FiCalendar className="date-icon" size={14} /> */}
             </div>
-            <button
-              className="btn-period-excel"
-              onClick={handleMonthlyExcel}
-              disabled={exportingMonthlyExcel}
-            >
-              {exportingMonthlyExcel ? "..." : "Excel"} <FiDownload size={14} />
-            </button>
-            <button
-              className="btn-period-pdf"
-              onClick={handleMonthlyPDF}
-              disabled={exportingMonthlyPdf}
-            >
-              {exportingMonthlyPdf ? "..." : "PDF"} <FiDownload size={14} />
-            </button>
+            {canExport && (
+                <>
+                    <button
+                        className="btn-period-excel"
+                        onClick={handleMonthlyExcel}
+                        disabled={exportingMonthlyExcel}
+                    >
+                        {exportingMonthlyExcel ? "..." : "Excel"}
+                        <FiDownload size={14} />
+                    </button>
+
+                    <button
+                        className="btn-period-pdf"
+                        onClick={handleMonthlyPDF}
+                        disabled={exportingMonthlyPdf}
+                    >
+                        {exportingMonthlyPdf ? "..." : "PDF"}
+                        <FiDownload size={14} />
+                    </button>
+                </>
+            )}
           </div>
         </div>
 
@@ -310,20 +328,27 @@ const AllReports = () => {
                 <option key={y} value={String(y)}>{y}</option>
               ))}
             </select>
-            <button
-              className="btn-period-excel"
-              onClick={handleYearlyExcel}
-              disabled={exportingYearlyExcel}
-            >
-              {exportingYearlyExcel ? "..." : "Excel"} <FiDownload size={14} />
-            </button>
-            <button
-              className="btn-period-pdf"
-              onClick={handleYearlyPDF}
-              disabled={exportingYearlyPdf}
-            >
-              {exportingYearlyPdf ? "..." : "PDF"} <FiDownload size={14} />
-            </button>
+            {canExport && (
+                <>
+                    <button
+                        className="btn-period-excel"
+                        onClick={handleYearlyExcel}
+                        disabled={exportingYearlyExcel}
+                    >
+                        {exportingYearlyExcel ? "..." : "Excel"}
+                        <FiDownload size={14} />
+                    </button>
+
+                    <button
+                        className="btn-period-pdf"
+                        onClick={handleYearlyPDF}
+                        disabled={exportingYearlyPdf}
+                    >
+                        {exportingYearlyPdf ? "..." : "PDF"}
+                        <FiDownload size={14} />
+                    </button>
+                </>
+            )}
           </div>
         </div>
       </div>

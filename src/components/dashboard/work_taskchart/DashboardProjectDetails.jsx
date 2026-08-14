@@ -5,15 +5,17 @@ import { FiCalendar, FiChevronDown } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import api from "../../../api/api";
+import { useNavigate } from "react-router-dom";
 
 const COLORS = ["#A91DDB", "#6B2E83", "#7B7B7B", "#C45BF5"];
 
 function DashboardProjectDetails() {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [totalTime, setTotalTime] = useState("00h 00m");
   const [chartData, setChartData] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     fetchProjectDetails(selectedDate);
@@ -38,10 +40,13 @@ function DashboardProjectDetails() {
             { name: "Review", value: 0 },
           ]);
         }
-        setUsers(res.data.users || []);
+        setProjects(res.data.projects || []);
       }
     } catch (err) {
-      console.error("Failed to fetch dashboard project details", err);
+      console.error(
+        "Failed to fetch dashboard project details:",
+        err.response?.data || err.message || err
+      );
     } finally {
       setLoading(false);
     }
@@ -70,7 +75,15 @@ function DashboardProjectDetails() {
     <div className="project-details-card">
       <div className="project-details-header">
         <h3>Project Details</h3>
-
+        <div className="project-details-actions">
+            <button
+              type="button"
+              className="view-all-projects-btn"
+              onClick={() => navigate("/user/project")}
+            >
+              View All Projects
+            </button>
+        
         <div className="project-details-date">
           <DatePicker
             selected={selectedDate}
@@ -84,6 +97,7 @@ function DashboardProjectDetails() {
             }
           />
         </div>
+      </div>
       </div>
 
       <div className="project-details-body">
@@ -114,36 +128,65 @@ function DashboardProjectDetails() {
         </div>
 
         {/* Right Table */}
-        <div className="project-table">
+      <div className="project-table">
+
           <div className="table-head">
-            <span>User</span>
-            <span>Task Spent</span>
+              <span>Project</span>
+              <span>Time Spent</span>
           </div>
 
           {loading ? (
-            <p style={{ padding: "20px", color: "#94a3b8" }}>Loading users...</p>
-          ) : users.length === 0 ? (
-            <p style={{ padding: "20px", color: "#94a3b8" }}>No employee task records</p>
-          ) : (
-            users.map((user) => (
-              <div className="table-row" key={user.id}>
-                <div className="table-user">
-                  <img
-                    src={user.image || "/user icon.svg"}
-                    alt={user.name}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/user icon.svg";
-                    }}
-                  />
-                  <p>{user.name}</p>
-                </div>
 
-                <span>{user.spent}</span>
-              </div>
-            ))
+              <p style={{
+                  padding: "20px",
+                  color: "#94a3b8"
+              }}>
+                  Loading projects...
+              </p>
+
+          ) : projects.length === 0 ? (
+
+              <p style={{
+                  padding: "20px",
+                  color: "#94a3b8"
+              }}>
+                  No project records
+              </p>
+
+          ) : (
+
+              projects.slice(0, 6).map((project) => (
+
+                  <div
+                      className="table-row"
+                      key={project.id}
+                  >
+
+                      <div className="table-user">
+{/* 
+                          <div className="project-icon">
+                              {project.project_name
+                                  ?.charAt(0)
+                                  ?.toUpperCase()}
+                          </div> */}
+
+                          <p>
+                              {project.project_name}
+                          </p>
+
+                      </div>
+
+                      <span>
+                          {project.spent}
+                      </span>
+
+                  </div>
+
+              ))
+
           )}
-        </div>
+
+</div>
       </div>
     </div>
   );

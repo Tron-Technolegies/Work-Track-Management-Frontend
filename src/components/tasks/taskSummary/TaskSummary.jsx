@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import EditTaskModal from "../editTask/EditTaskModal";
 import { SlCalender } from "react-icons/sl";
+import ConfirmationModal from "../../confirmationmodal/ConfirmationModal";
 
 const TaskSummary = () => {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ const TaskSummary = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [deleteTask, setDeleteTask] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const formatTaskDuration = (durationStr) => {
     if (!durationStr) return "0h 0m";
@@ -95,26 +98,38 @@ const TaskSummary = () => {
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   };
 
-  const handleDeleteTask = async (taskId) => {
-    if (!isAdminOrLead) {
-      toast.error("You do not have permission to delete tasks. Only admins and project leads can perform this action.");
-      return;
-    }
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this task?"
-    );
+    const handleDeleteTask = async () => {
+        if (!deleteTask) return;
 
-    if (!confirmDelete) return;
+        try {
+            setDeleting(true);
 
-    try {
-      await api.delete(`admin_app/tasks/${taskId}/delete/`);
-      setTasks((prevTasks) => prevTasks.filter((t) => t.id !== taskId));
-      toast.success("Task deleted successfully");
-    } catch (error) {
-      console.error(error);
-      toast.error(error.response?.data?.error || "Failed to delete task");
-    }
-  };
+            await api.delete(
+                `admin_app/tasks/${deleteTask.id}/delete/`
+            );
+
+            setTasks((prevTasks) =>
+                prevTasks.filter(
+                    (task) => task.id !== deleteTask.id
+                )
+            );
+
+            toast.success("Task deleted successfully");
+
+            setDeleteTask(null);
+
+        } catch (error) {
+            console.error(error);
+
+            toast.error(
+                error.response?.data?.error ||
+                "Failed to delete task"
+            );
+
+        } finally {
+            setDeleting(false);
+        }
+    };
 
   const renderAssignedTo = (assigned) => {
     if (!assigned) return "Unassigned";
@@ -144,6 +159,18 @@ const TaskSummary = () => {
         task={selectedTask}
         onSuccess={() => fetchTasks(selectedDate)}
       />
+      <ConfirmationModal
+            isOpen={!!deleteTask}
+            title="Delete Task"
+            message={
+                deleteTask
+                    ? `Are you sure you want to delete "${deleteTask.task_name}"? This action cannot be undone.`
+                    : ""
+            }
+            onConfirm={handleDeleteTask}
+            onCancel={() => setDeleteTask(null)}
+            loading={deleting}
+        />
 
       <div className="users-table-header" style={{ marginBottom: "20px" }}>
         <h2>Task Summary</h2>
@@ -276,11 +303,11 @@ const TaskSummary = () => {
                     {/* Delete — admin/project_lead only */}
                     {isAdminOrLead ? (
                       <button
-                        className="icon-btn delete-btn"
-                        title="Delete Task"
-                        onClick={() => handleDeleteTask(task.id)}
+                          className="icon-btn delete-btn"
+                          title="Delete Task"
+                          onClick={() => setDeleteTask(task)}
                       >
-                        <FiTrash2 />
+                          <FiTrash2 />
                       </button>
                     ) : (
                       <button

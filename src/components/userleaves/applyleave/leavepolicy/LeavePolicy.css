@@ -42,13 +42,41 @@
     flex-shrink: 0;
 }
 
-/* Text */
+/* Content wrapper */
+
+.policy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+/* Policy Name */
+
+.policy-name {
+    color: #241B52;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Text / Description */
 
 .policy-text {
     color: #7F74B7;
     font-size: 13px;
     line-height: 1.5;
     font-weight: 500;
+}
+
+/* Loading & Empty States */
+
+.policy-loading,
+.policy-empty {
+    color: #7F74B7;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    padding: 12px 0;
 }
 
 @media (max-width: 600px) {

@@ -1,56 +1,89 @@
-/* ═══════════════════════════════════════════════════════
-   MyWorkTrackPage — Layout wrapper
-═══════════════════════════════════════════════════════ */
-
 .worktrack-page {
   width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
 }
 
-/* ── Middle section: left column + unfinished tasks ── */
-.worktrack-tasks-row {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
+
+/* =====================================================
+   MY TASK CARD - FULL WIDTH
+===================================================== */
+
+.worktrack-main-task {
+  width: 100%;
   margin-top: 24px;
-  min-width: 0;
 }
 
-.worktrack-left-col {
-  display: flex;
-  flex-direction: column;
+
+/* =====================================================
+   PROJECTS + UNFINISHED TASKS
+===================================================== */
+
+.worktrack-projects-row {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
   gap: 20px;
-  flex: 1;
+
+  margin-top: 24px;
+
+  align-items: stretch;
+
+  box-sizing: border-box;
+}
+
+
+/* Make both cards fill the same grid height */
+
+.worktrack-projects-row > * {
+  width: 100%;
   min-width: 0;
 }
 
-/* ── 1024px: compress gap ── */
-@media (max-width: 1024px) {
-  .worktrack-tasks-row { gap: 16px; }
-}
 
-/* ── 992px: stack left col + unfinished vertically ── */
+/* =====================================================
+   TABLET
+===================================================== */
+
 @media (max-width: 992px) {
-  .worktrack-tasks-row {
-    flex-direction: column;
+
+  .worktrack-projects-row {
+    grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  /* Make unfinished tasks full width when stacked */
-  .worktrack-tasks-row > * {
-    width: 100%;
-  }
 }
 
-/* ── 768px: tighter gap ── */
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
 @media (max-width: 768px) {
-  .worktrack-tasks-row { margin-top: 16px; gap: 14px; }
-  .worktrack-left-col { gap: 16px; }
+
+  .worktrack-main-task {
+    margin-top: 16px;
+  }
+
+  .worktrack-projects-row {
+    margin-top: 16px;
+    gap: 14px;
+  }
+
 }
 
-/* ── 480px ── */
+
 @media (max-width: 480px) {
-  .worktrack-tasks-row { margin-top: 12px; gap: 12px; }
-  .worktrack-left-col { gap: 12px; }
+
+  .worktrack-main-task {
+    margin-top: 12px;
+  }
+
+  .worktrack-projects-row {
+    margin-top: 12px;
+    gap: 12px;
+  }
+
 }

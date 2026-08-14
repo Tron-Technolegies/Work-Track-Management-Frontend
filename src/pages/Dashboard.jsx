@@ -23,9 +23,9 @@ const Dashboard = () => {
         <div className="dashboard-main-left">
           <Graph/>
         </div>
-        <div className="dashboard-main-right">
+        {/* <div className="dashboard-main-right">
           <Efficiency/>
-        </div>
+        </div> */}
       </div>
 
       {/* BOTTOM: Work details full width */}
@@ -33,9 +33,9 @@ const Dashboard = () => {
         <WorkDetails/>
       </div>
       
-        <div className="dashboard-work-task">
+        {/* <div className="dashboard-work-task">
         <WorkTaskChart/>
-        </div>
+        </div> */}
         <div className="dashboard-work-task">
           <DashboardProjectDetails/>
         </div>

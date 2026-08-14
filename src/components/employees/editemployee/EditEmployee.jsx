@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import api from "../../../api/api";
+import api, { getErrorMessage } from "../../../api/api";
 import { toast } from "react-toastify";
 // import "../createemployees/CreateEmployees.css";
+import { FiX } from "react-icons/fi";
 
 function EditEmployee({
     user,
@@ -166,15 +167,7 @@ function EditEmployee({
         }
 
         catch (err) {
-
-            toast.error(
-
-                err.response?.data?.error ||
-
-                "Unable to update employee"
-
-            );
-
+            toast.error(getErrorMessage(err, "Unable to update employee"));
         }
 
         finally {
@@ -191,8 +184,15 @@ function EditEmployee({
 
             <div className="employee-header">
 
-                <h2>Edit Employee</h2>
-
+                    <h2>Edit Employee</h2>
+                    <button
+                        type="button"
+                        className="close-btn"
+                        onClick={onClose}
+                        aria-label="Close"
+                    >
+                        <FiX />
+                    </button>
             </div>
 
             <form
@@ -254,7 +254,7 @@ function EditEmployee({
                 >
 
                     <option value="user">
-                        User
+                        Employee
                     </option>
 
                     <option value="project_lead">

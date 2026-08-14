@@ -10,7 +10,7 @@
 }
 
 .users-table-header h2{
-    font-size:36px;
+    font-size:24px;
     font-weight:700;
     color:#171717;
 }
@@ -19,7 +19,7 @@
     border:none;
     background:#A66BC9;
     color:#fff;
-    padding:13px 28px;
+    padding:5px 15px;
     border-radius:12px;
     font-size:15px;
     font-weight:600;
@@ -132,9 +132,74 @@
 
 .action-cell{
     display:flex;
-    align-items:center;
-    justify-content:center;
+    align-items:flex-start;
+
+    justify-content:flex-start;
     gap:10px;
+}
+/* ================================
+   EMPLOYEE INFORMATION
+================================ */
+
+.employee-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.employee-name-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.employee-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    white-space: nowrap;
+}
+
+.employee-username {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ================================
+   ROLE BADGE
+================================ */
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+.role-badge.project-lead {
+    background: rgba(139, 92, 246, 0.12);
+    color: #7c3aed;
+}
+
+.role-badge.employee {
+    background: rgba(59, 130, 246, 0.12);
+    color: #2563eb;
 }
 
 .icon-btn{
@@ -186,6 +251,7 @@
 
 .add-user-btn{
     width:100%;
+    
 }
 
 }

@@ -6,20 +6,26 @@ import UnfinishedTasks from '../components/myworktrack/unfinishedtask/Unfinished
 import './MyWorkTrackPage.css'
 import MyProjects from '../components/myworktrack/myprojects/MyProjects'
 
-
 function MyWorkTrackPage() {
   return (
-        <div>
-            <MyWorkTrackTime/>
-            <div className="worktrack-tasks-row">
-                <div className="worktrack-left-col">
-                    <MyTaskCard/>
-                    <MyProjects/>
-                </div>
-                <UnfinishedTasks/>
-            </div>
-            <TaskTimeSheet/>
-        </div>
+    <div className="worktrack-page">
+
+      <MyWorkTrackTime />
+
+      {/* TOP TASK CARD */}
+      <div className="worktrack-main-task">
+        <MyTaskCard />
+      </div>
+
+      {/* PROJECTS + UNFINISHED TASKS */}
+      <div className="worktrack-projects-row">
+        <MyProjects />
+        <UnfinishedTasks />
+      </div>
+
+      <TaskTimeSheet />
+
+    </div>
   )
 }
 

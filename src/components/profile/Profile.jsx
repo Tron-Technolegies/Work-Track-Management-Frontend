@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "./Profile.css";
 import api from "../../api/api";
 import { toast } from "react-toastify";
+import { FiCamera } from "react-icons/fi";
 
 function Profile() {
   const [user, setUser] = useState({
@@ -18,6 +19,9 @@ function Profile() {
   const [saving, setSaving] = useState(false);
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [newPassword, setNewPassword] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     fetchProfile();
@@ -28,6 +32,7 @@ function Profile() {
       setLoading(true);
       const res = await api.get("admin_app/current_user/");
       setUser(res.data);
+      setPreviewUrl(res.data.profile_picture || "");
     } catch (err) {
       console.error("Failed to load profile:", err);
       toast.error("Failed to load profile details");
@@ -41,6 +46,19 @@ function Profile() {
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handlePhotoSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file.");
+      return;
+    }
+
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
     if (!user.id) return;
@@ -50,17 +68,31 @@ function Profile() {
       const formData = new FormData();
       formData.append("first_name", user.first_name || "");
       formData.append("last_name", user.last_name || "");
-      formData.append("phone", user.mobile || "");
+      formData.append("mobile", user.mobile || "");
+
+      if (selectedFile) {
+        formData.append("profile_picture", selectedFile);
+      }
 
       if (newPassword) {
         formData.append("password", newPassword);
       }
 
-      const res = await api.put(`admin_app/update_employee/${user.id}/`, formData);
+      const res = await api.put("admin_app/account-settings/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       toast.success(res.data?.message || "Profile updated successfully");
       setNewPassword("");
       setShowPasswordInput(false);
-      fetchProfile();
+      setSelectedFile(null);
+      const updatedProfile = await api.get("admin_app/current_user/");
+      setUser(updatedProfile.data);
+      setPreviewUrl(updatedProfile.data.profile_picture || "");
+      localStorage.setItem("user", JSON.stringify(updatedProfile.data));
+      localStorage.setItem("user_role", updatedProfile.data.role || "");
+      window.dispatchEvent(new CustomEvent("worktrack:profile-updated", {
+        detail: updatedProfile.data,
+      }));
     } catch (err) {
       const msg = err.response?.data?.error || "Failed to update profile";
       toast.error(msg);
@@ -85,7 +117,30 @@ function Profile() {
         </div>
         <form onSubmit={handleSave} className='profile-form'>
             <div className='user-profile-img'>
-              <img src={user.profile_picture || "/default-avatar.png"} alt="Profile" />
+              <button
+                type="button"
+                className='profile-picture-button'
+                onClick={() => fileInputRef.current?.click()}
+                aria-label={previewUrl ? "Change profile picture" : "Add profile picture"}
+              >
+                <img src={previewUrl || "/default-avatar.png"} alt="Profile" />
+                <span className='profile-picture-overlay'><FiCamera aria-hidden="true" /></span>
+              </button>
+              <input
+                ref={fileInputRef}
+                className='profile-picture-input'
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoSelect}
+              />
+              <button
+                type="button"
+                className='profile-picture-action'
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {previewUrl ? "Change Profile Picture" : "Add Profile Picture"}
+              </button>
+              {selectedFile && <span className='profile-picture-note'>Save to upload your new picture.</span>}
             </div>
             <div className='user-profile-form'>
                 <label>First Name</label>

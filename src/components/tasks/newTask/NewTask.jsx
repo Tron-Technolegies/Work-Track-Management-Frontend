@@ -3,7 +3,8 @@ import "../newTask/NewTask.css";
 import "../../employees/createemployees/CreateEmployees.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../../../api/api";
+import api, { getErrorMessage } from "../../../api/api";
+import { FiX } from "react-icons/fi";
 
 const NewTask = ({ isModal = false, onClose, onSuccess }) => {
   const navigate = useNavigate();
@@ -65,57 +66,133 @@ const NewTask = ({ isModal = false, onClose, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !formData.project ||
-      !formData.taskName ||
-      !formData.priority ||
-      !formData.dueDate ||
-      !formData.assignedTo
-    ) {
-      toast.error("Please fill all required fields");
+
+    if (!formData.taskName.trim()) {
+      toast.error("Task Name is required");
+      return;
+    }
+
+    if (!formData.project) {
+      toast.error("Project selection is required");
+      return;
+    }
+
+    if (!formData.assignedTo) {
+      toast.error("Assigned Employee is required");
+      return;
+    }
+
+    if (!formData.dueDate) {
+      toast.error("Due Date is required");
       return;
     }
 
     setLoading(true);
 
-    try {
-      const payload = {
-        project: Number(formData.project),
-        task_name: formData.taskName,
-        description: formData.description,
-        due_date: formData.dueDate,
-        working_hours: Number(formData.workingHours || 0),
-        priority: formData.priority,
-        status: formData.status || "Pending",
-        assigned_to: [Number(formData.assignedTo)],
-      };
-
-      if (formData.team) {
-        payload.team = Number(formData.team);
-      }
-
-      const res = await api.post("admin_app/tasks/add/", payload);
-
-      if (res.status === 201 || res.status === 200) {
-        toast.success(res.data?.message || "Task created successfully!");
-        if (isModal) {
-          onSuccess && onSuccess();
-          onClose && onClose();
-        } else {
-          navigate("/user/tasks");
-        }
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.error || "Failed to add task");
-    } finally {
-      setLoading(false);
-    }
+try {
+  const payload = {
+    project: Number(formData.project),
+    task_name: formData.taskName.trim(),
+    description: formData.description,
+    due_date: formData.dueDate,
+    working_hours: Number(formData.workingHours || 0),
+    priority: formData.priority,
+    status: formData.status || "Pending",
+    assigned_to: [Number(formData.assignedTo)],
   };
+
+  if (formData.team) {
+    payload.team = Number(formData.team);
+  }
+
+  const res = await api.post(
+    "admin_app/tasks/add/",
+    payload
+  );
+
+  // =====================================
+  // TASK CREATED SUCCESSFULLY
+  // =====================================
+
+  if (res.status === 201 || res.status === 200) {
+
+    // Main success message
+    toast.success(
+      res.data?.message || "Task created successfully!"
+    );
+
+    // =====================================
+    // Notification failed
+    // Show separately
+    // =====================================
+
+    if (
+      res.data?.notification_success === false &&
+      res.data?.notification_errors?.length
+    ) {
+      toast.warning(
+        "Task created successfully, but the notification could not be sent."
+      );
+    }
+
+    // =====================================
+    // Email failed
+    // Show separately
+    // =====================================
+
+    if (
+      res.data?.email_success === false &&
+      res.data?.email_errors?.length
+    ) {
+      toast.warning(
+        "Task created successfully, but the email could not be sent."
+      );
+    }
+
+    // =====================================
+    // Update UI immediately
+    // =====================================
+
+    if (isModal) {
+      onSuccess && onSuccess(res.data?.data);
+      onClose && onClose();
+    } else {
+      navigate("/user/tasks");
+    }
+  }
+
+} catch (error) {
+
+  console.error("ADD TASK ERROR:", error);
+
+  const message =
+    error.response?.data?.error ||
+    error.response?.data?.message ||
+    "Failed to add task";
+
+  toast.error(message);
+
+} finally {
+
+  setLoading(false);
+
+}
+  }
 
   return (
     <div className="employee-card">
       <div className="employee-header">
         <h2>Create New Task</h2>
+            {isModal && (
+                <button
+                    type="button"
+                    className="close-btn"
+                    onClick={onClose}
+                    aria-label="Close"
+                >
+                    <FiX />
+                </button>
+            )}
       </div>
 
       <form onSubmit={handleSubmit} className="employee-form">
@@ -173,7 +250,7 @@ const NewTask = ({ isModal = false, onClose, onSuccess }) => {
               <option value="">Select Employee</option>
               {users.map((u) => (
                 <option key={u.id} value={u.id}>
-                  {u.first_name} {u.last_name} ({u.email})
+                  {u.first_name} {u.last_name}
                 </option>
               ))}
             </select>

@@ -7,8 +7,8 @@ function EditTaskModal({ isOpen, onClose, task, onSuccess }) {
   if (!isOpen || !task) return null;
 
   return createPortal(
-    <div className="employee-modal-overlay" onClick={onClose}>
-      <div className="employee-modal-card" onClick={(e) => e.stopPropagation()}>
+    <div className="employee-modal-overlay">
+      <div className="employee-modal-card" >
         <EditTask task={task} onClose={onClose} onSuccess={onSuccess} />
       </div>
     </div>,

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../../api/api";
 import "./ProjecteDetailsForm.css";
 import { toast } from "react-toastify";
+import { FiLink, FiPaperclip } from "react-icons/fi";
 
 const ProjectDetailsForm = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const ProjectDetailsForm = () => {
 
     api.get(`admin_app/projects/${id}/view/`)
       .then((res) => {
+        console.log("PROJECT VIEW RESPONSE:", res.data);
         setData(res.data.project || res.data);
       })
       .catch((err) => {
@@ -34,19 +36,30 @@ const ProjectDetailsForm = () => {
 
   // ------------ LINK OPEN ------------
   const openLink = () => {
-    if (!data?.links) return;
+    if (!data?.links) {
+      toast.info("No link available");
+      return;
+    }
+
     const url = data.links.startsWith("http")
       ? data.links
       : `https://${data.links}`;
-    window.open(url, "_blank");
+
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  // ------------ ATTACHMENT OPEN ------------
   const openAttachment = () => {
-    if (!data?.attachments) return;
-    window.open(data.attachments, "_blank");
-  };
+    if (!data?.attachment_url) {
+      toast.info("No attachment available");
+      return;
+    }
 
+    window.open(
+      data.attachment_url,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
   // ------------ SAVE UPDATE ------------
   const handleSave = async (e) => {
     e?.preventDefault();
@@ -187,25 +200,41 @@ const ProjectDetailsForm = () => {
             </div>
 
             {/* LINKS & ATTACHMENTS */}
-            <div className="link-project">
-              <div
-                className="project-attachment-link"
-                onClick={openLink}
-                title={data.links ? `Open link: ${data.links}` : "No link"}
-                style={{ cursor: data.links ? "pointer" : "default" }}
-              >
-                <img src="/link icon.svg" alt="link" />
-              </div>
+        {/* LINKS & ATTACHMENTS */}
+          <div className="link-project">
 
-              <div
-                className="project-attachment-link"
-                onClick={openAttachment}
-                title={data.attachments ? "Open attachment" : "No attachment"}
-                style={{ cursor: data.attachments ? "pointer" : "default" }}
-              >
-                <img src="/link.svg" alt="attachment" />
-              </div>
+            {/* PROJECT LINK */}
+            <div
+              className={`project-attachment-link ${
+                !data.links ? "disabled" : ""
+              }`}
+              onClick={openLink}
+              title={
+                data.links
+                  ? "Open project link"
+                  : "No link available"
+              }
+            >
+              <FiLink />
             </div>
+
+            {/* ATTACHMENT */}
+            <div
+              className={`project-attachment-link ${
+                !data.attachment_url ? "disabled" : ""
+              }`}
+              onClick={openAttachment}
+              title={
+                data.attachment_url
+                  ? "Open attachment"
+                  : "No attachment available"
+              }
+            >
+              <FiPaperclip />
+            </div>
+
+          </div>
+  
           </form>
         </div>
       </div>
@@ -221,9 +250,12 @@ const ProjectDetailsForm = () => {
               </div>
 
               <div className="task-meta">
-                <span>{task.priority}</span>
-                <span>{task.status}</span>
-                <span>{task.due_date}</span>
+                <span className="priority-badge">{task.priority}</span>
+                <span className="status-badge">{task.status}</span>
+                <span className="due-badge">Due: {task.due_date || "-"}</span>
+                <span className="time-spent-badge" style={{ background: "#f3e8ff", color: "#7e22ce", padding: "4px 8px", borderRadius: "6px", fontWeight: "600", fontSize: "12px" }}>
+                  ⏱ Time Spent: {task.time_spent || (task.working_hours ? `${task.working_hours}h` : "00h 00m")}
+                </span>
               </div>
             </div>
           ))

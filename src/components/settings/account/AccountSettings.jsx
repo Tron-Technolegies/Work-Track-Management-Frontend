@@ -52,7 +52,7 @@ function AccountSettings() {
         profile_picture: d.profile_picture || null,
       });
       if (d.profile_picture) setPreviewUrl(d.profile_picture);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load account settings.");
     } finally {
       setLoading(false);
@@ -93,6 +93,12 @@ function AccountSettings() {
         setPreviewUrl(res.data.data.profile_picture);
       }
       setSelectedFile(null);
+      const currentUser = await api.get("admin_app/current_user/");
+      localStorage.setItem("user", JSON.stringify(currentUser.data));
+      localStorage.setItem("user_role", currentUser.data.role || "");
+      window.dispatchEvent(new CustomEvent("worktrack:profile-updated", {
+        detail: currentUser.data,
+      }));
     } catch (err) {
       const msg = err.response?.data?.error || "Failed to update profile.";
       toast.error(msg);

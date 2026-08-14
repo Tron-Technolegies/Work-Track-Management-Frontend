@@ -63,10 +63,14 @@
 /* table */
 .dashboard-table {
   width: 100%;
+  min-width: 720px;
+
   border-collapse: separate;
   border-spacing: 0 8px;
+
   background: transparent;
-  min-width: 720px;              /* so columns keep shape on small screens */
+
+  table-layout: fixed;
 }
 
 .dashboard-header-row {
@@ -81,6 +85,35 @@
   font-weight: 500;
   color: black;
   white-space: nowrap;
+}
+.dashboard-table th:nth-child(1),
+.dashboard-table td:nth-child(1) {
+  width: 20%;
+}
+
+.dashboard-table th:nth-child(2),
+.dashboard-table td:nth-child(2) {
+  width: 20%;
+}
+
+.dashboard-table th:nth-child(3),
+.dashboard-table td:nth-child(3) {
+  width: 15%;
+}
+
+.dashboard-table th:nth-child(4),
+.dashboard-table td:nth-child(4) {
+  width: 15%;
+}
+
+.dashboard-table th:nth-child(5),
+.dashboard-table td:nth-child(5) {
+  width: 15%;
+}
+
+.dashboard-table th:nth-child(6),
+.dashboard-table td:nth-child(6) {
+  width: 15%;
 }
 
 .dashboard-tr {
@@ -116,22 +149,43 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .avatar {
   width: 32px;
   height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+
   border-radius: 50%;
+  overflow: hidden;
+
   background: #ffe3e3;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
+
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: cover;
+  display: block;
 }
 
 .user-name {
+  min-width: 0;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* pills */
@@ -163,8 +217,8 @@
   color: #475569;
 }
 
-.status-pill.task-done {
-  background: rgba(34, 197, 94, 0.12);
+.status-pill.completed {
+  background: rgba(2, 226, 84, 0.12);
   color: #15803d;
 }
 
@@ -182,7 +236,317 @@
   background: rgba(96, 165, 250, 0.18);
   color: #1d4ed8;
 }
+.date-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6846e8;
+  font-size: 18px;
+}
+/* ==========================================
+   WORK DETAILS FILTERS
+========================================== */
 
+.workers-details-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+/* Filter group */
+
+.work-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* Label */
+
+.filter-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+
+/* ==========================================
+   STATUS SELECT
+========================================== */
+
+.status-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.work-status-select {
+  height: 38px;
+  min-width: 130px;
+
+  padding: 0 34px 0 12px;
+
+  border: 1px solid #dbe1ea;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #334155;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  outline: none;
+  cursor: pointer;
+
+  appearance: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.work-status-select:hover {
+  border-color: #c4b5fd;
+}
+
+.work-status-select:focus {
+  border-color: #6846e8;
+
+  box-shadow:
+    0 0 0 3px rgba(104, 70, 232, 0.08);
+}
+
+
+.select-arrow {
+  position: absolute;
+  right: 10px;
+
+  pointer-events: none;
+
+  color: #64748b;
+  font-size: 15px;
+}
+
+
+/* ==========================================
+   DATE FILTER
+========================================== */
+
+.date-filter-wrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.date-filter-icon {
+  position: absolute;
+  left: 11px;
+
+  color: #6846e8;
+  font-size: 16px;
+
+  pointer-events: none;
+}
+
+.work-date-input {
+  height: 38px;
+  width: 145px;
+
+  padding: 0 10px 0 34px;
+
+  border: 1px solid #dbe1ea;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #334155;
+
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+
+  outline: none;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.work-date-input:hover {
+  border-color: #c4b5fd;
+}
+
+.work-date-input:focus {
+  border-color: #6846e8;
+
+  box-shadow:
+    0 0 0 3px rgba(104, 70, 232, 0.08);
+}
+
+
+/* ==========================================
+   CLEAR FILTER BUTTON
+========================================== */
+
+.clear-work-filters {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #64748b;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.clear-work-filters:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+
+/* ==========================================
+   TIME SPENT
+========================================== */
+
+.time-spent {
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #475569;
+}
+
+
+/* ==========================================
+   NO TASKS
+========================================== */
+
+.no-tasks-message {
+  padding: 40px 20px !important;
+
+  text-align: center;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  background: #ffffff;
+}
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.workers-details-loading {
+  min-height: 300px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+
+/* ==========================================
+   EMPLOYEE NAME
+========================================== */
+
+.employee-name-link {
+  color: #334155;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.employee-name-link:hover {
+  color: #6846e8;
+  text-decoration: underline;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 900px) {
+
+  .wokers-details-all-title-box {
+    height: auto;
+
+    min-height: 55px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    flex-wrap: wrap;
+  }
+
+  .workers-details-right {
+    flex-wrap: wrap;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .wokers-details-all-title-box {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+
+  .workers-details-right {
+    width: 100%;
+  }
+
+  .work-filter {
+    flex: 1;
+  }
+
+  .work-status-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .work-date-input {
+    width: 100%;
+  }
+
+  .date-filter-wrapper,
+  .status-select-wrapper {
+    flex: 1;
+  }
+
+}
 /* ================= TABLET (<= 920px) ================= */
 @media (max-width: 920px) {
   .workers-details-all-container {

@@ -12,6 +12,7 @@ function IndividualProductivityPage() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("overview"); // overview, clock, apps, idle, screenshots
   const [selectedScreenshot, setSelectedScreenshot] = useState(null);
 
@@ -23,11 +24,17 @@ function IndividualProductivityPage() {
   const fetchEmployeeProductivity = async (userId) => {
     try {
       setLoading(true);
+      setError("");
       const res = await api.get(`admin_app/employees/${userId}/productivity/`);
       setData(res.data);
     } catch (err) {
       console.error("Failed to fetch employee productivity:", err);
-      toast.error("Failed to load individual productivity details");
+      const errMsg =
+        err.response?.data?.detail ||
+        err.response?.data?.error ||
+        "Failed to load individual productivity details";
+      setError(errMsg);
+      toast.error(errMsg);
     } finally {
       setLoading(false);
     }
@@ -37,6 +44,15 @@ function IndividualProductivityPage() {
     return (
       <div className="individual-productivity-page" style={{ padding: "40px" }}>
         <p>Loading employee tracking report...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="individual-productivity-page" style={{ padding: "40px", textAlign: "center" }}>
+        <h2 style={{ color: "#ef4444", marginBottom: "8px" }}>Access Denied</h2>
+        <p style={{ color: "#64748b" }}>{error}</p>
       </div>
     );
   }

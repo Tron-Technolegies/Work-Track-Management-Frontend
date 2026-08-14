@@ -10,75 +10,155 @@ import api from "../../../api/api";
 
 function UnfinishedTasks() {
   const navigate = useNavigate();
+
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchUnfinishedTasks();
+    fetchTasks();
   }, []);
 
-  const fetchUnfinishedTasks = async () => {
+  const fetchTasks = async () => {
     try {
-      const res = await api.get("admin_app/tasks/user/");
-      const list = res.data.tasks || res.data || [];
-      const unfinished = (Array.isArray(list) ? list : []).filter(
-        (t) => t.status !== "Completed"
+      setLoading(true);
+
+      const res = await api.get("admin_app/tasks/");
+
+      const list = Array.isArray(res.data?.tasks)
+        ? res.data.tasks
+        : [];
+
+      // Show only first 3 tasks
+      setTasks(list.slice(0, 3));
+
+    } catch (error) {
+      console.error(
+        "Failed to fetch tasks:",
+        error.response?.data || error
       );
-      setTasks(unfinished.slice(0, 4));
-    } catch (err) {
-      console.error("Error fetching unfinished tasks:", err);
+
+      setTasks([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "No due date";
+
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+    if (Number.isNaN(date.getTime())) {
+      return "No due date";
+    }
+
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  const getPriorityClass = (priority) => {
+    return (priority || "Medium")
+      .toLowerCase()
+      .trim();
   };
 
   return (
-    <div className="unfinished-card">
-      <div className="unfinished-header">
-        <h2>Unfinished Tasks</h2>
+    <div className="my-work-task-card">
 
-        <button className="unfinished-view-btn" onClick={() => navigate("/user/tasks")}>
+      {/* HEADER */}
+      <div className="my-work-task-header">
+
+        <h2>Tasks</h2>
+
+        <button
+          type="button"
+          className="my-work-task-view-btn"
+          onClick={() => navigate("/user/tasks")}
+          aria-label="View all tasks"
+        >
           <FiArrowRightCircle />
         </button>
+
       </div>
 
-      <div className="unfinished-list">
-        {tasks.length === 0 ? (
-          <p style={{ padding: "20px", color: "#94a3b8", textAlign: "center" }}>
-            No unfinished tasks
+      {/* TASK LIST */}
+      <div className="my-work-task-list">
+
+        {loading ? (
+
+          <p className="my-work-task-empty">
+            Loading tasks...
           </p>
+
+        ) : tasks.length === 0 ? (
+
+          <p className="my-work-task-empty">
+            No tasks assigned
+          </p>
+
         ) : (
+
           tasks.map((task) => (
-            <div className="unfinished-task-card" key={task.id}>
-              <div className="unfinished-top">
-                <h3>{task.task_name}</h3>
-                <p>Due: {formatDate(task.due_date)}</p>
+
+            <div
+              className="my-work-task-item"
+              key={task.id}
+            >
+
+              {/* TOP */}
+              <div className="my-work-task-top">
+
+                <h3 title={task.task_name}>
+                  {task.task_name || "Untitled Task"}
+                </h3>
+
+                <p>
+                  Due: {formatDate(task.due_date)}
+                </p>
+
               </div>
 
-              <div className="unfinished-bottom">
-                <span className={`priority-badge ${task.priority?.toLowerCase()}`}>
+              {/* BOTTOM */}
+              <div className="my-work-task-bottom">
+
+                <span
+                  className={`my-work-task-priority ${getPriorityClass(
+                    task.priority
+                  )}`}
+                >
                   {task.priority || "Medium"}
                 </span>
 
-                <div className="task-meta">
-                  <div className="meta-item">
+                <div className="my-work-task-meta">
+
+                  <div className="my-work-task-meta-item">
                     <FiMessageCircle />
-                    <span>0</span>
+                    <span>
+                      {task.comments_count || 0}
+                    </span>
                   </div>
 
-                  <div className="meta-item">
+                  <div className="my-work-task-meta-item">
                     <FiPaperclip />
-                    <span>{task.attachments ? 1 : 0}</span>
+                    <span>
+                      {task.attachments_count || 0}
+                    </span>
                   </div>
+
                 </div>
+
               </div>
+
             </div>
+
           ))
         )}
+
       </div>
+
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { FiFilter, FiUser, FiUsers, FiX } from "react-icons/fi";
 
 import "./EmployeesProductivity.css";
+import UserAvatar from "../../common/UserAvatar";
 
 const EmployeesProductivity = () => {
   const navigate = useNavigate();
@@ -73,8 +74,23 @@ const EmployeesProductivity = () => {
       }
 
       const res = await api.get(url);
-      const data = res.data.users || res.data || [];
-      setEmployees(Array.isArray(data) ? data : []);
+      // Backend returns { count, employees: [...] }
+      const raw = res.data?.employees || res.data?.users || res.data || [];
+      const list = Array.isArray(raw) ? raw : [];
+
+      // Normalise fields so the table always has `time` and `percent`
+      const normalised = list.map((emp) => {
+        const timeSpent = emp.time_spent || emp.time || "00h 00m";
+        // Parse hours and minutes for percent calculation (goal = 8h)
+        const match = timeSpent.match(/(\d+)h\s*(\d+)m/);
+        const totalMins = match
+          ? parseInt(match[1]) * 60 + parseInt(match[2])
+          : 0;
+        const percent = Math.min(Math.round((totalMins / 480) * 100), 100);
+        return { ...emp, time: timeSpent, percent };
+      });
+
+      setEmployees(normalised);
     } catch (err) {
       console.error("Error fetching productivity data:", err);
       toast.error("Failed to load employee productivity");
@@ -227,18 +243,19 @@ const EmployeesProductivity = () => {
                     onClick={() => handleRowClick(employee.id)}
                     style={{ cursor: "pointer" }}
                   >
-                    <td className="profile-td">
-                      <img
-                        src={employee.profile_picture || "/employee pic.svg"}
-                        alt={employee.name}
-                        style={{ width: "36px", height: "36px", borderRadius: "50%", objectFit: "cover" }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/employee pic.svg";
-                        }}
-                      />
-                      <span className="img-span">{employee.name}</span>
-                    </td>
+                <td className="profile-td">
+                    <div className="profile-content">
+                        <UserAvatar
+                            className="profile-img"
+                            src={employee.profile_picture}
+                            alt={employee.name}
+                        />
+
+                        <span className="img-span">
+                            {employee.name}
+                        </span>
+                    </div>
+                </td>
 
                     <td>{employee.email}</td>
 

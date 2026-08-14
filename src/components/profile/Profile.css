@@ -46,7 +46,21 @@
 .user-profile-img{
     width:150px;
     display:flex;
+    flex-direction:column;
     justify-content:center;
+    align-items:center;
+    gap:10px;
+}
+
+.profile-picture-button{
+    position:relative;
+    width:126px;
+    height:126px;
+    padding:0;
+    border:0;
+    border-radius:50%;
+    background:transparent;
+    cursor:pointer;
 }
 
 .user-profile-img img{
@@ -56,6 +70,44 @@
     object-fit:cover;
     background:#d9d9d9;
     border:3px solid #f3f4f6;
+}
+
+.profile-picture-overlay{
+    position:absolute;
+    right:0;
+    bottom:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:36px;
+    height:36px;
+    border:3px solid #fff;
+    border-radius:50%;
+    background:#8b5cf6;
+    color:#fff;
+}
+
+.profile-picture-input{
+    display:none;
+}
+
+.profile-picture-action{
+    border:0;
+    background:transparent;
+    color:#8b5cf6;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.profile-picture-action:hover{
+    text-decoration:underline;
+}
+
+.profile-picture-note{
+    color:#64748b;
+    font-size:12px;
+    text-align:center;
 }
 
 /* Right Side */
@@ -114,4 +166,15 @@
 
 .profile-save button:hover{
     background:#7c3aed;
+}
+
+@media (max-width: 700px){
+    .profile-form{
+        flex-direction:column;
+        gap:28px;
+    }
+
+    .user-profile-img{
+        width:100%;
+    }
 }

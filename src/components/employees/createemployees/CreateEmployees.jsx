@@ -4,10 +4,11 @@ import {
     FiEyeOff
 } from "react-icons/fi";
 
-import api from "../../../api/api";
+import api, { getErrorMessage } from "../../../api/api";
 import { toast } from "react-toastify";
 
 import "./CreateEmployees.css";
+import { FiX } from "react-icons/fi";
 
 function CreateEmployees({
     isModal,
@@ -20,7 +21,7 @@ function CreateEmployees({
     const [showPassword,setShowPassword] = useState(false);
 
     const [loading,setLoading] = useState(false);
-
+    const [showPasswordValidation, setShowPasswordValidation] = useState(false);
     const [formData,setFormData] = useState({
 
         first_name:"",
@@ -59,101 +60,148 @@ function CreateEmployees({
 
     };
 
-    const handleChange=(e)=>{
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
 
-        const {name,value,files}=e.target;
-
-        if(files){
-
-            setFormData({
-                ...formData,
-                profile_picture:files[0]
-            });
-
-        }else{
-
-            setFormData({
-                ...formData,
-                [name]:value
-            });
-
+        if (files) {
+            setFormData((prev) => ({
+                ...prev,
+                profile_picture: files[0],
+            }));
+            return;
         }
 
-    };
+        if (name === "mobile") {
+            const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
 
-    const handleSubmit=async(e)=>{
-
-        e.preventDefault();
-
-        if(formData.password!==formData.confirm_password){
-
-            toast.error("Passwords do not match");
+            setFormData((prev) => ({
+                ...prev,
+                mobile: digitsOnly,
+            }));
 
             return;
-
         }
 
-        try{
-
-            setLoading(true);
-
-            const data=new FormData();
-
-
-            data.append("first_name", formData.first_name);
-            data.append("last_name", formData.last_name);
-            data.append("email",formData.email);
-            data.append("mobile",formData.mobile);
-            data.append("password",formData.password);
-            data.append("role",formData.role);
-
-            if(formData.team){
-
-                data.append("team",formData.team);
-
-            }
-
-            if(formData.profile_picture){
-
-                data.append(
-                    "profile_picture",
-                    formData.profile_picture
-                );
-
-            }
-
-            const res=await api.post(
-
-                "admin_app/create-user/",
-                data
-
-            );
-
-            toast.success(res.data.message);
-
-            onSuccess();
-
-            onClose();
-
-        }
-
-        catch (err) {
-
-            console.log("Backend Error:", err.response?.data);
-
-            toast.error(
-                JSON.stringify(err.response?.data)
-            );
-
-        }
-
-        finally{
-
-            setLoading(false);
-
-        }
-
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
+    const passwordRules = {
+        minLength: formData.password.length >= 8,
+        upperCase: /[A-Z]/.test(formData.password),
+        lowerCase: /[a-z]/.test(formData.password),
+        number: /\d/.test(formData.password),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password),
+    };
+
+    const mobileRules = {
+        validLength: /^\d{10}$/.test(formData.mobile),
+        validStart: /^[6-9]/.test(formData.mobile),
+    };
+
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.first_name.trim()) {
+        toast.error("First name is required");
+        return;
+    }
+
+    if (!formData.last_name.trim()) {
+        toast.error("Last name is required");
+        return;
+    }
+
+    if (!formData.email.trim()) {
+        toast.error("Email address is required");
+        return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+        toast.error("Please enter a valid email address");
+        return;
+    }
+
+    if (!formData.mobile) {
+        toast.error("Mobile number is required");
+        return;
+    }
+
+    if (!mobileRules.validLength || !mobileRules.validStart) {
+        toast.error("Mobile number must be a valid 10-digit number starting with 6, 7, 8, or 9");
+        return;
+    }
+
+    if (!formData.password) {
+        toast.error("Password is required");
+        return;
+    }
+
+    if (formData.password !== formData.confirm_password) {
+        toast.error("Passwords do not match");
+        return;
+    }
+
+    setShowPasswordValidation(true);
+
+    const isPasswordValid =
+        passwordRules.minLength &&
+        passwordRules.upperCase &&
+        passwordRules.lowerCase &&
+        passwordRules.number &&
+        passwordRules.special;
+
+    if (!isPasswordValid) {
+        toast.error(
+            "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character."
+        );
+        return;
+    }
+
+    try {
+        setLoading(true);
+
+        const data = new FormData();
+
+        data.append("first_name", formData.first_name.trim());
+        data.append("last_name", formData.last_name.trim());
+        data.append("email", formData.email.trim());
+        data.append("mobile", formData.mobile);
+        data.append("password", formData.password);
+        data.append("role", formData.role);
+
+        if (formData.team) {
+            data.append("team", formData.team);
+        }
+
+        if (formData.profile_picture) {
+            data.append(
+                "profile_picture",
+                formData.profile_picture
+            );
+        }
+
+        const res = await api.post(
+            "admin_app/create-user/",
+            data
+        );
+
+        toast.success(
+            res.data?.message || "Employee created successfully"
+        );
+
+        onSuccess && onSuccess();
+        onClose && onClose();
+
+    } catch (err) {
+        console.log("Backend Error:", err.response?.data);
+        toast.error(getErrorMessage(err, "Failed to create employee"));
+
+    } finally {
+        setLoading(false);
+    }
+};
 
     return(
 
@@ -162,6 +210,14 @@ function CreateEmployees({
             <div className="employee-header">
 
                 <h2>Create Employee</h2>
+                    <button
+                        type="button"
+                        className="close-btn"
+                        onClick={onClose}
+                        aria-label="Close"
+                    >
+                        <FiX />
+                    </button>
 
             </div>
 
@@ -207,13 +263,27 @@ function CreateEmployees({
                     onChange={handleChange}
                 />
 
-                <label>Mobile</label>
+            <label>Mobile</label>
 
-                <input
-                    name="mobile"
-                    value={formData.mobile}
-                    onChange={handleChange}
-                />
+            <input
+                type="tel"
+                name="mobile"
+                value={formData.mobile}
+                onChange={handleChange}
+                placeholder="Enter 10-digit mobile number"
+            />
+
+            {formData.mobile && (
+                <div className="mobile-rules">
+                    <p className={mobileRules.validLength ? "valid" : "invalid"}>
+                        {mobileRules.validLength ? "✓" : "✗"} Must contain exactly 10 digits
+                    </p>
+
+                    <p className={mobileRules.validStart ? "valid" : "invalid"}>
+                        {mobileRules.validStart ? "✓" : "✗"} Must start with 6, 7, 8, or 9
+                    </p>
+                </div>
+            )}
 
                 <label>Role</label>
 
@@ -223,7 +293,7 @@ function CreateEmployees({
                     onChange={handleChange}
                 >
                     <option value="user">
-                        User
+                        Employee
                     </option>
 
                     <option value="project_lead">
@@ -283,6 +353,32 @@ function CreateEmployees({
                             :<FiEye/>
                         }
                     </span>
+
+                    {(showPasswordValidation || formData.password) && (
+                        <div className="password-rules">
+
+                            <p className={passwordRules.minLength ? "valid" : "invalid"}>
+                                {passwordRules.minLength ? "✓" : "✗"} Minimum 8 characters
+                            </p>
+
+                            <p className={passwordRules.upperCase ? "valid" : "invalid"}>
+                                {passwordRules.upperCase ? "✓" : "✗"} One uppercase letter
+                            </p>
+
+                            <p className={passwordRules.lowerCase ? "valid" : "invalid"}>
+                                {passwordRules.lowerCase ? "✓" : "✗"} One lowercase letter
+                            </p>
+
+                            <p className={passwordRules.number ? "valid" : "invalid"}>
+                                {passwordRules.number ? "✓" : "✗"} One number
+                            </p>
+
+                            <p className={passwordRules.special ? "valid" : "invalid"}>
+                                {passwordRules.special ? "✓" : "✗"} One special character
+                            </p>
+
+                        </div>
+                    )}
 
                 </div>
 

@@ -9,7 +9,7 @@ const OnboardingSteps = () => {
   const [usersCount, setUsersCount] = useState(0);
   const [teamsCount, setTeamsCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [dismissed, setDismissed] = useState(false);
+  // const [dismissed, setDismissed] = useState(false);
   const userRole = localStorage.getItem("user_role");
   const isAdmin = userRole === "admin" || userRole === "super_admin";
 
@@ -41,7 +41,7 @@ const OnboardingSteps = () => {
     }
   };
 
-  if (!isAdmin || dismissed || loading) return null;
+  // if (!isAdmin || dismissed || loading) return null;
 
   const hasUsers = usersCount > 1;
   const hasTeams = teamsCount > 0;
@@ -50,12 +50,12 @@ const OnboardingSteps = () => {
     <div className="onboarding-banner">
       <div className="onboarding-title-row">
         <div>
-          <h3>🚀 Welcome to WorkTrack Management!</h3>
+          <h3>  Welcome to WorkTrack Management!</h3>
           <p>Complete the setup workflow below to onboard your team and start tracking work.</p>
         </div>
-        <button className="dismiss-btn" onClick={() => setDismissed(true)}>
+        {/* <button className="dismiss-btn" onClick={() => setDismissed(true)}>
           Minimize
-        </button>
+        </button> */}
       </div>
 
       <div className="steps-grid">

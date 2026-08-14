@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../employees/createemployees/CreateEmployees.css";
 import { toast } from "react-toastify";
 import api from "../../../api/api";
+import { FiX } from "react-icons/fi";
 
 function EditTask({ task, onClose, onSuccess }) {
   const [loading, setLoading] = useState(false);
@@ -130,8 +131,11 @@ function EditTask({ task, onClose, onSuccess }) {
 
       const res = await api.post(`admin_app/tasks/${task.id}/update/`, payload);
 
-      toast.success(res.data?.message || "Task updated successfully!");
-      onSuccess && onSuccess();
+      toast.success(
+        res.data?.message || "Task updated successfully!"
+      );
+
+      onSuccess && onSuccess(res.data?.data);
       onClose && onClose();
     } catch (err) {
       toast.error(err.response?.data?.error || err.response?.data?.message || "Unable to update task");
@@ -144,6 +148,14 @@ function EditTask({ task, onClose, onSuccess }) {
     <div className="employee-card">
       <div className="employee-header">
         <h2>Edit Task</h2>
+            <button
+                type="button"
+                className="close-btn"
+                onClick={onClose}
+                aria-label="Close"
+            >
+                <FiX />
+            </button>
       </div>
 
       <form onSubmit={handleSubmit} className="employee-form">
@@ -201,7 +213,7 @@ function EditTask({ task, onClose, onSuccess }) {
               <option value="">Select Employee</option>
               {users.map((u) => (
                 <option key={u.id} value={u.id}>
-                  {u.first_name} {u.last_name} ({u.email})
+                  {u.first_name} {u.last_name}
                 </option>
               ))}
             </select>

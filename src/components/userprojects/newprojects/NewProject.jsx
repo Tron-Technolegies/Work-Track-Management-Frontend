@@ -1,8 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./NewProject.css";
 import { toast } from "react-toastify";
-import api from "../../../api/api";
+import api, { getErrorMessage } from "../../../api/api";
 import { useNavigate } from "react-router-dom";
+import {
+  FiX,
+  FiLink,
+  FiPaperclip,
+  FiExternalLink,
+  FiUpload
+} from "react-icons/fi";
 
 const NewProject = ({ isModal = false, onClose, onSuccess }) => {
   const navigate = useNavigate();
@@ -22,6 +29,7 @@ const NewProject = ({ isModal = false, onClose, onSuccess }) => {
   const [attachments, setAttachments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showLinkInput, setShowLinkInput] = useState(false);
+  const [showEmployeeDropdown, setShowEmployeeDropdown] = useState(false);
   const [users, setUsers] = useState([]);
   const fileInputRef = useRef(null);
   const [teams, setTeams] = useState([]);
@@ -87,15 +95,28 @@ const NewProject = ({ isModal = false, onClose, onSuccess }) => {
       est_hour
     } = formData;
 
-    if (
-      !project_name ||
-      !description ||
-      !team ||
-      assigned_to.length === 0 ||
-      !due_date ||
-      !est_hour
-    ) {
-      toast.error("Please fill all required fields");
+    if (!project_name.trim()) {
+      toast.error("Project Name is required");
+      return false;
+    }
+    if (!description.trim()) {
+      toast.error("Project Description is required");
+      return false;
+    }
+    if (!team) {
+      toast.error("Team selection is required");
+      return false;
+    }
+    if (!assigned_to || assigned_to.length === 0) {
+      toast.error("At least one assigned employee is required");
+      return false;
+    }
+    if (!due_date) {
+      toast.error("Due Date is required");
+      return false;
+    }
+    if (!est_hour) {
+      toast.error("Estimated Hours is required");
       return false;
     }
 
@@ -152,7 +173,7 @@ const NewProject = ({ isModal = false, onClose, onSuccess }) => {
         navigate("/user/project");
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || err.response?.data?.error || "Failed to initialize project");
+      toast.error(getErrorMessage(err, "Failed to initialize project"));
     } finally {
       setLoading(false);
     }
@@ -161,8 +182,18 @@ const NewProject = ({ isModal = false, onClose, onSuccess }) => {
   return (
     <div className="employee-card">
       <div className="employee-header">
-        <h2>Initialize New Project</h2>
-      </div>
+        <h2>Create New Project</h2>
+            {isModal && (
+                <button
+                    type="button"
+                    className="close-btn"
+                    onClick={onClose}
+                    aria-label="Close"
+                >
+                    <FiX />
+                </button>
+            )}
+              </div>
 
       <form onSubmit={handleSubmit} className="employee-form">
         <label>Project Name</label>
@@ -205,24 +236,94 @@ const NewProject = ({ isModal = false, onClose, onSuccess }) => {
           </div>
         </div>
 
-        <label>Assign Employees</label>
-        <select
-          multiple
-          value={formData.assigned_to}
-          onChange={(e) => {
-            const values = Array.from(
-              e.target.selectedOptions,
-              option => option.value
-            );
-            setFormData(prev => ({ ...prev, assigned_to: values }));
-          }}
-        >
-          {users.map(user => (
-            <option key={user.id} value={user.id}>
-              {user.first_name} {user.last_name} - {user.role}
-            </option>
-          ))}
-        </select>
+<label>Assign Employees</label>
+
+<div className="employee-multiselect">
+
+  <button
+    type="button"
+    className="employee-select-button"
+    onClick={() =>
+      setShowEmployeeDropdown(prev => !prev)
+    }
+  >
+    <span>
+      {formData.assigned_to.length === 0
+        ? "Select Employees"
+        : users
+            .filter(user =>
+              formData.assigned_to.includes(String(user.id))
+            )
+            .map(user =>
+              `${user.first_name} ${user.last_name}`
+            )
+            .join(", ")
+      }
+    </span>
+
+    <span className="dropdown-arrow">
+      {showEmployeeDropdown ? "▲" : "▼"}
+    </span>
+  </button>
+
+  {showEmployeeDropdown && (
+    <div className="employee-dropdown-menu">
+
+      {users.length === 0 ? (
+        <div className="employee-dropdown-empty">
+          No employees available
+        </div>
+      ) : (
+        users.map(user => {
+
+          const userId = String(user.id);
+
+          const isSelected =
+            formData.assigned_to.includes(userId);
+
+          return (
+            <label
+              key={user.id}
+              className="employee-dropdown-option"
+            >
+              <input
+                type="checkbox"
+                checked={isSelected}
+                onChange={() => {
+                  setFormData(prev => ({
+                    ...prev,
+                    assigned_to: isSelected
+                      ? prev.assigned_to.filter(
+                          id => id !== userId
+                        )
+                      : [
+                          ...prev.assigned_to,
+                          userId
+                        ]
+                  }));
+                }}
+              />
+
+              <span>
+                {user.first_name} {user.last_name}
+              </span>
+
+              {user.role && (
+                <small>
+                  {user.role === "project_lead"
+                    ? "Project Lead"
+                    : "Employee"}
+                </small>
+              )}
+            </label>
+          );
+        })
+      )}
+
+    </div>
+  )}
+
+</div>
 
         <div className="employee-grid">
           <div>
@@ -262,44 +363,83 @@ const NewProject = ({ isModal = false, onClose, onSuccess }) => {
             </select>
           </div>
 
-          <div>
-            <label>Resource Links & Attachments</label>
-            <div className="attachment-block">
-              <button
-                type="button"
-                className="project-attachment-link"
-                onClick={handleLinkIconClick}
-                title={formData.links ? "Open reference link" : "Add resource link"}
-              >
-                <img src="/link icon.svg" alt="link" className="icon-img" />
-              </button>
+          <div className="employee-grid">
+            <div>
+              <label>Resources</label>
 
-              {showLinkInput && (
+              <div className="resource-actions">
+
+                {/* Resource Link */}
+                <button
+                  type="button"
+                  className="resource-action-btn"
+                  onClick={handleLinkIconClick}
+                  title={
+                    formData.links
+                      ? "Open resource link"
+                      : "Add resource link"
+                  }
+                >
+                  <FiLink size={18} />
+
+                  <span>
+                    {formData.links
+                      ? "Resource Link"
+                      : "Add Link"}
+                  </span>
+
+                  {formData.links && (
+                    <FiExternalLink
+                      className="resource-external-icon"
+                      size={14}
+                    />
+                  )}
+                </button>
+
+
+                {/* Attachment */}
                 <input
-                  type="url"
-                  name="links"
-                  value={formData.links}
-                  placeholder="https://resource-link.com"
-                  onChange={handleChange}
-                  className="small-link-input"
+                  ref={fileInputRef}
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                  multiple
                 />
+
+                <button
+                  type="button"
+                  className="resource-action-btn"
+                  onClick={handleAttachmentClick}
+                  title="Attach files"
+                >
+                  <FiPaperclip size={18} />
+
+                  <span>
+                    Attach Files
+                  </span>
+                </button>
+
+              </div>
+
+
+              {/* Link Input */}
+              {showLinkInput && (
+                <div className="resource-link-input-wrapper">
+
+                  <FiLink size={16} />
+
+                  <input
+                    type="url"
+                    name="links"
+                    value={formData.links}
+                    placeholder="https://resource-link.com"
+                    onChange={handleChange}
+                    className="resource-link-input"
+                  />
+
+                </div>
               )}
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-                multiple
-              />
-              <button
-                type="button"
-                className="project-attachment-link"
-                onClick={handleAttachmentClick}
-                title="Attach documentation"
-              >
-                <img src="/link.svg" alt="attachment" className="icon-img" />
-              </button>
             </div>
           </div>
         </div>

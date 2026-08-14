@@ -1,8 +1,11 @@
 .project-container {
-  padding: 32px;
-  background-color: var(--bg-main);
-  min-height: calc(100vh - var(--navbar-height));
-  transition: var(--transition-standard);
+    position: relative;
+    padding: 32px;
+    background-color: var(--bg-main);
+    min-height: calc(100vh - var(--navbar-height));
+    box-sizing: border-box;
+    transition: var(--transition-standard);
+
 
 
 }
@@ -110,6 +113,7 @@
   font-size: 12px;
   color: var(--text-muted);
 }
+
 
 .project-Status {
   padding: 6px 12px;

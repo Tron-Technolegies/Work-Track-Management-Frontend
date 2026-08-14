@@ -13,12 +13,15 @@ function TaskCards() {
   }, []);
 
   const fetchTaskSummary = async () => {
+const fetchTaskSummary = async () => {
     try {
       const res = await api.get("admin_app/tasks/summary/");
+
       setCounts({
-        completed: res.data.completed_tasks || res.data.taskdone_tasks || 0,
-        pending: (res.data.pending_tasks || 0) + (res.data.todo_tasks || 0) + (res.data.inprogress_tasks || 0),
+        completed: res.data.completed_tasks || 0,
+        pending: res.data.unfinished_tasks || 0,
       });
+
     } catch (err) {
       console.error("Error fetching task summary:", err);
     }
@@ -53,5 +56,5 @@ function TaskCards() {
     </div>
   );
 }
-
+}
 export default TaskCards;

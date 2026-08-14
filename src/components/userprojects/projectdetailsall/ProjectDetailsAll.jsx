@@ -8,14 +8,18 @@ import "./ProjectDetailsAll.css";
 import { IoFilter } from "react-icons/io5";
 import { FaSort } from "react-icons/fa";
 
+
 import NewProjectModal from "../newprojects/NewProjectModal";
 import EditProjectModal from "../editproject/EditProjectModal";
+import ConfirmationModal from "../../confirmationmodal/ConfirmationModal";
 
 const ProjectDetailsAll = () => {
   const [projects, setProjects] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [deleteProject, setDeleteProject] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   // Filter & sort modes
   const [filterStatus, setFilterStatus] = useState("All");
@@ -77,23 +81,39 @@ const ProjectDetailsAll = () => {
     setSortMode(order[(order.indexOf(sortMode) + 1) % order.length]);
   };
 
-  const handleDelete = async (id) => {
-    if (!isAdmin) {
-      denyAction("delete this project");
-      return;
-    }
-    const confirmDelete = window.confirm("Are you sure you want to delete this project?");
-    if (!confirmDelete) return;
+    const handleDelete = async () => {
+        if (!deleteProject) return;
 
-    try {
-      const res = await api.delete(`admin_app/projects/${id}/delete/`);
-      toast.success(res.data?.message || "Project deleted successfully");
-      setProjects(prev => prev.filter(p => p.id !== id));
-    } catch (err) {
-      console.error(err);
-      toast.error(err.response?.data?.error || err.response?.data?.message || "Unable to delete project");
-    }
-  };
+        try {
+            setDeleting(true);
+
+            const res = await api.delete(
+                `admin_app/projects/${deleteProject.id}/delete/`
+            );
+
+            toast.success(
+                res.data?.message || "Project deleted successfully"
+            );
+
+            setProjects(prev =>
+                prev.filter(project => project.id !== deleteProject.id)
+            );
+
+            setDeleteProject(null);
+
+        } catch (err) {
+            console.error(err);
+
+            toast.error(
+                err.response?.data?.error ||
+                err.response?.data?.message ||
+                "Unable to delete project"
+            );
+
+        } finally {
+            setDeleting(false);
+        }
+    };
 
   const handleOpenEdit = (proj) => {
     if (!isAdmin) {
@@ -130,7 +150,7 @@ const ProjectDetailsAll = () => {
   }
 
   return (
-    <div className="users-table-container" style={{ padding: '32px' }}>
+    <div className="project-container" >
       {/* Header */}
       <div className="users-table-header">
         <h2>Projects</h2>
@@ -189,6 +209,18 @@ const ProjectDetailsAll = () => {
             project={selectedProject}
             onSuccess={fetchProjects}
           />
+          <ConfirmationModal
+            isOpen={!!deleteProject}
+            title="Delete Project"
+            message={
+                deleteProject
+                    ? `Are you sure you want to delete "${deleteProject.project_name}"? This action cannot be undone.`
+                    : ""
+            }
+            onConfirm={handleDelete}
+            onCancel={() => setDeleteProject(null)}
+            loading={deleting}
+        />
         </>
       )}
 
@@ -281,11 +313,11 @@ const ProjectDetailsAll = () => {
                     {/* Delete — admin only */}
                     {isAdmin ? (
                       <button
-                        className="icon-btn delete-btn"
-                        title="Delete Project"
-                        onClick={() => handleDelete(proj.id)}
+                          className="icon-btn delete-btn"
+                          title="Delete Project"
+                          onClick={() => setDeleteProject(proj)}
                       >
-                        <FiTrash2 />
+                          <FiTrash2 />
                       </button>
                     ) : (
                       <button

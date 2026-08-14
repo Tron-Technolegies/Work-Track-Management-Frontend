@@ -1,9 +1,16 @@
-.my-projects{
-    width:100%;
-    background:#F5EDF8;
-    border-radius:18px;
-    padding:24px;
-    box-sizing:border-box;
+.my-projects {
+  width: 100%;
+  height: 100%;
+
+  background: #F5EDF8;
+  border-radius: 18px;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header */
@@ -41,10 +48,12 @@
 
 /* List */
 
-.projects-list{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  flex: 1;
 }
 
 /* Card */

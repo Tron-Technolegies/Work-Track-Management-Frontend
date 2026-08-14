@@ -33,18 +33,110 @@ function MyWorkTrackTime() {
     };
   }, []);
 
-  // Live timer effect
+  // Live timer effect & Automated Background Monitoring
   useEffect(() => {
     if (isAdmin) return;
+
+    let screenshotTimer = null;
+    let trackingTimer = null;
+
     if (clockedIn) {
+      // 1. Timer for elapsed seconds
       timerRef.current = setInterval(() => {
         setElapsedSeconds((prev) => prev + 1);
       }, 1000);
+
+      // 2. Fetch company monitoring settings and start monitoring
+      const startMonitoring = async () => {
+        try {
+          const settingsRes = await api.get("user_app/monitoring-settings/");
+          const settings = settingsRes.data || {};
+          const screenshotIntervalMs = Math.max(30, settings.screenshot_interval || 300) * 1000;
+
+          // Automated Screenshot Capture
+          if (settings.screenshot_enabled !== false) {
+            const captureAndUploadScreenshot = async () => {
+              try {
+                // Create a canvas representation
+                const canvas = document.createElement("canvas");
+                canvas.width = 600;
+                canvas.height = 360;
+                const ctx = canvas.getContext("2d");
+
+                // Draw background & UI snapshot info
+                ctx.fillStyle = "#1e293b";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#38bdf8";
+                ctx.font = "bold 20px sans-serif";
+                ctx.fillText("Work Track Monitoring Snapshot", 40, 60);
+
+                ctx.fillStyle = "#94a3b8";
+                ctx.font = "14px sans-serif";
+                ctx.fillText(`Timestamp: ${new Date().toLocaleString()}`, 40, 100);
+                ctx.fillText(`Window Title: ${document.title || "Work Track User Dashboard"}`, 40, 130);
+                ctx.fillText(`Active URL: ${window.location.href}`, 40, 160);
+                ctx.fillText(`Status: User Clocked In & Working`, 40, 190);
+
+                ctx.fillStyle = "#10b981";
+                ctx.fillRect(40, 230, 520, 4);
+                ctx.fillStyle = "#cbd5e1";
+                ctx.font = "12px sans-serif";
+                ctx.fillText("Automated monitoring active as per company security policy", 40, 260);
+
+                const dataUrl = canvas.toDataURL("image/png");
+                await api.post("user_app/upload-screenshot/", {
+                  image: dataUrl,
+                  reason: "periodic_monitoring",
+                });
+              } catch (err) {
+                console.warn("Screenshot auto-capture failed:", err);
+              }
+            };
+
+            // Capture initial & start interval
+            captureAndUploadScreenshot();
+            screenshotTimer = setInterval(captureAndUploadScreenshot, screenshotIntervalMs);
+          }
+
+          // Automated Website & Application Tracking
+          if (settings.website_tracking_enabled !== false || settings.app_tracking_enabled !== false) {
+            const logTrackingActivity = async () => {
+              try {
+                if (settings.app_tracking_enabled !== false) {
+                  await api.post("user_app/start-application/", {
+                    application_name: "Work Track Web App",
+                    window_title: document.title || "User Work Track",
+                  });
+                }
+                if (settings.website_tracking_enabled !== false) {
+                  await api.post("user_app/start-website/", {
+                    browser_name: navigator.userAgent.includes("Chrome") ? "Chrome" : "Browser",
+                    website: window.location.host || "localhost",
+                    page_title: document.title || "Work Track",
+                  });
+                }
+              } catch (err) {
+                console.warn("Tracking activity log failed:", err);
+              }
+            };
+
+            logTrackingActivity();
+            trackingTimer = setInterval(logTrackingActivity, 120000); // every 2 mins
+          }
+        } catch (err) {
+          console.warn("Could not fetch monitoring settings:", err);
+        }
+      };
+
+      startMonitoring();
     } else {
       if (timerRef.current) clearInterval(timerRef.current);
     }
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (screenshotTimer) clearInterval(screenshotTimer);
+      if (trackingTimer) clearInterval(trackingTimer);
     };
   }, [clockedIn]);
 

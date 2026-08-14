@@ -4,6 +4,7 @@ import api from "../../api/api";
 import "./Employees.css";
 import CreateEmployeeModal from "./createemployees/CreateEmployeeModal";
 import EditEmployeeModal from "./editemployee/EditEmployeeModal";
+import ConfirmationModal from "../confirmationmodal/ConfirmationModal";
 import { toast } from "react-toastify";
 
 function Employees() {
@@ -14,6 +15,8 @@ function Employees() {
   const [resetModalUser, setResetModalUser] = useState(null);
   const [newPassword, setNewPassword] = useState("");
   const [resetting, setResetting] = useState(false);
+  const [deleteUser, setDeleteUser] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const getUsers = async () => {
     try {
@@ -28,18 +31,18 @@ function Employees() {
     getUsers();
   }, []);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Delete this employee?");
-    if (!confirmDelete) return;
+  // const handleDelete = async (id) => {
+  //   const confirmDelete = window.confirm("Delete this employee?");
+  //   if (!confirmDelete) return;
 
-    try {
-      const res = await api.delete(`admin_app/users/${id}/delete/`);
-      toast.success(res.data?.message || "Employee deleted successfully");
-      getUsers();
-    } catch (err) {
-      toast.error(err.response?.data?.error || "Unable to delete employee");
-    }
-  };
+  //   try {
+  //     const res = await api.delete(`admin_app/users/${id}/delete/`);
+  //     toast.success(res.data?.message || "Employee deleted successfully");
+  //     getUsers();
+  //   } catch (err) {
+  //     toast.error(err.response?.data?.error || "Unable to delete employee");
+  //   }
+  // };
 
   const handleExportExcel = async () => {
     try {
@@ -100,10 +103,38 @@ function Employees() {
     }
   };
 
+
+  const handleDelete = async () => {
+    if (!deleteUser) return;
+
+    try {
+        setDeleting(true);
+
+        const res = await api.delete(
+            `admin_app/users/${deleteUser.id}/delete/`
+        );
+
+        toast.success(
+            res.data?.message || "Employee deleted successfully"
+        );
+
+        setDeleteUser(null);
+        getUsers();
+
+    } catch (err) {
+        toast.error(
+            err.response?.data?.error ||
+            "Unable to delete employee"
+        );
+    } finally {
+        setDeleting(false);
+    }
+};
+
   return (
     <div className="users-table-container">
       <div className="users-table-header">
-        <h2>Users & Employees</h2>
+        <h2>Employees</h2>
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <button
@@ -142,6 +173,22 @@ function Employees() {
         user={selectedUser}
         onSuccess={getUsers}
       />
+      <ConfirmationModal
+        isOpen={!!deleteUser}
+        title="Delete Employee"
+        message={
+            deleteUser
+                ? `Are you sure you want to delete ${
+                      deleteUser.first_name ||
+                      deleteUser.username ||
+                      "this employee"
+                  }? This action cannot be undone.`
+                : ""
+        }
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteUser(null)}
+        loading={deleting}
+    />
 
       {/* Reset Password Modal */}
       {resetModalUser && (
@@ -233,9 +280,11 @@ function Employees() {
         <table className="users-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>User</th>
               <th>First Name</th>
               <th>Last Name</th>
+              <th>Role</th>
               <th>Team</th>
               <th>Email</th>
               <th>Mobile</th>
@@ -246,36 +295,95 @@ function Employees() {
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan="7" className="empty-row">
+                <td colSpan="9" className="empty-row">
                   No Users Found
                 </td>
               </tr>
             ) : (
-              users.map((user) => (
+              users.map((user, index) => (
                 <tr key={user.id}>
+
+                  {/* ID */}
                   <td>
-                    <div className="user-info">
+                    {index + 1}
+                  </td>
+
+                  {/* EMPLOYEE */}
+                  <td>
+                    <div className="employee-info">
+
                       {user.profile_picture ? (
                         <img
                           src={user.profile_picture}
-                          alt={user.first_name}
+                          alt={user.first_name || "Employee"}
                           className="user-avatar"
                         />
                       ) : (
                         <div className="avatar-placeholder">
-                          {user.first_name?.charAt(0)}
+                          {user.first_name?.charAt(0)?.toUpperCase() ||
+                            user.username?.charAt(0)?.toUpperCase() ||
+                            "E"}
                         </div>
                       )}
+
+                      <div className="employee-name-wrapper">
+                        <span className="employee-name">
+                          {`${user.first_name || ""} ${user.last_name || ""}`.trim() ||
+                            user.username ||
+                            "Employee"}
+                        </span>
+{/* 
+                        <span className="employee-username">
+                          {user.username || user.email || ""}
+                        </span> */}
+                      </div>
+
                     </div>
                   </td>
 
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>{user.team_name || "-"}</td>
-                  <td>{user.email}</td>
-                  <td>{user.mobile}</td>
+                  {/* FIRST NAME */}
+                  <td>
+                    {user.first_name || "-"}
+                  </td>
 
+                  {/* LAST NAME */}
+                  <td>
+                    {user.last_name || "-"}
+                  </td>
+
+                  {/* ROLE */}
+                  <td>
+                    <span
+                      className={`role-badge ${
+                        user.role?.toLowerCase() === "project_lead"
+                          ? "project-lead"
+                          : "employee"
+                      }`}
+                    >
+                      {user.role?.toLowerCase() === "project_lead"
+                        ? "Project Lead"
+                        : "Employee"}
+                    </span>
+                  </td>
+
+                  {/* TEAM */}
+                  <td>
+                    {user.team_name || "-"}
+                  </td>
+
+                  {/* EMAIL */}
+                  <td>
+                    {user.email || "-"}
+                  </td>
+
+                  {/* MOBILE */}
+                  <td>
+                    {user.mobile || "-"}
+                  </td>
+
+                  {/* ACTION */}
                   <td className="action-cell">
+
                     <button
                       className="icon-btn edit-btn"
                       title="Edit Employee"
@@ -288,22 +396,15 @@ function Employees() {
                     </button>
 
                     <button
-                      className="icon-btn"
-                      title="Reset Password"
-                      style={{ color: "#f59e0b", background: "rgba(245,158,11,0.1)" }}
-                      onClick={() => setResetModalUser(user)}
-                    >
-                      <FiKey />
-                    </button>
-
-                    <button
                       className="icon-btn delete-btn"
                       title="Delete Employee"
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => setDeleteUser(user)}
                     >
                       <FiTrash2 />
                     </button>
+
                   </td>
+
                 </tr>
               ))
             )}

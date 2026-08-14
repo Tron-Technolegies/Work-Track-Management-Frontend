@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Teams.css";
-import api from "../../api/api";
+import api, { getErrorMessage } from "../../api/api";
 import { toast } from "react-toastify";
 import { FiPlus, FiEdit2, FiTrash2, FiUserCheck, FiUsers, FiX } from "react-icons/fi";
-
+import ConfirmationModal from "../confirmationmodal/ConfirmationModal";
 const Teams = () => {
   const [teams, setTeams] = useState([]);
   const [teamLeads, setTeamLeads] = useState([]);
@@ -12,6 +12,8 @@ const Teams = () => {
   const [editingTeam, setEditingTeam] = useState(null);
   const userRole = localStorage.getItem("user_role");
   const isAdmin = userRole === "admin" || userRole === "super_admin";
+  const [deleteTeam, setDeleteTeam] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const [formData, setFormData] = useState({
     team_name: "",
@@ -93,88 +95,89 @@ const Teams = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-      e.preventDefault();
+        if (!formData.team_name.trim()) {
+            toast.error("Team Name is required");
+            return;
+        }
 
-      try {
+        try {
+            setSubmitting(true);
 
-          setSubmitting(true);
+            const payload = {
+                team_name: formData.team_name.trim(),
+                description: formData.description,
+                status: formData.status,
+                team_lead: formData.team_lead || null,
+            };
 
-          const payload = {
+            if (editingTeam) {
 
-              team_name: formData.team_name.trim(),
+                const res = await api.put(
+                    `admin_app/update-team/${editingTeam.id}/`,
+                    payload
+                );
 
-              description: formData.description,
+                toast.success(
+                    res.data?.message || "Team updated successfully"
+                );
 
-              status: formData.status,
+            } else {
 
-              team_lead: formData.team_lead || null,
+                const res = await api.post(
+                    "admin_app/create-team/",
+                    payload
+                );
 
-          };
+                toast.success(
+                    res.data?.message || "Team created successfully"
+                );
+            }
 
-          if (editingTeam) {
-              const res = await api.put(
-                  `admin_app/update-team/${editingTeam.id}/`,
-                  payload
-              );
-              toast.success(res.data.message);
-          }
+            // Get the latest data from backend
+            await fetchTeams();
 
-          else {
-              const res = await api.post(
-                  "admin_app/create-team/",
-                  payload
-              );
+            // Close modal only after the list is updated
+            handleCloseModal();
 
-              toast.success(res.data.message);
+        } catch (err) {
+            console.error("Team save error:", err);
+            toast.error(getErrorMessage(err, "Unable to save team."));
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
-              setTeams((prev) => [
-                  ...prev,
-                  res.data.data,
-              ]);
-          }
+    const handleDeleteTeam = async () => {
+        if (!deleteTeam) return;
 
-          handleCloseModal();
+        try {
+            setDeleting(true);
 
-      }
+            const res = await api.delete(
+                `admin_app/delete-team/${deleteTeam.id}/`
+            );
 
-      catch(err){
+            toast.success(
+                res.data?.message || "Team deleted successfully"
+            );
 
-          toast.error(
+            setDeleteTeam(null);
+            fetchTeams();
 
-              err.response?.data?.error ||
+        } catch (err) {
+            const msg =
+                err.response?.data?.error ||
+                "Failed to delete team";
 
-              "Unable to save team."
+            toast.error(msg);
 
-          );
-
-      }
-
-      finally{
-
-          setSubmitting(false);
-
-      }
-
-  };
-
-  const handleDeleteTeam = async (id) => {
-    if (!isAdmin) {
-      toast.error("Only Admins can delete teams");
-      return;
-    }
-    if (!window.confirm("Are you sure you want to delete this team?")) return;
-
-    try {
-      const res = await api.delete(`admin_app/delete-team/${id}/`);
-      toast.success(res.data?.message || "Team deleted successfully");
-      fetchTeams();
-    } catch (err) {
-      const msg = err.response?.data?.error || "Failed to delete team";
-      toast.error(msg);
-    }
-  };
+        } finally {
+            setDeleting(false);
+        }
+    };
 
   return (
     <div className="teams-page">
@@ -235,13 +238,13 @@ const Teams = () => {
                   >
                     <FiEdit2 size={16} />
                   </button>
-                  <button
-                    className="action-icon-btn delete"
-                    title="Delete Team"
-                    onClick={() => handleDeleteTeam(team.id)}
-                  >
-                    <FiTrash2 size={16} />
-                  </button>
+              <button
+                  className="action-icon-btn delete"
+                  title="Delete Team"
+                  onClick={() => setDeleteTeam(team)}
+              >
+                  <FiTrash2 size={16} />
+              </button>
                 </div>
               )}
             </div>
@@ -251,8 +254,8 @@ const Teams = () => {
 
       {/* CREATE / EDIT TEAM MODAL */}
       {isModalOpen && (
-        <div className="teams-modal-overlay" onClick={handleCloseModal}>
-          <div className="teams-modal-card" onClick={(e) => e.stopPropagation()}>
+        <div className="teams-modal-overlay" >
+          <div className="teams-modal-card" >
             <div className="teams-modal-header">
               <h3>{editingTeam ? "Edit Team" : "Create New Team"}</h3>
               <button className="close-btn" onClick={handleCloseModal}>
@@ -331,6 +334,18 @@ const Teams = () => {
           </div>
         </div>
       )}
+      <ConfirmationModal
+    isOpen={!!deleteTeam}
+    title="Delete Team"
+    message={
+        deleteTeam
+            ? `Are you sure you want to delete "${deleteTeam.team_name}"? This action cannot be undone.`
+            : ""
+    }
+    onConfirm={handleDeleteTeam}
+    onCancel={() => setDeleteTeam(null)}
+    loading={deleting}
+/>
     </div>
   );
 };

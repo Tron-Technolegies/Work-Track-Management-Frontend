@@ -136,6 +136,28 @@
     font-size:16px;
     color:#222;
 }
+.project-details-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.view-all-projects-btn {
+    border: none;
+    background: #8b2fd6;
+    color: #ffffff;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.view-all-projects-btn:hover {
+    background: #7020b5;
+    transform: translateY(-1px);
+}
 
 /* Tablet */
 

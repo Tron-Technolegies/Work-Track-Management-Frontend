@@ -1,12 +1,15 @@
 .graph-card {
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   background: var(--bg-card);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-standard);
+  border-radius:15px;
   padding: 24px;
   box-shadow: var(--shadow-soft);
   transition: var(--transition-standard);
   animation: slideUp 0.5s ease-out forwards;
+  
 }
 
 .graph-card:hover {
@@ -40,8 +43,8 @@
 
 .graph-body {
   display: flex;
-  gap: 16px;
-  min-height: 240px;
+  gap: 20px;
+  min-height: 350px;
 }
 
 .graph-yaxis {
@@ -62,10 +65,8 @@
 .graph-plot {
   position: relative;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 240px;
+  min-width: 0;
+  height: 350px;
 }
 
 .graph-grid {
@@ -106,7 +107,7 @@
 
 .graph-bar-viewport {
   width: 100%;
-  max-width: 40px;
+  max-width: 55px;
   height: 100%;
   background-color: var(--bg-main);
   border-radius: 6px;

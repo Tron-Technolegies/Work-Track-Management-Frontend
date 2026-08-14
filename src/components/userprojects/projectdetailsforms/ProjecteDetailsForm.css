@@ -18,6 +18,10 @@
   display: flex;
   gap: 32px;
 }
+.project-attachment-link.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 
 .project-detail-leftform,
 .project-detail-rightform {
@@ -163,4 +167,40 @@
   .project-detail-container {
     flex-direction: column;
   }
+}
+.project-attachment-link {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: white;
+  border: 1px solid #ded7e2;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  color: #7e22ce;
+
+  transition: 0.2s ease;
+}
+
+.project-attachment-link svg {
+  width: 21px;
+  height: 21px;
+  stroke-width: 2;
+}
+
+.project-attachment-link:hover {
+  background-color: #f5edfa;
+  border-color: #a855f7;
+  transform: translateY(-2px);
+}
+
+.project-attachment-link.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
 }

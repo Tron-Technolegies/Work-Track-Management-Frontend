@@ -21,8 +21,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email || !formData.password) {
-      toast.error("Please fill both fields");
+    const email = formData.email.trim().toLowerCase();
+    const password = formData.password;
+
+    if (!email || !password) {
+      toast.error("Please fill all fields");
       return;
     }
 
@@ -33,10 +36,15 @@ const Login = () => {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
       localStorage.removeItem("user");
+      localStorage.removeItem("user_role");
+      localStorage.removeItem("user_id");
 
       const res = await api.post(
         "/admin_app/login/",
-        formData,
+        {
+          email,
+          password,
+        },
         { skipAuth: true }
       );
 
@@ -62,9 +70,10 @@ const Login = () => {
       const msg =
         err.response?.data?.error ||
         err.response?.data?.detail ||
-        "Login failed";
+        "Invalid email or password.";
 
       toast.error(msg);
+
     } finally {
       setLoading(false);
     }
@@ -153,9 +162,9 @@ const Login = () => {
 
               </form>
 
-              <Link className="forgot-link">
+              {/* <Link className="forgot-link">
                   Forgot Password?
-              </Link>
+              </Link> */}
 
               <div className="divider"></div>
 

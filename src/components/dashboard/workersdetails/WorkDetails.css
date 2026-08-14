@@ -1,7 +1,7 @@
 .work-detail-container {
   background: var(--bg-card);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-standard);
+  border-radius: 15px;
   padding: 24px;
   box-shadow: var(--shadow-soft);
   transition: var(--transition-standard);
