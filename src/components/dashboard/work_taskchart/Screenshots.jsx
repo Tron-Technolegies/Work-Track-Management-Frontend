@@ -18,30 +18,30 @@ function Screenshots() {
     return () => clearInterval(interval);
   }, []);
 
-const fetchScreenshots = async () => {
-  try {
-    setLoading(true);
+  const fetchScreenshots = async () => {
+    try {
+      setLoading(true);
 
-    const role = localStorage.getItem("role");
+      const role = localStorage.getItem("user_role");
 
-    const endpoint =
-      role === "admin" || role === "super_admin"
-        ? "admin_app/screenshots/"
-        : "user_app/my-screenshots/";
+      const endpoint =
+        role === "admin" || role === "super_admin"
+          ? "admin_app/screenshots/"
+          : "user_app/my-screenshots/";
 
-    const res = await api.get(endpoint);
+      const res = await api.get(endpoint);
 
-    const list = Array.isArray(res.data)
-      ? res.data
-      : res.data?.results || [];
+      const list = Array.isArray(res.data)
+        ? res.data
+        : res.data?.results || [];
 
-    setScreenshots(list);
-  } catch (err) {
-    console.error("Failed to load screenshots:", err);
-  } finally {
-    setLoading(false);
-  }
-};
+      setScreenshots(list);
+    } catch (err) {
+      console.error("Failed to load screenshots:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const formatTime = (capturedAt) => {
     if (!capturedAt) return "-";
