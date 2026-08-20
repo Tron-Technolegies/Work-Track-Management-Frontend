@@ -1,10 +1,10 @@
 import React from "react";
-import { Outlet,useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import UserSidebarPage from "../../pages/UserSidebarPage";
 import "./LayoutUser.css";
 import UserNavbar from "../usernavbar/UserNavbar";
 import LeaveSidebar from "../leavesidebar/LeaveSidebar";
-
+import GlobalMonitoringTracker from "../common/GlobalMonitoringTracker";
 
 const LayoutUser = () => {
   const location = useLocation();
@@ -12,6 +12,7 @@ const LayoutUser = () => {
   const showLeaveSidebar = location.pathname.startsWith("/user/leave");
   return (
     <div className="user-layout">
+      <GlobalMonitoringTracker />
       <UserNavbar />
 
       <div className="layout-body">

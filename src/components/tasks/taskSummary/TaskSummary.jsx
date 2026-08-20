@@ -90,6 +90,22 @@ const TaskSummary = () => {
 
   useEffect(() => {
     fetchTasks(selectedDate);
+
+    const handleTaskRefresh = () => {
+      fetchTasks(selectedDate);
+    };
+
+    window.addEventListener("task-created", handleTaskRefresh);
+    window.addEventListener("task-updated", handleTaskRefresh);
+    window.addEventListener("task-status-updated", handleTaskRefresh);
+    window.addEventListener("task-deleted", handleTaskRefresh);
+
+    return () => {
+      window.removeEventListener("task-created", handleTaskRefresh);
+      window.removeEventListener("task-updated", handleTaskRefresh);
+      window.removeEventListener("task-status-updated", handleTaskRefresh);
+      window.removeEventListener("task-deleted", handleTaskRefresh);
+    };
   }, [selectedDate]);
 
   const formatDate = (dateStr) => {
@@ -115,6 +131,9 @@ const TaskSummary = () => {
             );
 
             toast.success("Task deleted successfully");
+
+            window.dispatchEvent(new Event("task-deleted"));
+            window.dispatchEvent(new Event("task-status-updated"));
 
             setDeleteTask(null);
 
@@ -151,8 +170,23 @@ const TaskSummary = () => {
     return String(assigned);
   };
 
+  const CustomDateInput = React.forwardRef(({ onClick }, ref) => (
+    <button
+      type="button"
+      className="task-calendar-filter-btn"
+      onClick={onClick}
+      ref={ref}
+      title="Filter tasks by date"
+    >
+      <span className="task-selected-day">
+        {formatDisplayDate(selectedDate)}
+      </span>
+      <SlCalender className="task-calendar-icon" />
+    </button>
+  ));
+
   return (
-    <div className="users-table-container" style={{ padding: "0 32px 32px 32px" }}>
+    <div className="task-summary-section">
       <EditTaskModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
@@ -160,63 +194,54 @@ const TaskSummary = () => {
         onSuccess={() => fetchTasks(selectedDate)}
       />
       <ConfirmationModal
-            isOpen={!!deleteTask}
-            title="Delete Task"
-            message={
-                deleteTask
-                    ? `Are you sure you want to delete "${deleteTask.task_name}"? This action cannot be undone.`
-                    : ""
-            }
-            onConfirm={handleDeleteTask}
-            onCancel={() => setDeleteTask(null)}
-            loading={deleting}
-        />
+        isOpen={!!deleteTask}
+        title="Delete Task"
+        message={
+          deleteTask
+            ? `Are you sure you want to delete "${deleteTask.task_name}"? This action cannot be undone.`
+            : ""
+        }
+        onConfirm={handleDeleteTask}
+        onCancel={() => setDeleteTask(null)}
+        loading={deleting}
+      />
 
-      <div className="users-table-header" style={{ marginBottom: "20px" }}>
+      <div className="task-summary-header">
         <h2>Task Summary</h2>
 
-        <div className="task-top-bar-actions" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <div className="task-current-day-badge" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span className="task-selected-day">
-              {formatDisplayDate(selectedDate)}
-            </span>
+        <div className="task-top-bar-actions">
+          <div className="task-current-day-badge">
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              customInput={<CustomDateInput />}
+              popperPlacement="bottom-end"
+              popperClassName="task-datepicker-popper"
+              popperModifiers={[
+                {
+                  name: "offset",
+                  options: {
+                    offset: [0, 8],
+                  },
+                },
+              ]}
+            />
 
             {selectedDate && (
               <button
                 type="button"
                 onClick={() => setSelectedDate(null)}
                 title="Clear date filter"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "#ef4444",
-                  display: "flex",
-                  alignItems: "center"
-                }}
+                className="task-clear-date-btn"
               >
-                <FiX size={16} />
+                <FiX size={15} />
               </button>
             )}
-
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              customInput={
-                // <img
-                //   src="/Day filter.svg"
-                //   alt="calendar"
-                //   className="task-calendar-icon"
-                //   style={{ cursor: "pointer" }}
-                // />
-                <SlCalender style={{ cursor: "pointer" }} />
-              }
-            />
           </div>
         </div>
       </div>
 
-      <div className="users-table-wrapper">
+      <div className="task-table-wrapper">
         <table className="users-table">
           <thead>
             <tr>

@@ -50,8 +50,12 @@ const NewProject = ({ isModal = false, onClose, onSuccess }) => {
 
   const fetchTeams = async () => {
     try {
-      const res = await api.get("admin_app/view-teams/");
-      setTeams(res.data.data || res.data);
+      const res = await api.get("admin_app/active-teams/");
+      const data = res.data?.data || res.data || [];
+      const activeTeams = Array.isArray(data)
+        ? data.filter(t => (t.status || "").toLowerCase() === "active")
+        : [];
+      setTeams(activeTeams);
     } catch {
       toast.error("Failed to load teams");
     }

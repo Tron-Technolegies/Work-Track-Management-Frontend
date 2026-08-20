@@ -79,11 +79,12 @@ function UserNavbar() {
     .filter(Boolean)
     .join(" ") || currentUser.name || currentUser.username || currentUser.email || "User";
   const displayRole = {
-    user: "User",
+    user: "Employee",
+    employee: "Employee",
     admin: "Admin",
     super_admin: "Admin",
     project_lead: "Project Lead",
-  }[currentUser.role] || currentUser.role || "User";
+  }[currentUser.role?.toLowerCase()] || currentUser.role || "Employee";
 
   // Fetch employee name if on individual productivity page
   useEffect(() => {
@@ -316,7 +317,13 @@ function UserNavbar() {
                               <div className="item-sub">{emp.email}</div>
                             </div>
                           </div>
-                          <span className="item-badge emp-badge">{emp.role}</span>
+                          <span className="item-badge emp-badge">
+                            {emp.role?.toLowerCase() === "project_lead"
+                              ? "Project Lead"
+                              : emp.role?.toLowerCase() === "admin" || emp.role?.toLowerCase() === "super_admin"
+                              ? "Admin"
+                              : "Employee"}
+                          </span>
                         </div>
                       ))}
                     </div>

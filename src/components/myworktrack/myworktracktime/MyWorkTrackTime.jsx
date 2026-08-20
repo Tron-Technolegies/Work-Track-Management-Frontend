@@ -36,71 +36,30 @@ function MyWorkTrackTime() {
   // Live timer effect & Automated Background Monitoring
   useEffect(() => {
     if (isAdmin) return;
-
-    let screenshotTimer = null;
     let trackingTimer = null;
 
     if (clockedIn) {
-      // 1. Timer for elapsed seconds
+      // 1. Live second-by-second timer
       timerRef.current = setInterval(() => {
-        setElapsedSeconds((prev) => prev + 1);
+        if (isOnBreak) {
+          // Increment Break Time while on break
+          setBreakSeconds((prev) => prev + 1);
+        } else {
+          // Increment Focus / Working Time while working
+          setElapsedSeconds((prev) => prev + 1);
+        }
       }, 1000);
 
-      // 2. Fetch company monitoring settings and start monitoring
+      // 2. Fetch company monitoring settings and start monitoring (only when not on break)
       const startMonitoring = async () => {
+        if (isOnBreak) return;
         try {
           const settingsRes = await api.get("user_app/monitoring-settings/");
           const settings = settingsRes.data || {};
-          const screenshotIntervalMs = Math.max(30, settings.screenshot_interval || 300) * 1000;
-
-          // Automated Screenshot Capture
-          if (settings.screenshot_enabled !== false) {
-            const captureAndUploadScreenshot = async () => {
-              try {
-                // Create a canvas representation
-                const canvas = document.createElement("canvas");
-                canvas.width = 600;
-                canvas.height = 360;
-                const ctx = canvas.getContext("2d");
-
-                // Draw background & UI snapshot info
-                ctx.fillStyle = "#1e293b";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "#38bdf8";
-                ctx.font = "bold 20px sans-serif";
-                ctx.fillText("Work Track Monitoring Snapshot", 40, 60);
-
-                ctx.fillStyle = "#94a3b8";
-                ctx.font = "14px sans-serif";
-                ctx.fillText(`Timestamp: ${new Date().toLocaleString()}`, 40, 100);
-                ctx.fillText(`Window Title: ${document.title || "Work Track User Dashboard"}`, 40, 130);
-                ctx.fillText(`Active URL: ${window.location.href}`, 40, 160);
-                ctx.fillText(`Status: User Clocked In & Working`, 40, 190);
-
-                ctx.fillStyle = "#10b981";
-                ctx.fillRect(40, 230, 520, 4);
-                ctx.fillStyle = "#cbd5e1";
-                ctx.font = "12px sans-serif";
-                ctx.fillText("Automated monitoring active as per company security policy", 40, 260);
-
-                const dataUrl = canvas.toDataURL("image/png");
-                await api.post("user_app/upload-screenshot/", {
-                  image: dataUrl,
-                  reason: "periodic_monitoring",
-                });
-              } catch (err) {
-                console.warn("Screenshot auto-capture failed:", err);
-              }
-            };
-
-            // Capture initial & start interval
-            captureAndUploadScreenshot();
-            screenshotTimer = setInterval(captureAndUploadScreenshot, screenshotIntervalMs);
-          }
-
           // Automated Website & Application Tracking
           if (settings.website_tracking_enabled !== false || settings.app_tracking_enabled !== false) {
             const logTrackingActivity = async () => {
+              if (isOnBreak) return;
               try {
                 if (settings.app_tracking_enabled !== false) {
                   await api.post("user_app/start-application/", {
@@ -135,10 +94,9 @@ function MyWorkTrackTime() {
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-      if (screenshotTimer) clearInterval(screenshotTimer);
       if (trackingTimer) clearInterval(trackingTimer);
     };
-  }, [clockedIn]);
+  }, [clockedIn, isOnBreak]);
 
   const formatTimeStr = (isoString) => {
     if (!isoString) return "--:--";
@@ -155,15 +113,25 @@ function MyWorkTrackTime() {
       const res = await api.get("user_app/current-session/");
       if (res.data?.clocked_in) {
         setClockedIn(true);
+        setIsOnBreak(!!res.data.is_on_break);
         const data = res.data.data;
         if (data?.clock_in) {
           setClockInTime(formatTimeStr(data.clock_in));
         }
-        if (res.data.elapsed_seconds) {
+        if (data?.clock_out) {
+          setClockOutTime(formatTimeStr(data.clock_out));
+        }
+        if (res.data.break_seconds !== undefined) {
+          setBreakSeconds(res.data.break_seconds);
+        }
+        if (res.data.working_seconds !== undefined) {
+          setElapsedSeconds(res.data.working_seconds);
+        } else if (res.data.elapsed_seconds !== undefined) {
           setElapsedSeconds(res.data.elapsed_seconds);
         }
       } else {
         setClockedIn(false);
+        setIsOnBreak(false);
       }
     } catch (err) {
       console.error("Error fetching current session:", err);
@@ -183,6 +151,10 @@ function MyWorkTrackTime() {
         if (res.data?.success) {
           toast.success(res.data.message || "Clock In Successful!");
           setClockedIn(true);
+          setIsOnBreak(false);
+          setElapsedSeconds(0);
+          setBreakSeconds(0);
+          window.dispatchEvent(new CustomEvent("worktrack:clock-in"));
           const data = res.data.data;
           if (data?.clock_in) {
             setClockInTime(formatTimeStr(data.clock_in));
@@ -190,7 +162,6 @@ function MyWorkTrackTime() {
             setClockInTime(formatTimeStr(new Date().toISOString()));
           }
           setClockOutTime("--:--");
-          setElapsedSeconds(0);
         }
       } else {
         // Clock Out
@@ -199,6 +170,7 @@ function MyWorkTrackTime() {
           toast.success(res.data.message || "Clock Out Successful!");
           setClockedIn(false);
           setIsOnBreak(false);
+          window.dispatchEvent(new CustomEvent("worktrack:clock-out"));
           const data = res.data.data;
           if (data?.clock_out) {
             setClockOutTime(formatTimeStr(data.clock_out));
@@ -220,18 +192,30 @@ function MyWorkTrackTime() {
       toast.error("Admins cannot start or end break sessions.");
       return;
     }
+    if (!clockedIn) {
+      toast.info("Please clock in first to start a break session.");
+      return;
+    }
     try {
       if (!isOnBreak) {
         const res = await api.post("user_app/start-idle/");
         if (res.data?.success) {
           toast.success("Break session started");
           setIsOnBreak(true);
+          window.dispatchEvent(new CustomEvent("worktrack:break-start"));
         }
       } else {
         const res = await api.post("user_app/end-idle/");
         if (res.data?.success) {
           toast.success("Break session ended");
           setIsOnBreak(false);
+          if (res.data.break_seconds !== undefined) {
+            setBreakSeconds(res.data.break_seconds);
+          }
+          if (res.data.working_seconds !== undefined) {
+            setElapsedSeconds(res.data.working_seconds);
+          }
+          window.dispatchEvent(new CustomEvent("worktrack:break-end"));
         }
       }
     } catch (err) {
@@ -285,7 +269,7 @@ function MyWorkTrackTime() {
       </div>
 
       <div className="focus-section">
-        <MyFocusTimer elapsedSeconds={elapsedSeconds} />
+        <MyFocusTimer elapsedSeconds={elapsedSeconds} isOnBreak={isOnBreak} breakSeconds={breakSeconds} />
       </div>
 
       <div className="cards-section">

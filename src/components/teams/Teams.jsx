@@ -4,6 +4,7 @@ import api, { getErrorMessage } from "../../api/api";
 import { toast } from "react-toastify";
 import { FiPlus, FiEdit2, FiTrash2, FiUserCheck, FiUsers, FiX } from "react-icons/fi";
 import ConfirmationModal from "../confirmationmodal/ConfirmationModal";
+import { useNavigate } from "react-router-dom";
 const Teams = () => {
   const [teams, setTeams] = useState([]);
   const [teamLeads, setTeamLeads] = useState([]);
@@ -14,6 +15,7 @@ const Teams = () => {
   const isAdmin = userRole === "admin" || userRole === "super_admin";
   const [deleteTeam, setDeleteTeam] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     team_name: "",
@@ -205,7 +207,7 @@ const Teams = () => {
       ) : (
         <div className="teams-grid">
           {teams.map((team) => (
-            <div className="team-card" key={team.id}>
+            <div className="team-card" onClick={() => navigate(`/user/team_details/${team.id}`)} key={team.id}>
               <div>
                 <div className="team-card-header">
                   <h3 className="team-card-name">{team.team_name}</h3>
@@ -234,14 +236,20 @@ const Teams = () => {
                   <button
                     className="action-icon-btn"
                     title="Edit Team"
-                    onClick={() => handleOpenModal(team)}
+                      onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenModal(team);
+                        }}
                   >
                     <FiEdit2 size={16} />
                   </button>
               <button
                   className="action-icon-btn delete"
                   title="Delete Team"
-                  onClick={() => setDeleteTeam(team)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDeleteTeam(team);
+                    }}
               >
                   <FiTrash2 size={16} />
               </button>

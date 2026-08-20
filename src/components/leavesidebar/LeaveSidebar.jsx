@@ -70,19 +70,19 @@ function LeaveSidebar() {
       to: "/user/leave/apply_leave",
       Icon: FaClipboardList,
       label: "Apply Leave",
-      show: true,
+      show: !isAdmin,
     },
     {
       to: "/user/leave/leave_application",
       Icon: FaRegFileAlt,
       label: "My Applications",
-      show: true,
+      show: !isAdmin,
     },
     {
       to: "/user/leave/leave_balance",
       Icon: FaWallet,
       label: "Leave Balance",
-      show: true,
+      show: !isAdmin,
     },
     {
       to: "/user/leave/leave_approval",

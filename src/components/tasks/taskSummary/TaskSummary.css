@@ -1,112 +1,137 @@
-.task-summary-container {
-  padding: 0 40px 40px;
+.task-summary-section {
+  padding: 0 32px 32px 32px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.task-summary-card-wrapper {
-  background: #ffffff;
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: var(--shadow-bento);
-  border: 1px solid var(--slate-100);
-}
-
-.table-top-bar {
+.task-summary-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.table-top-bar h3 {
-  font-size: 20px;
+.task-summary-header h2 {
+  font-size: 22px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #1e293b;
+  font-family: 'Outfit', sans-serif;
   margin: 0;
 }
 
-.top-bar-actions {
+.task-top-bar-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-.filter-button {
-  display: flex;
+.task-current-day-badge {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  background: white;
-  border: 1px solid var(--slate-200);
-  border-radius: 8px;
-  font-size: 14px;
-  color: var(--text-muted);
+  position: relative;
+}
+
+.task-current-day-badge .react-datepicker-wrapper {
+  display: inline-flex;
+  width: auto;
+}
+
+.task-datepicker-popper {
+  z-index: 99999 !important;
+}
+
+.task-calendar-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
   cursor: pointer;
-  transition: var(--transition-standard);
-}
-
-.filter-button:hover {
-  background: var(--slate-50);
-}
-
-.current-day-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.day-dropdown {
-  border: none;
-  background: transparent;
   outline: none;
-  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.task-calendar-filter-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.task-selected-day {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+  font-family: 'Inter', sans-serif;
+}
+
+.task-calendar-icon {
   font-size: 16px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  color: #8b5cf6;
+  flex-shrink: 0;
 }
 
-.day-dropdown:focus {
-  outline: none;
-  box-shadow: none;
+.task-clear-date-btn {
+  background: #fee2e2;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.task-table-scroll {
-  overflow-x: auto;
+.task-clear-date-btn:hover {
+  background: #fecaca;
+  transform: scale(1.05);
 }
 
-.task-ref-table {
+.task-table-wrapper {
   width: 100%;
-  border-collapse: collapse;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
 }
 
-.task-ref-table th {
-  text-align: left;
-  padding: 14px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-dark);
-  border-bottom: 1px solid var(--border-standard);
+.task-table-wrapper::-webkit-scrollbar {
+  height: 6px;
 }
 
-.task-ref-table td {
-  padding: 16px;
-  font-size: 14px;
-  color: var(--text-dark);
-  border-bottom: 1px solid var(--slate-100);
+.task-table-wrapper::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 3px;
 }
 
-.task-name-col {
-  font-weight: 600;
+.task-table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.task-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 .prio-badge {
-  padding: 4px 14px;
+  padding: 4px 12px;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
   display: inline-block;
   min-width: 60px;
   text-align: center;
+  text-transform: capitalize;
 }
 
 .prio-badge.high {
@@ -114,28 +139,26 @@
   color: #ef4444;
 }
 
-/* Pink/Red */
 .prio-badge.medium {
-  background: #e2f5ec;
-  color: #10b981;
+  background: #fef3c7;
+  color: #d97706;
 }
 
-/* Green */
 .prio-badge.low {
   background: #e0f2fe;
-  color: #0ea5e9;
+  color: #0284c7;
 }
 
-/* Blue */
-
 .status-text {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 13.5px;
 }
 
 .status-text.in-progress {
   color: #3b82f6;
 }
 
+.status-text.completed,
 .status-text.task-done {
   color: #10b981;
 }
@@ -148,100 +171,138 @@
   color: #f59e0b;
 }
 
-.more-btn {
-  background: none;
-  border: none;
-  color: var(--slate-400);
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  transition: var(--transition-standard);
+.task-datepicker-popper {
+  z-index: 99999 !important;
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  left: auto !important;
+  transform: none !important;
 }
 
-.more-btn:hover {
-  background: var(--slate-100);
-  color: var(--text-dark);
+.task-datepicker-popper .react-datepicker {
+  font-family: 'Inter', sans-serif !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15) !important;
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+  display: block !important;
 }
 
-.actions-cell {
-  position: relative;
+.task-datepicker-popper .react-datepicker__month-container {
+  float: none !important;
 }
 
-.action-menu-container {
-  display: flex;
-  justify-content: center;
-  position: relative;
+.react-datepicker__header {
+  background-color: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  padding-top: 12px !important;
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
 }
 
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: white;
-  border: 1px solid var(--slate-100);
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  min-width: 80px;
-  overflow: hidden;
-  animation: fadeIn 0.15s ease-out;
+.react-datepicker__current-month {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin-bottom: 8px !important;
 }
 
-.menu-item {
-  padding: 8px 16px;
-  font-size: 13px;
-  color: var(--text-dark);
-  cursor: pointer;
-  transition: var(--transition-standard);
-  text-align: left;
+.react-datepicker__day-name {
+  color: #64748b !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  width: 34px !important;
+  line-height: 34px !important;
+  margin: 2px !important;
 }
 
-.menu-item:hover {
-  background: var(--slate-50);
-  color: var(--primary-purple);
+.react-datepicker__day {
+  color: #334155 !important;
+  font-size: 13px !important;
+  width: 34px !important;
+  line-height: 34px !important;
+  margin: 2px !important;
+  border-radius: 8px !important;
+  transition: all 0.15s ease !important;
 }
 
-
-.task-top-bar-actions {
-  display: flex;
-  align-items: center;
+.react-datepicker__day:hover {
+  background-color: #f1f5f9 !important;
+  color: #8b5cf6 !important;
 }
 
-.task-current-day-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #8b5cf6 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
 }
 
-.task-selected-day {
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+.react-datepicker__day--today {
+  font-weight: 700 !important;
+  color: #8b5cf6 !important;
+  border: 1px solid #8b5cf6 !important;
 }
 
-.task-calendar-icon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
+.react-datepicker__day--selected.react-datepicker__day--today {
+  color: #ffffff !important;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
+.react-datepicker__navigation {
+  top: 10px !important;
+}
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* =========================================================
+   Responsive Breakpoints
+   ========================================================= */
+@media (max-width: 1200px) {
+  .task-summary-section {
+    padding: 0 24px 24px 24px;
   }
 }
 
-tr:hover td {
-  background: var(--slate-50);
+@media (max-width: 768px) {
+  .task-summary-section {
+    padding: 0 16px 20px 16px;
+  }
+
+  .task-summary-header {
+    margin-bottom: 16px;
+  }
+
+  .task-summary-header h2 {
+    font-size: 20px;
+  }
+
+  .task-selected-day {
+    font-size: 12.5px;
+  }
+
+  .task-calendar-filter-btn {
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .task-summary-section {
+    padding: 0 12px 16px 12px;
+  }
+
+  .task-summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .task-top-bar-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .task-datepicker-popper {
+    right: auto !important;
+    left: 0 !important;
+  }
 }

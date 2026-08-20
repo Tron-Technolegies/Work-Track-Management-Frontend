@@ -166,7 +166,18 @@ function Profile() {
                 <input type="text" value={user.company_name || ""} readOnly style={{ backgroundColor: "#f1f5f9" }} />
 
                 <label>Role</label>
-                <input type="text" value={user.role || ""} readOnly style={{ backgroundColor: "#f1f5f9" }} />
+                <input 
+                  type="text" 
+                  value={
+                    user.role?.toLowerCase() === "project_lead"
+                      ? "Project Lead"
+                      : user.role?.toLowerCase() === "admin" || user.role?.toLowerCase() === "super_admin"
+                      ? "Admin"
+                      : "Employee"
+                  } 
+                  readOnly 
+                  style={{ backgroundColor: "#f1f5f9" }} 
+                />
 
                 <label>Phone Number</label>
                 <input 

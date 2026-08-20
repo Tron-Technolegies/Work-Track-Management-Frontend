@@ -90,17 +90,90 @@ function EditTask({ task, onClose, onSuccess }) {
 
   const fetchTeams = async () => {
     try {
-      const res = await api.get("admin_app/view-teams/");
-      setTeams(res.data.data || res.data);
+      const res = await api.get("admin_app/active-teams/");
+      const data = res.data?.data || res.data || [];
+      const activeTeams = Array.isArray(data)
+        ? data.filter((t) => (t.status || "").toLowerCase() === "active")
+        : [];
+      setTeams(activeTeams);
     } catch {
       toast.error("Failed to load teams");
     }
+  };
+
+  const handleProjectChange = (e) => {
+    const selectedProjectId = e.target.value;
+    if (!selectedProjectId) {
+      setFormData((prev) => ({ ...prev, project: "" }));
+      return;
+    }
+
+    const selectedProj = projects.find(
+      (p) => String(p.id) === String(selectedProjectId)
+    );
+    const teamId =
+      selectedProj?.team || selectedProj?.team_id
+        ? String(selectedProj.team || selectedProj.team_id)
+        : "";
+
+    setFormData((prev) => ({
+      ...prev,
+      project: selectedProjectId,
+      team: teamId,
+    }));
+  };
+
+  const handleTeamChange = (e) => {
+    const selectedTeamId = e.target.value;
+    if (!selectedTeamId) {
+      setFormData((prev) => ({ ...prev, team: "" }));
+      return;
+    }
+
+    const currentProj = projects.find(
+      (p) => String(p.id) === String(formData.project)
+    );
+    const currentProjTeamId = currentProj
+      ? String(currentProj.team || currentProj.team_id)
+      : "";
+    const isMatching = currentProjTeamId === String(selectedTeamId);
+
+    setFormData((prev) => ({
+      ...prev,
+      team: selectedTeamId,
+      project: isMatching ? prev.project : "",
+    }));
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  // Filter projects based on selected team
+  const displayedProjects = formData.team
+    ? projects.filter(
+        (p) => String(p.team || p.team_id) === String(formData.team)
+      )
+    : projects;
+
+  // Filter teams based on selected project
+  const displayedTeams = (() => {
+    if (!formData.project) return teams;
+    const selectedProj = projects.find(
+      (p) => String(p.id) === String(formData.project)
+    );
+    if (!selectedProj || (!selectedProj.team && !selectedProj.team_id)) {
+      return [];
+    }
+    const teamId = String(selectedProj.team || selectedProj.team_id);
+    const matched = teams.filter((t) => String(t.id) === teamId);
+    if (matched.length > 0) return matched;
+    if (selectedProj.team_name) {
+      return [{ id: teamId, team_name: selectedProj.team_name }];
+    }
+    return teams;
+  })();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -134,6 +207,9 @@ function EditTask({ task, onClose, onSuccess }) {
       toast.success(
         res.data?.message || "Task updated successfully!"
       );
+
+      window.dispatchEvent(new Event("task-updated"));
+      window.dispatchEvent(new Event("task-status-updated"));
 
       onSuccess && onSuccess(res.data?.data);
       onClose && onClose();
@@ -174,10 +250,10 @@ function EditTask({ task, onClose, onSuccess }) {
             <select
               name="project"
               value={formData.project}
-              onChange={handleChange}
+              onChange={handleProjectChange}
             >
               <option value="">Select Project</option>
-              {projects.map((p) => (
+              {displayedProjects.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.project_name}
                 </option>
@@ -190,10 +266,10 @@ function EditTask({ task, onClose, onSuccess }) {
             <select
               name="team"
               value={formData.team}
-              onChange={handleChange}
+              onChange={handleTeamChange}
             >
               <option value="">Select Team</option>
-              {teams.map((t) => (
+              {displayedTeams.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.team_name}
                 </option>

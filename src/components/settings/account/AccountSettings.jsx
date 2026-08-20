@@ -4,6 +4,15 @@ import api from "../../../api/api.jsx";
 import { toast } from "react-toastify";
 import { FiCamera, FiSave, FiLock, FiUser } from "react-icons/fi";
 
+const formatRole = (role) => {
+  if (!role) return "Employee";
+  const r = role.toLowerCase();
+  if (r === "user" || r === "employee") return "Employee";
+  if (r === "project_lead") return "Project Lead";
+  if (r === "admin" || r === "super_admin") return "Admin";
+  return role.charAt(0).toUpperCase() + role.slice(1);
+};
+
 function AccountSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -168,7 +177,7 @@ function AccountSettings() {
           />
           <div className="profile-meta">
             <h3>{formData.first_name} {formData.last_name}</h3>
-            <p>{formData.role} · {formData.company_name}</p>
+            <p>{formatRole(formData.role)} · {formData.company_name}</p>
             {selectedFile && (
               <small style={{ color: "#8b5cf6", fontSize: "12px" }}>
                 New photo selected — save to apply
@@ -212,7 +221,7 @@ function AccountSettings() {
               </div>
               <div className="form-group">
                 <label>Role</label>
-                <input type="text" value={formData.role} disabled />
+                <input type="text" value={formatRole(formData.role)} disabled />
               </div>
               <div className="form-group">
                 <label>Team</label>

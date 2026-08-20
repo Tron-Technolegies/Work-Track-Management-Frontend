@@ -35,7 +35,14 @@ import CompanySignupPage from "./pages/CompanySignupPage";
 import EmployeesPage from "./pages/EmployeesPage";
 import SettingsPage from "./pages/SettingsPage";
 import AttendancePage from "./pages/AttendancePage";
+import TeamDetails from "./components/teams/teamdetails/TeamDetails";
 
+
+const LeaveIndexRedirect = () => {
+  const userRole = (localStorage.getItem("user_role") || "user").toLowerCase();
+  const isAdmin = userRole === "admin" || userRole === "super_admin";
+  return <Navigate to={isAdmin ? "leave_approval" : "apply_leave"} replace />;
+};
 
 const router = createBrowserRouter([
   {
@@ -77,13 +84,14 @@ const router = createBrowserRouter([
       {path:"settings",element:<SettingsPage/>},
       {path: "profile",element:<UserProfilePage/>},
       {path: "myworktrack",element:<MyWorkTrackPage/>},
+      {path:"team_details/:teamId",element:<TeamDetails/>},
       {
         path: "leave",
         element:<LeaveLayout/>,
         children:[
           {
             index:true,
-            element: <Navigate to="apply_leave" replace />
+            element: <LeaveIndexRedirect />
           },
           {
             path:"apply_leave",

@@ -31,7 +31,7 @@
 
 .employee-productivity-card {
     display: grid;
-    grid-template-columns: 2fr repeat(4, 1fr);
+    grid-template-columns: 2fr repeat(5, 1fr);
     align-items: center;
     gap: 20px;
 
@@ -43,9 +43,8 @@
 
     box-shadow: var(--shadow-soft);
 
-    cursor: pointer;
-
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
 .employee-productivity-card:hover {
@@ -121,6 +120,262 @@
     color: var(--text-muted);
     background: var(--glass-bg);
     border-radius: 16px;
+}
+
+/* =====================================================
+   EXPORT BUTTON
+===================================================== */
+
+.employee-export-action {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.employee-export-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    padding: 9px 14px;
+
+    border: 1px solid #ddd6fe;
+    border-radius: 9px;
+
+    background: #f5f3ff;
+    color: #7c3aed;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.employee-export-btn:hover {
+    background: #7c3aed;
+    color: #ffffff;
+    border-color: #7c3aed;
+}
+
+
+/* =====================================================
+   EXPORT OVERLAY
+===================================================== */
+
+.productivity-export-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 9999;
+}
+
+
+/* =====================================================
+   EXPORT MODAL
+===================================================== */
+
+.productivity-export-modal {
+    width: 100%;
+    max-width: 480px;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    padding: 26px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.2);
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.productivity-export-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 24px;
+}
+
+.productivity-export-header h3 {
+    margin: 0;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    color: #1e293b;
+}
+
+.productivity-export-header p {
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    color: #64748b;
+}
+
+.productivity-export-close {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    cursor: pointer;
+}
+
+.productivity-export-close:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+
+/* =====================================================
+   FIELD
+===================================================== */
+
+.productivity-export-field {
+    margin-bottom: 20px;
+}
+
+.productivity-export-field label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #475569;
+}
+
+.productivity-export-field input {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 11px 13px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+.productivity-export-field input:focus {
+    border-color: #7c3aed;
+}
+
+
+/* =====================================================
+   OPTIONS
+===================================================== */
+
+.productivity-export-options {
+    display: flex;
+    gap: 8px;
+}
+
+.productivity-export-options button {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.productivity-export-options button:hover {
+    border-color: #c4b5fd;
+    color: #7c3aed;
+}
+
+.productivity-export-options button.selected {
+    background: #7c3aed;
+    border-color: #7c3aed;
+    color: #ffffff;
+}
+
+
+/* =====================================================
+   DOWNLOAD
+===================================================== */
+
+.productivity-export-download {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 8px;
+
+    padding: 13px 18px;
+
+    border: none;
+    border-radius: 11px;
+
+    background: #7c3aed;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.productivity-export-download:hover {
+    background: #6d28d9;
+}
+
+.productivity-export-download:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }
 @media (max-width: 992px) {
 

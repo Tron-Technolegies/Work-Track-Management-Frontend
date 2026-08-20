@@ -289,6 +289,7 @@ const Attendance = () => {
             onExport={handleExport}
             onOpenCorrection={handleOpenCorrection}
             formatDisplayDate={formatDisplayDate}
+            isAdmin={isAdmin}
           />
         )}
 

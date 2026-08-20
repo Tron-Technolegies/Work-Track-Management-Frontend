@@ -23,15 +23,18 @@ const AttendanceLeave = ({
   attendanceLogs = [],
   onExport,
   onOpenCorrection,
-  formatDisplayDate
+  formatDisplayDate,
+  isAdmin
 }) => {
   return (
     <div className="att-leave-container">
       <div className="att-panel-header">
         <h3>Live Attendance — {formatDisplayDate ? formatDisplayDate(date) : date}</h3>
-        <button className="att-btn-export" onClick={onExport}>
-          <FiDownload size={16} /> Export
-        </button>
+        {isAdmin && (
+          <button className="att-btn-export" onClick={onExport}>
+            <FiDownload size={16} /> Export
+          </button>
+        )}
       </div>
 
       <div className="att-table-wrapper">

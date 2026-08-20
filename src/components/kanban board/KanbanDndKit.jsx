@@ -30,6 +30,65 @@ function ColumnDropArea({ id, children }) {
   );
 }
 
+const isTaskAssignedToCurrentUser = (task, currentUser) => {
+  if (!task || !currentUser) return false;
+
+  const currentUserId = currentUser.id ? String(currentUser.id) : (localStorage.getItem("user_id") || "");
+  const currentFirstName = (currentUser.first_name || "").toLowerCase().trim();
+  const currentLastName = (currentUser.last_name || "").toLowerCase().trim();
+  const currentFullName = `${currentFirstName} ${currentLastName}`.trim();
+  const currentUsername = (currentUser.username || "").toLowerCase().trim();
+  const currentEmail = (currentUser.email || "").toLowerCase().trim();
+  const currentName = (currentUser.name || "").toLowerCase().trim();
+
+  const assignedList = Array.isArray(task.assigned_to)
+    ? task.assigned_to
+    : task.assigned_to
+    ? [task.assigned_to]
+    : [];
+
+  const matchesUser = (u) => {
+    if (!u) return false;
+    if (typeof u === "number" || typeof u === "string") {
+      const uStr = String(u).trim().toLowerCase();
+      if (currentUserId && uStr === String(currentUserId).toLowerCase()) return true;
+      if (currentUsername && uStr === currentUsername) return true;
+      if (currentFirstName && uStr === currentFirstName) return true;
+      if (currentFullName && uStr === currentFullName) return true;
+      if (currentName && uStr === currentName) return true;
+      return false;
+    }
+    if (typeof u === "object") {
+      if (u.id && currentUserId && String(u.id) === String(currentUserId)) return true;
+      if (u.email && currentEmail && u.email.toLowerCase().trim() === currentEmail) return true;
+      if (u.username && currentUsername && u.username.toLowerCase().trim() === currentUsername) return true;
+      const uFirst = (u.first_name || "").toLowerCase().trim();
+      const uLast = (u.last_name || "").toLowerCase().trim();
+      const uFull = `${uFirst} ${uLast}`.trim();
+      const uName = (u.name || "").toLowerCase().trim();
+
+      if (currentFirstName && uFirst && uFirst === currentFirstName) return true;
+      if (currentFullName && uFull && uFull === currentFullName) return true;
+      if (currentName && (uName === currentName || uFull === currentName || uFirst === currentName)) return true;
+      if (currentFirstName && uName && uName === currentFirstName) return true;
+      return false;
+    }
+    return false;
+  };
+
+  if (assignedList.some(matchesUser)) return true;
+
+  if (typeof task.assigned === "string" && task.assigned) {
+    const assignedLower = task.assigned.toLowerCase().trim();
+    if (currentFirstName && (assignedLower === currentFirstName || assignedLower.includes(currentFirstName))) return true;
+    if (currentFullName && (assignedLower === currentFullName || assignedLower.includes(currentFullName))) return true;
+    if (currentUsername && (assignedLower === currentUsername || assignedLower.includes(currentUsername))) return true;
+    if (currentName && (assignedLower === currentName || assignedLower.includes(currentName))) return true;
+  }
+
+  return false;
+};
+
 /* ---------------- SORTABLE CARD ---------------- */
 function SortableCard({ id, card }) {
   const {
@@ -52,7 +111,7 @@ function SortableCard({ id, card }) {
     <div
       ref={setNodeRef}
       style={style}
-      className="kanban-card"
+      className={`kanban-card ${card?.isAssignedToCurrentUser ? "my-task" : ""}`}
       {...attributes}
       {...listeners}
     >
@@ -89,6 +148,12 @@ export default function KanbanDndKit({ tasks }) {
   useEffect(() => {
     const cards = {};
     const cols = { todo: [], inprogress: [], pending: [], done: [] };
+    let currentUser = {};
+    try {
+      currentUser = JSON.parse(localStorage.getItem("user")) || {};
+    } catch {
+      currentUser = {};
+    }
 
     tasks.forEach((task) => {
       const id = task.id.toString();
@@ -100,6 +165,7 @@ export default function KanbanDndKit({ tasks }) {
         ).join(", ") || "Unassigned",
         priority: task.priority,
         due_date: task.due_date,
+        isAssignedToCurrentUser: isTaskAssignedToCurrentUser(task, currentUser),
       };
 
       if (task.status === "In Progress") cols.inprogress.push(id);

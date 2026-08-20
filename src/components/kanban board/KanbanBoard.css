@@ -78,10 +78,20 @@
   cursor: grab;
 }
 
+.kanban-card.my-task {
+  border: 2px solid #8b5cf6;
+  box-shadow: 0 2px 10px rgba(139, 92, 246, 0.18);
+}
+
 .kanban-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
   border-color: var(--primary-purple);
+}
+
+.kanban-card.my-task:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.28);
 }
 
 .card-content h4 {

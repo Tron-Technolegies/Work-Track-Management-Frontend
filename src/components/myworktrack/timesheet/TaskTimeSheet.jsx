@@ -98,6 +98,9 @@ async function exportToExcel(tasks, formatDate) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function TaskTimeSheet() {
+  const userRole = (localStorage.getItem("user_role") || "user").toLowerCase();
+  const isAdminOrLead = userRole === "admin" || userRole === "super_admin" || userRole === "project_lead";
+
   const [tasks, setTasks] = useState([]);
   const [exportOpen, setExportOpen] = useState(false);
   const [exporting, setExporting] = useState(null); // "pdf" | "excel" | null
@@ -159,60 +162,62 @@ function TaskTimeSheet() {
 
         <div className="header-actions">
           {/* ── Export Dropdown ── */}
-          <div className="export-dropdown" ref={dropdownRef}>
-            <button
-              className={`export-btn ${exportOpen ? "export-btn--open" : ""}`}
-              onClick={() => setExportOpen((prev) => !prev)}
-              disabled={!!exporting}
-              aria-haspopup="true"
-              aria-expanded={exportOpen}
-            >
-              {exporting ? (
-                <>
-                  <span className="export-spinner" />
-                  Exporting…
-                </>
-              ) : (
-                <>
-                  <FaDownload />
-                  Export
-                  <FaChevronDown className="export-chevron" />
-                </>
+          {isAdminOrLead && (
+            <div className="export-dropdown" ref={dropdownRef}>
+              <button
+                className={`export-btn ${exportOpen ? "export-btn--open" : ""}`}
+                onClick={() => setExportOpen((prev) => !prev)}
+                disabled={!!exporting}
+                aria-haspopup="true"
+                aria-expanded={exportOpen}
+              >
+                {exporting ? (
+                  <>
+                    <span className="export-spinner" />
+                    Exporting…
+                  </>
+                ) : (
+                  <>
+                    <FaDownload />
+                    Export
+                    <FaChevronDown className="export-chevron" />
+                  </>
+                )}
+              </button>
+
+              {exportOpen && (
+                <div className="export-menu" role="menu">
+                  <button
+                    className="export-menu-item"
+                    onClick={() => handleExport("pdf")}
+                    role="menuitem"
+                  >
+                    <span className="export-menu-icon pdf-icon">
+                      <FaFilePdf />
+                    </span>
+                    <span>
+                      <strong>PDF</strong>
+                      <em>Portrait table layout</em>
+                    </span>
+                  </button>
+
+                  <button
+                    className="export-menu-item"
+                    onClick={() => handleExport("excel")}
+                    role="menuitem"
+                  >
+                    <span className="export-menu-icon excel-icon">
+                      <FaFileExcel />
+                    </span>
+                    <span>
+                      <strong>Excel</strong>
+                      <em>.xlsx spreadsheet</em>
+                    </span>
+                  </button>
+                </div>
               )}
-            </button>
-
-            {exportOpen && (
-              <div className="export-menu" role="menu">
-                <button
-                  className="export-menu-item"
-                  onClick={() => handleExport("pdf")}
-                  role="menuitem"
-                >
-                  <span className="export-menu-icon pdf-icon">
-                    <FaFilePdf />
-                  </span>
-                  <span>
-                    <strong>PDF</strong>
-                    <em>Portrait table layout</em>
-                  </span>
-                </button>
-
-                <button
-                  className="export-menu-item"
-                  onClick={() => handleExport("excel")}
-                  role="menuitem"
-                >
-                  <span className="export-menu-icon excel-icon">
-                    <FaFileExcel />
-                  </span>
-                  <span>
-                    <strong>Excel</strong>
-                    <em>.xlsx spreadsheet</em>
-                  </span>
-                </button>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <DateRangePicker />
         </div>

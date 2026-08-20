@@ -337,7 +337,7 @@ function UserTaskDetails() {
         </div>
 
         {/* Comments */}
-        <div className="comments">
+        {/* <div className="comments">
           <h3>Comments</h3>
           <div className="comment-box">
             <textarea
@@ -363,7 +363,7 @@ function UserTaskDetails() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* RIGHT SIDE */}

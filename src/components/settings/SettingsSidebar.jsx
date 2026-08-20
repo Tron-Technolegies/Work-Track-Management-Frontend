@@ -9,40 +9,51 @@ import {
 } from "react-icons/fi";
 import "./SettingsSidebar.css";
 
-const menus = [
+const allMenus = [
   {
     id: "company",
     title: "Company",
     icon: <FiBriefcase />,
+    adminOnly: true,
   },
   {
     id: "account",
     title: "Account",
     icon: <FiUser />,
+    adminOnly: false,
   },
   {
     id: "smtp",
     title: "Email (SMTP)",
     icon: <FiMail />,
+    adminOnly: true,
   },
   {
     id: "monitoring",
     title: "Monitoring",
     icon: <FiMonitor />,
+    adminOnly: true,
   },
   {
     id: "leave",
     title: "Leave Policy",
     icon: <FiCalendar />,
+    adminOnly: true,
   },
   {
     id: "security",
     title: "Security",
     icon: <FiShield />,
+    adminOnly: true,
   },
 ];
 
 function SettingsSidebar({ tab, setTab }) {
+  const userRole = localStorage.getItem("user_role") || "";
+  const isAdmin = userRole === "admin" || userRole === "super_admin";
+
+  const visibleMenus = allMenus.filter((item) => !item.adminOnly || isAdmin);
+
   return (
     <aside className="settings-sidebar">
 
@@ -53,7 +64,7 @@ function SettingsSidebar({ tab, setTab }) {
 
       <div className="settings-menu">
 
-        {menus.map((item) => (
+        {visibleMenus.map((item) => (
           <button
             key={item.id}
             onClick={() => setTab(item.id)}

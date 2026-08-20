@@ -75,6 +75,7 @@
 }
 
 .date-hour {
+  padding-top: 30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;

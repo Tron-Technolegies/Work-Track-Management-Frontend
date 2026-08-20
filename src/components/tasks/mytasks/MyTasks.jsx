@@ -27,25 +27,25 @@ const MyTasks = () => {
   //   fetchSummary();
   // }, []);
 
- useEffect(() => {
-  fetchSummary(); // Load counts immediately
+  useEffect(() => {
+    fetchSummary(); // Load counts immediately
 
-  const refreshSummary = () => {
-    fetchSummary();
-  };
+    const refreshSummary = () => {
+      fetchSummary();
+    };
 
-  window.addEventListener(
-    "task-status-updated",
-    refreshSummary
-  );
+    window.addEventListener("task-status-updated", refreshSummary);
+    window.addEventListener("task-created", refreshSummary);
+    window.addEventListener("task-updated", refreshSummary);
+    window.addEventListener("task-deleted", refreshSummary);
 
-  return () => {
-    window.removeEventListener(
-      "task-status-updated",
-      refreshSummary
-    );
-  };
-}, []);
+    return () => {
+      window.removeEventListener("task-status-updated", refreshSummary);
+      window.removeEventListener("task-created", refreshSummary);
+      window.removeEventListener("task-updated", refreshSummary);
+      window.removeEventListener("task-deleted", refreshSummary);
+    };
+  }, []);
 
   const tasks = [
     { title: "To Do", count: summary.todo_tasks, icon: <FiClipboard />, color: "#b390cc" },
@@ -54,28 +54,36 @@ const MyTasks = () => {
     { title: "Task Done", count: summary.completed_tasks, icon: <FiCheckSquare />, color: "#a855f7" }
   ];
 
+  const userRole = localStorage.getItem("user_role") || "";
+  const isAdminOrLead = userRole === "admin" || userRole === "super_admin" || userRole === "project_lead";
+
   return (
     <div className='container-mytasks'>
       <div className='task-page-header'>
         <div className="header-left">
           <h2>My tasks</h2>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              setIsModalOpen(true);
-            }}
-            className="new-task-pill-btn"
-          >
-            <span className="plus-circle"><FiPlus /></span> New Task
-          </button>
+          {isAdminOrLead && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsModalOpen(true);
+              }}
+              className="new-task-pill-btn"
+            >
+              <span className="plus-circle"><FiPlus /></span> New Task
+            </button>
+          )}
         </div>
       </div>
 
       <NewTaskModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSuccess={fetchSummary}
+        onSuccess={() => {
+          fetchSummary();
+          window.dispatchEvent(new Event("task-created"));
+        }}
       />
 
       <div className="task-summary-grid-row">

@@ -27,9 +27,13 @@ const ProjectDetailsForm = () => {
         toast.error("Failed to load project details");
       });
 
-    api.get("admin_app/view-teams/")
+    api.get("admin_app/active-teams/")
       .then((res) => {
-        setTeams(res.data.data || res.data || []);
+        const data = res.data?.data || res.data || [];
+        const activeTeams = Array.isArray(data)
+          ? data.filter(t => (t.status || "").toLowerCase() === "active")
+          : [];
+        setTeams(activeTeams);
       })
       .catch(() => {});
   }, [id]);

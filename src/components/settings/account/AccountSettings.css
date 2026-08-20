@@ -1,203 +1,251 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .account-page {
-  min-height: 100vh;
-  background: #f5f7fb;
-  padding: 30px;
+    width: 100%;
 }
 
 .account-card {
-  max-width: 1200px;
-  margin: auto;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-  display: flex;
-  gap: 40px;
-  padding: 35px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 40px;
+    padding: 35px;
+    box-sizing: border-box;
 }
 
 .profile-section {
-  width: 250px;
-  text-align: center;
+    width: 240px;
+    flex-shrink: 0;
+    text-align: center;
 }
 
 .profile-image {
-  position: relative;
-  width: 170px;
-  height: 170px;
-  margin: 0 auto 16px;
-  cursor: pointer;
+    position: relative;
+    width: 170px;
+    height: 170px;
+    margin: 0 auto 16px;
+    cursor: pointer;
 }
 
 .profile-image img {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid #4f46e5;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #4f46e5;
 }
 
 .profile-image-overlay {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  opacity: 0;
-  transition: 0.3s;
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    opacity: 0;
+    transition: 0.3s;
 }
 
 .profile-image:hover .profile-image-overlay {
-  opacity: 1;
+    opacity: 1;
 }
 
 .profile-meta h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 4px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
 }
 
 .profile-meta p {
-  font-size: 13px;
-  color: #64748b;
-  text-transform: capitalize;
+    font-size: 13px;
+    color: #64748b;
+    text-transform: capitalize;
 }
 
-
 .change-photo-btn {
-  margin-top: 20px;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background: #4f46e5;
-  color: #fff;
-  cursor: pointer;
-  transition: .3s;
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: #fff;
+    cursor: pointer;
+    transition: .3s;
 }
 
 .change-photo-btn:hover {
-  background: #3d35c6;
+    background: #3d35c6;
 }
 
 .form-section {
-  flex: 1;
+    flex: 1;
+    min-width: 0;
 }
 
 .form-section h2 {
-  margin-bottom: 25px;
-  color: #222;
+    margin-bottom: 25px;
+    color: #222;
 }
 
 .password-heading {
-  margin: 35px 0 20px;
-  color: #444;
+    margin: 35px 0 20px;
+    color: #444;
 }
 
 .form-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group label {
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #444;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
 }
 
 .form-group input {
-  padding: 12px;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  font-size: 15px;
-  outline: none;
-  transition: .3s;
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: .3s;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group input:focus {
-  border-color: #4f46e5;
+    border-color: #4f46e5;
 }
 
 .form-group input:disabled {
-  background: #f2f2f2;
-  cursor: not-allowed;
+    background: #f2f2f2;
+    cursor: not-allowed;
 }
 
 .save-btn {
-  margin-top: 30px;
-  padding: 14px 40px;
-  border: none;
-  border-radius: 8px;
-  background: #4f46e5;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: .3s;
+    margin-top: 30px;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .save-btn:hover {
-  background: #3d35c6;
+    background: #3d35c6;
 }
 
-/* Tablet */
+/* ── Tablet (≤ 1024px) ── */
+@media (max-width: 1024px) {
+    .account-card {
+        gap: 28px;
+        padding: 28px;
+    }
 
-@media (max-width:992px) {
+    .profile-section {
+        width: 200px;
+    }
 
-  .account-card {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .profile-section {
-    width: 100%;
-  }
-
-  .form-grid {
-    grid-template-columns: repeat(2,1fr);
-  }
-
+    .profile-image,
+    .profile-image img {
+        width: 140px;
+        height: 140px;
+    }
 }
 
-/* Mobile */
+/* ── Small Tablet (≤ 768px) ── */
+@media (max-width: 768px) {
+    .account-page {
+        padding: 0;
+    }
 
-@media (max-width:768px) {
+    .account-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 18px;
+        gap: 24px;
+    }
 
-  .account-page {
-    padding: 15px;
-  }
+    .profile-section {
+        width: 100%;
+    }
 
-  .account-card {
-    padding: 20px;
-  }
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+    .save-btn,
+    .change-photo-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
 
-  .profile-image img {
-    width: 140px;
-    height: 140px;
-  }
+/* ── Mobile (≤ 560px) ── */
+@media (max-width: 560px) {
+    .account-card {
+        padding: 18px 14px;
+        border-radius: 10px;
+    }
 
-  .save-btn,
-  .change-photo-btn {
-    width: 100%;
-  }
+    .profile-image,
+    .profile-image img {
+        width: 120px;
+        height: 120px;
+    }
 
+    .profile-meta h3 {
+        font-size: 16px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group input {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .save-btn {
+        width: 100%;
+        justify-content: center;
+        font-size: 15px;
+        padding: 12px 20px;
+        margin-top: 20px;
+    }
+}
+
+/* ── Small Mobile (≤ 400px) ── */
+@media (max-width: 400px) {
+    .account-card {
+        padding: 14px 10px;
+    }
+
+    .profile-image,
+    .profile-image img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .form-section h2 {
+        font-size: 17px;
+    }
 }

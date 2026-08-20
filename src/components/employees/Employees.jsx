@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 
 function Employees() {
   const [users, setUsers] = useState([]);
+  const [teams, setTeams] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -18,40 +20,58 @@ function Employees() {
   const [deleteUser, setDeleteUser] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  const getUsers = async () => {
+  const userRole = localStorage.getItem("user_role") || "";
+  const isAdmin = userRole === "admin" || userRole === "super_admin";
+
+  const getUsers = async (teamId = selectedTeam) => {
     try {
-      const res = await api.get("admin_app/users/");
+      let url = "admin_app/users/";
+      if (isAdmin && teamId && teamId !== "all") {
+        url += `?team_id=${teamId}`;
+      }
+      const res = await api.get(url);
       setUsers(res.data);
     } catch (err) {
       console.log("Failed to fetch users", err);
     }
   };
 
+  const fetchTeams = async () => {
+    try {
+      const res = await api.get("admin_app/view-teams/");
+      setTeams(res.data?.data || res.data || []);
+    } catch (err) {
+      console.log("Failed to fetch teams", err);
+    }
+  };
+
   useEffect(() => {
-    getUsers();
-  }, []);
+    getUsers(selectedTeam);
+  }, [selectedTeam]);
 
-  // const handleDelete = async (id) => {
-  //   const confirmDelete = window.confirm("Delete this employee?");
-  //   if (!confirmDelete) return;
+  useEffect(() => {
+    if (isAdmin) {
+      fetchTeams();
+    }
+  }, [isAdmin]);
 
-  //   try {
-  //     const res = await api.delete(`admin_app/users/${id}/delete/`);
-  //     toast.success(res.data?.message || "Employee deleted successfully");
-  //     getUsers();
-  //   } catch (err) {
-  //     toast.error(err.response?.data?.error || "Unable to delete employee");
-  //   }
-  // };
+  const handleTeamChange = (e) => {
+    const teamId = e.target.value;
+    setSelectedTeam(teamId);
+  };
 
   const handleExportExcel = async () => {
     try {
-      const res = await api.get("admin_app/export/employees/excel/", {
+      let url = "admin_app/export/employees/excel/";
+      if (isAdmin && selectedTeam && selectedTeam !== "all") {
+        url += `?team_id=${selectedTeam}`;
+      }
+      const res = await api.get(url, {
         responseType: "blob",
       });
-      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const blobUrl = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");
-      link.href = url;
+      link.href = blobUrl;
       link.setAttribute("download", "employees_report.xlsx");
       document.body.appendChild(link);
       link.click();
@@ -64,12 +84,16 @@ function Employees() {
 
   const handleExportPDF = async () => {
     try {
-      const res = await api.get("admin_app/export/employees/pdf/", {
+      let url = "admin_app/export/employees/pdf/";
+      if (isAdmin && selectedTeam && selectedTeam !== "all") {
+        url += `?team_id=${selectedTeam}`;
+      }
+      const res = await api.get(url, {
         responseType: "blob",
       });
-      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const blobUrl = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");
-      link.href = url;
+      link.href = blobUrl;
       link.setAttribute("download", "employees_report.pdf");
       document.body.appendChild(link);
       link.click();
@@ -103,7 +127,6 @@ function Employees() {
     }
   };
 
-
   const handleDelete = async () => {
     if (!deleteUser) return;
 
@@ -136,28 +159,57 @@ function Employees() {
       <div className="users-table-header">
         <h2>Employees</h2>
 
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <button
-            className="add-user-btn"
-            onClick={handleExportExcel}
-            style={{ background: "#10B981" }}
-            title="Export Employees to Excel"
-          >
-            <FiDownload /> Excel
-          </button>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+          {isAdmin && teams.length > 0 && (
+            <select
+              value={selectedTeam}
+              onChange={handleTeamChange}
+              style={{
+                padding: "8px 14px",
+                borderRadius: "8px",
+                border: "1px solid #cbd5e1",
+                background: "#ffffff",
+                color: "#334155",
+                fontWeight: "500",
+                fontSize: "14px",
+                cursor: "pointer",
+                outline: "none"
+              }}
+            >
+              <option value="all">All Teams</option>
+              {teams.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.team_name}
+                </option>
+              ))}
+            </select>
+          )}
 
-          <button
-            className="add-user-btn"
-            onClick={handleExportPDF}
-            style={{ background: "#EF4444" }}
-            title="Export Employees to PDF"
-          >
-            <FiDownload /> PDF
-          </button>
+          {isAdmin && (
+            <>
+              <button
+                className="add-user-btn"
+                onClick={handleExportExcel}
+                style={{ background: "#10B981" }}
+                title="Export Employees to Excel"
+              >
+                <FiDownload /> Excel
+              </button>
 
-          <button className="add-user-btn" onClick={() => setIsModalOpen(true)}>
-            + Add User
-          </button>
+              <button
+                className="add-user-btn"
+                onClick={handleExportPDF}
+                style={{ background: "#EF4444" }}
+                title="Export Employees to PDF"
+              >
+                <FiDownload /> PDF
+              </button>
+
+              <button className="add-user-btn" onClick={() => setIsModalOpen(true)}>
+                + Add User
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -288,14 +340,14 @@ function Employees() {
               <th>Team</th>
               <th>Email</th>
               <th>Mobile</th>
-              <th>Action</th>
+              {isAdmin && <th>Action</th>}
             </tr>
           </thead>
 
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan="9" className="empty-row">
+                <td colSpan={isAdmin ? 9 : 8} className="empty-row">
                   No Users Found
                 </td>
               </tr>
@@ -332,10 +384,6 @@ function Employees() {
                             user.username ||
                             "Employee"}
                         </span>
-{/* 
-                        <span className="employee-username">
-                          {user.username || user.email || ""}
-                        </span> */}
                       </div>
 
                     </div>
@@ -382,28 +430,28 @@ function Employees() {
                   </td>
 
                   {/* ACTION */}
-                  <td className="action-cell">
+                  {isAdmin && (
+                    <td className="action-cell">
+                      <button
+                        className="icon-btn edit-btn"
+                        title="Edit Employee"
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setIsEditModalOpen(true);
+                        }}
+                      >
+                        <FiEdit2 />
+                      </button>
 
-                    <button
-                      className="icon-btn edit-btn"
-                      title="Edit Employee"
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setIsEditModalOpen(true);
-                      }}
-                    >
-                      <FiEdit2 />
-                    </button>
-
-                    <button
-                      className="icon-btn delete-btn"
-                      title="Delete Employee"
-                      onClick={() => setDeleteUser(user)}
-                    >
-                      <FiTrash2 />
-                    </button>
-
-                  </td>
+                      <button
+                        className="icon-btn delete-btn"
+                        title="Delete Employee"
+                        onClick={() => setDeleteUser(user)}
+                      >
+                        <FiTrash2 />
+                      </button>
+                    </td>
+                  )}
 
                 </tr>
               ))

@@ -47,7 +47,7 @@ function CreateEmployees({
         try{
 
             const res = await api.get(
-                "admin_app/view-teams/"
+                "admin_app/active-teams/"
             );
 
             setTeams(res.data.data || res.data);
@@ -327,60 +327,52 @@ function CreateEmployees({
 
                 </select>
 
-                <label>Password</label>
+            <label>Password</label>
 
-                <div className="password-box">
+            <div className="password-box">
 
-                    <input
-                        type={
-                            showPassword
-                            ?"text"
-                            :"password"
-                        }
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
+                <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                />
 
-                    <span
-                        onClick={()=>
-                            setShowPassword(!showPassword)
-                        }
-                    >
-                        {
-                            showPassword
-                            ?<FiEyeOff/>
-                            :<FiEye/>
-                        }
-                    </span>
+                <span
+                    onClick={() => setShowPassword(!showPassword)}
+                >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                </span>
 
-                    {(showPasswordValidation || formData.password) && (
-                        <div className="password-rules">
+            </div>
 
-                            <p className={passwordRules.minLength ? "valid" : "invalid"}>
-                                {passwordRules.minLength ? "✓" : "✗"} Minimum 8 characters
-                            </p>
+            {(showPasswordValidation || formData.password) && (
+                <div className="password-rules">
 
-                            <p className={passwordRules.upperCase ? "valid" : "invalid"}>
-                                {passwordRules.upperCase ? "✓" : "✗"} One uppercase letter
-                            </p>
+                    <p className={passwordRules.minLength ? "valid" : "invalid"}>
+                        {passwordRules.minLength ? "✓" : "✗"} Minimum 8 characters
+                    </p>
 
-                            <p className={passwordRules.lowerCase ? "valid" : "invalid"}>
-                                {passwordRules.lowerCase ? "✓" : "✗"} One lowercase letter
-                            </p>
+                    <p className={passwordRules.upperCase ? "valid" : "invalid"}>
+                        {passwordRules.upperCase ? "✓" : "✗"} One uppercase letter
+                    </p>
 
-                            <p className={passwordRules.number ? "valid" : "invalid"}>
-                                {passwordRules.number ? "✓" : "✗"} One number
-                            </p>
+                    <p className={passwordRules.lowerCase ? "valid" : "invalid"}>
+                        {passwordRules.lowerCase ? "✓" : "✗"} One lowercase letter
+                    </p>
 
-                            <p className={passwordRules.special ? "valid" : "invalid"}>
-                                {passwordRules.special ? "✓" : "✗"} One special character
-                            </p>
+                    <p className={passwordRules.number ? "valid" : "invalid"}>
+                        {passwordRules.number ? "✓" : "✗"} One number
+                    </p>
 
-                        </div>
-                    )}
+                    <p className={passwordRules.special ? "valid" : "invalid"}>
+                        {passwordRules.special ? "✓" : "✗"} One special character
+                    </p>
 
                 </div>
+            )}
+
+
 
                 <label>Confirm Password</label>
 

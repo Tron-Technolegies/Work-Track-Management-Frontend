@@ -1,157 +1,168 @@
-.leave-page{
-    width:100%;
+.leave-page {
+    width: 100%;
 }
 
-.leave-card{
-
-    background:#fff;
-    border-radius:20px;
-    padding:32px;
-    box-shadow:0 8px 30px rgba(0,0,0,.05);
-
+.leave-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.05);
+    box-sizing: border-box;
 }
 
-.admin-leave-header{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
-
+.admin-leave-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.admin-leave-header h2{
-
-    margin:0;
-    font-size:34px;
-    color:#2A2356;
-
+.admin-leave-header h2 {
+    margin: 0;
+    font-size: 34px;
+    color: #2A2356;
 }
 
-.admin-leave-header p{
-
-    margin-top:8px;
-    color:#8087a2;
-
+.admin-leave-header p {
+    margin-top: 8px;
+    color: #8087a2;
 }
 
-.leave-icon{
-
-    font-size:42px;
-    color:#7C3AED;
-
+.leave-icon {
+    font-size: 42px;
+    color: #7C3AED;
+    flex-shrink: 0;
 }
 
-.leave-grid{
-
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:22px;
-
+.leave-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
 }
 
-.leave-input{
-
-    display:flex;
-    flex-direction:column;
-
+.leave-input {
+    display: flex;
+    flex-direction: column;
 }
 
-.leave-input label{
-
-    font-weight:600;
-    margin-bottom:8px;
-    color:#444;
-
+.leave-input label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
 }
 
-.leave-input input{
-
-    height:48px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    padding:0 15px;
-    font-size:15px;
-
+.leave-input input {
+    height: 48px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 0 15px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.leave-input input:focus{
-
-    outline:none;
-    border-color:#7C3AED;
-    box-shadow:0 0 0 4px rgba(124,58,237,.12);
-
+.leave-input input:focus {
+    outline: none;
+    border-color: #7C3AED;
+    box-shadow: 0 0 0 4px rgba(124,58,237,.12);
 }
 
-.leave-checkbox{
-
-    margin-top:35px;
-
+.leave-checkbox {
+    margin-top: 35px;
 }
 
-.leave-checkbox label{
-
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-weight:600;
-
+.leave-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
 }
 
-.leave-checkbox input{
-
-    width:18px;
-    height:18px;
-
+.leave-checkbox input {
+    width: 18px;
+    height: 18px;
 }
 
-.leave-footer{
-
-    margin-top:40px;
-    display:flex;
-    justify-content:flex-end;
-
+.leave-footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.leave-btn{
-
-    border:none;
-    background:#7C3AED;
-    color:white;
-    padding:14px 28px;
-    border-radius:12px;
-    display:flex;
-    gap:8px;
-    align-items:center;
-    cursor:pointer;
-
+.leave-btn {
+    border: none;
+    background: #7C3AED;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
 }
 
-.leave-btn:hover{
-
-    background:#6D28D9;
-
+.leave-btn:hover {
+    background: #6D28D9;
 }
 
-@media(max-width:768px){
+/* ── Tablet (≤ 1024px) ── */
+@media (max-width: 1024px) {
+    .leave-card {
+        padding: 24px;
+    }
 
-.leave-grid{
-
-grid-template-columns:1fr;
-
+    .admin-leave-header h2 {
+        font-size: 28px;
+    }
 }
 
-.leave-footer{
+/* ── Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+    .leave-card {
+        padding: 20px 16px;
+        border-radius: 14px;
+    }
 
-justify-content:center;
+    .admin-leave-header {
+        flex-direction: column;
+    }
 
+    .admin-leave-header h2 {
+        font-size: 22px;
+    }
+
+    .leave-icon {
+        display: none;
+    }
+
+    .leave-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .leave-footer {
+        justify-content: center;
+    }
+
+    .leave-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
-.leave-btn{
+/* ── Small Mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+    .leave-card {
+        padding: 16px 12px;
+    }
 
-width:100%;
-justify-content:center;
+    .leave-input input {
+        height: 44px;
+        font-size: 14px;
+    }
 
-}
-
+    .leave-checkbox {
+        margin-top: 24px;
+    }
 }

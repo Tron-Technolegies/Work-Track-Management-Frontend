@@ -11,36 +11,27 @@ import LeaveSettings from "../components/settings/leave/LeaveSettings";
 import SecuritySettings from "../components/settings/security/SecuritySettings";
 
 function SettingsPage() {
+    const userRole = localStorage.getItem("user_role") || "";
+    const isAdmin = userRole === "admin" || userRole === "super_admin";
 
-    const [tab,setTab] = useState("account");
+    const [tab, setTab] = useState(isAdmin ? "company" : "account");
+
+    const currentTab = !isAdmin && tab !== "account" ? "account" : tab;
 
     return (
-
         <div className="settings-page">
-
-            <SettingsSidebar tab={tab}
-                setTab={setTab}/>
+            <SettingsSidebar tab={currentTab} setTab={setTab} />
 
             <div className="settings-content">
-
-                {tab==="company" && <CompanySettings/>}
-
-                {tab==="account" && <AccountSettings/>}
-
-                {tab==="smtp" && <SMTPSettings/>}
-
-                {tab==="monitoring" && <MonitoringSettings/>}
-
-                {tab==="leave" && <LeaveSettings/>}
-
-                {tab==="security" && <SecuritySettings/>}
-
+                {isAdmin && currentTab === "company" && <CompanySettings />}
+                {currentTab === "account" && <AccountSettings />}
+                {isAdmin && currentTab === "smtp" && <SMTPSettings />}
+                {isAdmin && currentTab === "monitoring" && <MonitoringSettings />}
+                {isAdmin && currentTab === "leave" && <LeaveSettings />}
+                {isAdmin && currentTab === "security" && <SecuritySettings />}
             </div>
-
         </div>
-
-    )
-
+    );
 }
 
 export default SettingsPage;

@@ -10,6 +10,10 @@ const UserSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [unreadCounts, setUnreadCounts] = useState({ total: 0, leave: 0 });
+
+  const userRole = (localStorage.getItem("user_role") || "user").toLowerCase();
+  const isAdmin = userRole === "admin" || userRole === "super_admin";
 
   // Close sidebar on route change (mobile)
   useEffect(() => {
@@ -24,6 +28,32 @@ const UserSidebar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Fetch unread notification counts
+  const fetchUnreadCounts = async () => {
+    try {
+      const res = await api.get("admin_app/notifications/unread-count/");
+      setUnreadCounts({
+        total: res.data?.unread_count || 0,
+        leave: res.data?.leave_unread_count || 0,
+      });
+    } catch {
+      // Ignore
+    }
+  };
+
+  useEffect(() => {
+    fetchUnreadCounts();
+    const interval = setInterval(fetchUnreadCounts, 10000);
+
+    const handleNotifUpdate = () => fetchUnreadCounts();
+    window.addEventListener("worktrack:notification-updated", handleNotifUpdate);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("worktrack:notification-updated", handleNotifUpdate);
+    };
+  }, [location.pathname]);
 
   const logout = async () => {
     const refresh = localStorage.getItem("refresh");
@@ -52,8 +82,18 @@ const UserSidebar = () => {
     { to: "/user/kanbanBoard",   icon: "/Sidebar_icons/Kanbanboard.svg", label: "Kanban Board" },
     { to: "/user/productivity",  icon: "/Sidebar_icons/graph-time-series-svgrepo-com.svg",label: "Productivity" },
     { to: "/user/reports",  icon: "/Sidebar_icons/Reports.svg",label: "Reports" },
-    { to: "/user/leave",         icon: "/Sidebar_icons/leave.svg", label: "Leave" },
-    { to: "/user/notification",  icon: "/Sidebar_icons/notification.svg",label: "Notifications" },
+    {
+      to: isAdmin ? "/user/leave/leave_approval" : "/user/leave/apply_leave",
+      icon: "/Sidebar_icons/leave.svg",
+      label: "Leave",
+      badgeCount: unreadCounts.leave,
+    },
+    {
+      to: "/user/notification",
+      icon: "/Sidebar_icons/notification.svg",
+      label: "Notifications",
+      badgeCount: unreadCounts.total,
+    },
   ];
 
   return (
@@ -88,16 +128,26 @@ const UserSidebar = () => {
         </button>
 
         <div className="sidebar-menu">
-          {navItems.map(({ to, icon, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) => `menu-box ${isActive ? "active" : ""}`}
-            >
-              <img className="menu-icon" src={icon} alt="" />
-              <span className="menu-text">{label}</span>
-            </NavLink>
-          ))}
+          {navItems.map(({ to, icon, label, badgeCount }) => {
+            const isLeaveRoute = to.includes("/user/leave") && location.pathname.startsWith("/user/leave");
+            return (
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) =>
+                  `menu-box ${isActive || isLeaveRoute ? "active" : ""}`
+                }
+              >
+                <img className="menu-icon" src={icon} alt="" />
+                <span className="menu-text">{label}</span>
+                {badgeCount > 0 && (
+                  <span className="sidebar-badge">
+                    {badgeCount > 99 ? "99+" : badgeCount}
+                  </span>
+                )}
+              </NavLink>
+            );
+          })}
 
           <div className="line" />
 

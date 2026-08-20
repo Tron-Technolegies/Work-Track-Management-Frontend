@@ -1,122 +1,167 @@
-.security-page{
-    width:100%;
+.security-page {
+    width: 100%;
 }
 
-.security-card{
-    background:#fff;
-    border-radius:20px;
-    padding:32px;
-    box-shadow:0 8px 30px rgba(0,0,0,.05);
+.security-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.05);
+    box-sizing: border-box;
 }
 
-.security-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
+.security-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.security-header h2{
-    margin:0;
-    font-size:34px;
-    color:#2b2357;
+.security-header h2 {
+    margin: 0;
+    font-size: 34px;
+    color: #2b2357;
 }
 
-.security-header p{
-    margin-top:8px;
-    color:#7b8198;
+.security-header p {
+    margin-top: 8px;
+    color: #7b8198;
 }
 
-.security-icon{
-    font-size:42px;
-    color:#7c3aed;
+.security-icon {
+    font-size: 42px;
+    color: #7c3aed;
+    flex-shrink: 0;
 }
 
-.security-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:22px;
+.security-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
 }
 
-.security-input{
-    display:flex;
-    flex-direction:column;
+.security-input {
+    display: flex;
+    flex-direction: column;
 }
 
-.security-input label{
-    margin-bottom:8px;
-    font-weight:600;
+.security-input label {
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
-.security-input input{
-    height:48px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    padding:0 15px;
-    font-size:15px;
+.security-input input {
+    height: 48px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 0 15px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.security-input input:focus{
-    outline:none;
-    border-color:#7c3aed;
-    box-shadow:0 0 0 4px rgba(124,58,237,.12);
+.security-input input:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 4px rgba(124,58,237,.12);
 }
 
-.security-switches{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-    margin-top:35px;
+.security-switches {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 35px;
 }
 
-.security-switches label{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-weight:600;
+.security-switches label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
 }
 
-.security-switches input{
-    width:18px;
-    height:18px;
+.security-switches input {
+    width: 18px;
+    height: 18px;
 }
 
-.security-footer{
-    margin-top:40px;
-    display:flex;
-    justify-content:flex-end;
+.security-footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.security-btn{
-    border:none;
-    background:#7c3aed;
-    color:white;
-    padding:14px 28px;
-    border-radius:12px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:15px;
+.security-btn {
+    border: none;
+    background: #7c3aed;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
 }
 
-.security-btn:hover{
-    background:#6d28d9;
+.security-btn:hover {
+    background: #6d28d9;
 }
 
-@media(max-width:768px){
+/* ── Tablet (≤ 1024px) ── */
+@media (max-width: 1024px) {
+    .security-card {
+        padding: 24px;
+    }
 
-.security-grid{
-    grid-template-columns:1fr;
+    .security-header h2 {
+        font-size: 28px;
+    }
 }
 
-.security-footer{
-    justify-content:center;
+/* ── Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+    .security-card {
+        padding: 20px 16px;
+        border-radius: 14px;
+    }
+
+    .security-header {
+        flex-direction: column;
+    }
+
+    .security-header h2 {
+        font-size: 22px;
+    }
+
+    .security-icon {
+        display: none;
+    }
+
+    .security-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .security-footer {
+        justify-content: center;
+    }
+
+    .security-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
-.security-btn{
-    width:100%;
-    justify-content:center;
-}
+/* ── Small Mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+    .security-card {
+        padding: 16px 12px;
+    }
 
+    .security-input input {
+        height: 44px;
+        font-size: 14px;
+    }
 }

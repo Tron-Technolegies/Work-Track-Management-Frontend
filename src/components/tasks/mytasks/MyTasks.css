@@ -1,31 +1,35 @@
 .container-mytasks {
-  padding: 32px 40px;
+  padding: 32px 32px 0 32px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .task-page-header {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .header-left h2 {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #1e293b;
   font-family: 'Outfit', sans-serif;
   margin: 0;
 }
 
 .new-task-pill-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 6px 16px;
-  background: #4a4a4a;
+  gap: 8px;
+  padding: 8px 18px;
+  background: #2d3748;
   color: white;
   border-radius: 24px;
   font-size: 13px;
@@ -34,60 +38,61 @@
   border: none;
   cursor: pointer;
   outline: none;
-  z-index: 100;
-  transition: var(--transition-standard);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .new-task-pill-btn:hover {
-  background: #333;
+  background: #1a202c;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .plus-circle {
-  background: #b379c5;
+  background: #8b5cf6;
   color: white;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .task-summary-grid-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .task-stat-card {
-  background: #fdfafd;
-  /* Subtle off-white/purple */
-  padding: 24px;
-  border-radius: 12px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
-  gap: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-  border: 1px solid #f3e8f9;
-  transition: var(--transition-standard);
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
 }
 
 .task-stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .stat-icon-wrapper {
-  width: 56px;
-  height: 56px;
-  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
+  font-size: 22px;
 }
 
 .stat-info {
@@ -96,29 +101,85 @@
 }
 
 .stat-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--text-dark);
+  color: #64748b;
   font-family: 'Outfit', sans-serif;
   margin-bottom: 2px;
 }
 
 .stat-count {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #0f172a;
   letter-spacing: -0.02em;
   font-family: 'Inter', sans-serif;
 }
 
 @media (max-width: 1200px) {
+  .container-mytasks {
+    padding: 24px 24px 0 24px;
+  }
   .task-summary-grid-row {
     grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .container-mytasks {
+    padding: 20px 16px 0 16px;
+  }
+
+  .task-page-header {
+    margin-bottom: 16px;
+  }
+
+  .header-left h2 {
+    font-size: 22px;
+  }
+
   .task-summary-grid-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .task-stat-card {
+    padding: 14px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+
+  .stat-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  .stat-title {
+    font-size: 12px;
+  }
+
+  .stat-count {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-mytasks {
+    padding: 16px 12px 0 12px;
+  }
+
+  .task-summary-grid-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .new-task-pill-btn {
+    padding: 6px 14px;
+    font-size: 12px;
   }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Screenshots.css";
-import { FiImage, FiX } from "react-icons/fi";
+import { FiImage, FiX, FiAlertTriangle } from "react-icons/fi";
 import api from "../../../api/api";
 
 function Screenshots() {
@@ -43,11 +43,88 @@ function Screenshots() {
     }
   };
 
+  /**
+   * Build a high-quality Cloudinary URL.
+   * The serializer already returns full https URLs — we inject quality transforms.
+   */
   const getImageUrl = (img) => {
     if (!img) return null;
-    if (img.startsWith("http") || img.startsWith("data:")) return img;
-    const backendBase = api.defaults.baseURL ? api.defaults.baseURL.replace(/\/+$/, "").replace(/\/admin_app|\/user_app/, "") : "http://127.0.0.1:8000";
+    if (typeof img !== "string") return null;
+
+    // Full Cloudinary URL — inject quality transformation
+    if (img.startsWith("http://") || img.startsWith("https://")) {
+      if (img.includes("res.cloudinary.com")) {
+        // Add f_auto,q_auto:best after /upload/
+        if (!img.includes("/f_auto") && !img.includes("/q_auto")) {
+          return img.replace(/\/upload\//, "/upload/f_auto,q_auto:best/");
+        }
+      }
+      return img;
+    }
+
+    if (img.startsWith("data:")) return img;
+
+    // Public ID from Cloudinary — build URL via env cloud name
+    // The backend serializer handles this — so this is a fallback only
+    const backendBase = api.defaults.baseURL
+      ? api.defaults.baseURL.replace(/\/+$/, "").replace(/\/admin_app|\/user_app/, "")
+      : "http://127.0.0.1:8000";
     return `${backendBase}${img.startsWith("/") ? "" : "/"}${img}`;
+  };
+
+  const getReasonBadge = (reason) => {
+    if (reason === "blocked_app") {
+      return (
+        <span
+          style={{
+            background: "#ef4444",
+            color: "#fff",
+            padding: "3px 9px",
+            borderRadius: "6px",
+            fontSize: "11px",
+            fontWeight: 700,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "4px",
+            letterSpacing: "0.3px",
+          }}
+        >
+          <FiAlertTriangle size={11} /> BLOCKED APP
+        </span>
+      );
+    }
+    if (reason === "periodic") {
+      return (
+        <span
+          style={{
+            background: "#3b82f6",
+            color: "#fff",
+            padding: "3px 9px",
+            borderRadius: "6px",
+            fontSize: "11px",
+            fontWeight: 600,
+          }}
+        >
+          periodic_monitoring
+        </span>
+      );
+    }
+    if (reason) {
+      return (
+        <span
+          style={{
+            background: "#6b7280",
+            color: "#fff",
+            padding: "3px 9px",
+            borderRadius: "6px",
+            fontSize: "11px",
+          }}
+        >
+          {reason}
+        </span>
+      );
+    }
+    return null;
   };
 
   return (
@@ -65,21 +142,71 @@ function Screenshots() {
         <div className="screenshots-grid">
           {screenshots.map((item) => {
             const imgUrl = getImageUrl(item.image);
-            const empName = item.employee_name || item.name || item.user?.first_name || item.user?.username || item.email || "Employee";
+            const empName =
+              item.employee_name ||
+              item.name ||
+              item.user?.first_name ||
+              item.user?.username ||
+              item.email ||
+              "Employee";
+            const isBlocked = item.reason === "blocked_app";
 
             return (
               <div
                 className="screenshot-card"
                 key={item.id}
-                onClick={() => setSelectedScreenshot({ ...item, fullUrl: imgUrl, empName })}
-                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  setSelectedScreenshot({ ...item, fullUrl: imgUrl, empName })
+                }
+                style={{
+                  cursor: "pointer",
+                  position: "relative",
+                  outline: isBlocked ? "3px solid #ef4444" : undefined,
+                  outlineOffset: isBlocked ? "-3px" : undefined,
+                }}
               >
-                <div className="screenshot-image">
+                <div className="screenshot-image" style={{ position: "relative" }}>
                   {imgUrl ? (
-                    <img src={imgUrl} alt={empName} />
-                  ) : (
-                    <div className="placeholder">
-                      <FiImage className="placeholder-icon" />
+                    <img
+                      src={imgUrl}
+                      alt={empName}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        if (e.currentTarget.nextSibling) {
+                          e.currentTarget.nextSibling.style.display = "flex";
+                        }
+                      }}
+                    />
+                  ) : null}
+                  <div
+                    className="placeholder"
+                    style={{ display: imgUrl ? "none" : "flex" }}
+                  >
+                    <FiImage className="placeholder-icon" />
+                  </div>
+
+                  {/* Blocked app badge overlay on top-left of image */}
+                  {isBlocked && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 7,
+                        left: 7,
+                        zIndex: 3,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 4,
+                        background: "#ef4444",
+                        color: "#fff",
+                        padding: "3px 8px",
+                        borderRadius: "6px",
+                        fontSize: "11px",
+                        fontWeight: 700,
+                        boxShadow: "0 2px 6px rgba(239,68,68,0.5)",
+                      }}
+                    >
+                      <FiAlertTriangle size={11} /> BLOCKED APP
                     </div>
                   )}
                 </div>
@@ -87,6 +214,7 @@ function Screenshots() {
                 <div className="screenshot-info">
                   <h4>{empName}</h4>
                   <p>{formatTime(item.captured_at)}</p>
+                  {getReasonBadge(item.reason)}
                 </div>
               </div>
             );
@@ -100,7 +228,7 @@ function Screenshots() {
           style={{
             position: "fixed",
             top: 0, left: 0, right: 0, bottom: 0,
-            background: "rgba(0,0,0,0.85)",
+            background: "rgba(0,0,0,0.88)",
             zIndex: 999999,
             display: "flex",
             flexDirection: "column",
@@ -118,35 +246,97 @@ function Screenshots() {
               background: "#1e293b",
               padding: "16px",
               borderRadius: "16px",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.6)",
+              boxShadow: "0 10px 40px rgba(0,0,0,0.7)",
+              border:
+                selectedScreenshot.reason === "blocked_app"
+                  ? "2px solid #ef4444"
+                  : "none",
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", color: "#fff", marginBottom: "12px" }}>
-              <h4 style={{ margin: 0, fontSize: "16px" }}>{selectedScreenshot.empName}</h4>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                color: "#fff",
+                marginBottom: "12px",
+                gap: "12px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <h4 style={{ margin: 0, fontSize: "16px" }}>
+                  {selectedScreenshot.empName}
+                </h4>
+                {selectedScreenshot.reason === "blocked_app" && (
+                  <span
+                    style={{
+                      background: "#ef4444",
+                      color: "#fff",
+                      padding: "3px 10px",
+                      borderRadius: "6px",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                  >
+                    <FiAlertTriangle size={11} /> BLOCKED APP DETECTED
+                  </span>
+                )}
+              </div>
               <button
                 onClick={() => setSelectedScreenshot(null)}
-                style={{ background: "#ef4444", color: "#fff", border: "none", borderRadius: "50%", width: "28px", height: "28px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                style={{
+                  background: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "50%",
+                  width: "28px",
+                  height: "28px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
               >
                 <FiX />
               </button>
             </div>
+
             {selectedScreenshot.fullUrl ? (
               <img
                 src={selectedScreenshot.fullUrl}
                 alt="Screenshot Preview"
-                style={{ width: "100%", maxHeight: "70vh", objectFit: "contain", borderRadius: "8px" }}
+                style={{
+                  width: "100%",
+                  maxHeight: "70vh",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                }}
               />
             ) : (
-              <div style={{ padding: "40px", color: "#94a3b8", textAlign: "center" }}>No image available</div>
+              <div
+                style={{ padding: "40px", color: "#94a3b8", textAlign: "center" }}
+              >
+                No image available
+              </div>
             )}
-            <div style={{ marginTop: "12px", fontSize: "13px", color: "#94a3b8", display: "flex", justifyContent: "space-between" }}>
+
+            <div
+              style={{
+                marginTop: "12px",
+                fontSize: "13px",
+                color: "#94a3b8",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <span>Captured: {formatTime(selectedScreenshot.captured_at)}</span>
-              {selectedScreenshot.reason && (
-                <span style={{ background: "#3b82f6", color: "#fff", padding: "2px 8px", borderRadius: "4px", fontSize: "11px" }}>
-                  {selectedScreenshot.reason}
-                </span>
-              )}
+              {getReasonBadge(selectedScreenshot.reason)}
             </div>
           </div>
         </div>

@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./MonitoringSettings.css";
 import api from "../../../api/api.jsx";
 import { toast } from "react-toastify";
-import { FiMonitor, FiSave, FiClock, FiCamera, FiActivity, FiGlobe } from "react-icons/fi";
+import {
+  FiMonitor, FiSave, FiClock, FiCamera, FiActivity, FiGlobe,
+  FiAlertTriangle, FiPlus, FiTrash2, FiShield
+} from "react-icons/fi";
 
 function MonitoringSettings() {
   const [loading, setLoading] = useState(false);
+  const [newBlockedApp, setNewBlockedApp] = useState("");
 
   const [settings, setSettings] = useState({
     screenshot_interval: 300,
@@ -15,7 +19,9 @@ function MonitoringSettings() {
     app_tracking_enabled: true,
     website_tracking_enabled: true,
     idle_tracking_enabled: true,
-    capture_quality: 70,
+    capture_quality: 90,
+    blocked_applications: [],
+    screenshot_on_blocked_app: true,
   });
 
   useEffect(() => {
@@ -25,7 +31,10 @@ function MonitoringSettings() {
   const loadSettings = async () => {
     try {
       const res = await api.get("admin_app/admin-monitoring-settings/");
-      setSettings(res.data);
+      setSettings({
+        ...res.data,
+        blocked_applications: res.data.blocked_applications || [],
+      });
     } catch (err) {
       console.error("Failed to load monitoring settings:", err);
       toast.error("Failed to load monitoring settings.");
@@ -37,6 +46,32 @@ function MonitoringSettings() {
     setSettings((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const addBlockedApp = () => {
+    const trimmed = newBlockedApp.trim();
+    if (!trimmed) return;
+    const existing = (settings.blocked_applications || []).map((a) =>
+      a.toLowerCase()
+    );
+    if (existing.includes(trimmed.toLowerCase())) {
+      toast.error(`"${trimmed}" is already in the blocked list.`);
+      return;
+    }
+    setSettings((prev) => ({
+      ...prev,
+      blocked_applications: [...(prev.blocked_applications || []), trimmed],
+    }));
+    setNewBlockedApp("");
+  };
+
+  const removeBlockedApp = (appName) => {
+    setSettings((prev) => ({
+      ...prev,
+      blocked_applications: (prev.blocked_applications || []).filter(
+        (a) => a !== appName
+      ),
     }));
   };
 
@@ -61,7 +96,6 @@ function MonitoringSettings() {
             <h2>Monitoring Settings</h2>
             <p>Configure how employee monitoring works across your company.</p>
           </div>
-
           <FiMonitor className="monitor-icon" />
         </div>
 
@@ -162,6 +196,72 @@ function MonitoringSettings() {
             />
             Enable Idle Detection
           </label>
+
+          <label>
+            <input
+              type="checkbox"
+              name="screenshot_on_blocked_app"
+              checked={!!settings.screenshot_on_blocked_app}
+              onChange={handleChange}
+            />
+            <FiAlertTriangle style={{ color: "#ef4444" }} />
+            Capture Immediate Screenshot on Blocked App
+          </label>
+        </div>
+
+        {/* ── Blocked Applications Section ── */}
+        <div className="blocked-apps-section">
+          <div className="blocked-apps-header">
+            <div className="blocked-apps-title">
+              <FiShield className="blocked-apps-icon" />
+              <div>
+                <h3>Blocked Applications</h3>
+                <p>
+                  When an employee opens any app from this list during working
+                  hours, a screenshot is captured immediately and flagged.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="blocked-apps-input-row">
+            <input
+              type="text"
+              className="blocked-app-input"
+              placeholder="e.g. Spotify, Discord, Netflix, Steam..."
+              value={newBlockedApp}
+              onChange={(e) => setNewBlockedApp(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && addBlockedApp()}
+            />
+            <button className="blocked-app-add-btn" onClick={addBlockedApp}>
+              <FiPlus />
+              Add App
+            </button>
+          </div>
+
+          {settings.blocked_applications && settings.blocked_applications.length > 0 ? (
+            <div className="blocked-apps-list">
+              {settings.blocked_applications.map((app) => (
+                <div key={app} className="blocked-app-tag">
+                  <FiAlertTriangle className="blocked-app-tag-icon" />
+                  <span>{app}</span>
+                  <button
+                    className="blocked-app-remove"
+                    onClick={() => removeBlockedApp(app)}
+                    title={`Remove ${app}`}
+                  >
+                    <FiTrash2 />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="blocked-apps-empty">
+              <FiShield className="blocked-apps-empty-icon" />
+              <p>No blocked applications configured.</p>
+              <span>Add application names above to trigger immediate screenshots.</span>
+            </div>
+          )}
         </div>
 
         <div className="monitor-footer">
