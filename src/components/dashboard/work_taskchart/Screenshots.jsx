@@ -10,26 +10,38 @@ function Screenshots() {
 
   useEffect(() => {
     fetchScreenshots();
+
+    const interval = setInterval(() => {
+      fetchScreenshots();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  const fetchScreenshots = async () => {
-    try {
-      setLoading(true);
-      let res;
-      try {
-        res = await api.get("admin_app/screenshots/");
-      } catch {
-        res = await api.get("user_app/my-screenshots/");
-      }
+const fetchScreenshots = async () => {
+  try {
+    setLoading(true);
 
-      const list = Array.isArray(res.data) ? res.data : res.data?.results || [];
-      setScreenshots(list);
-    } catch (err) {
-      console.error("Failed to load screenshots", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const role = localStorage.getItem("role");
+
+    const endpoint =
+      role === "admin" || role === "super_admin"
+        ? "admin_app/screenshots/"
+        : "user_app/my-screenshots/";
+
+    const res = await api.get(endpoint);
+
+    const list = Array.isArray(res.data)
+      ? res.data
+      : res.data?.results || [];
+
+    setScreenshots(list);
+  } catch (err) {
+    console.error("Failed to load screenshots:", err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const formatTime = (capturedAt) => {
     if (!capturedAt) return "-";
@@ -48,27 +60,25 @@ function Screenshots() {
    * The serializer already returns full https URLs — we inject quality transforms.
    */
   const getImageUrl = (img) => {
-    if (!img) return null;
-    if (typeof img !== "string") return null;
+    if (!img || typeof img !== "string") return null;
 
-    // Full Cloudinary URL — inject quality transformation
     if (img.startsWith("http://") || img.startsWith("https://")) {
       if (img.includes("res.cloudinary.com")) {
-        // Add f_auto,q_auto:best after /upload/
         if (!img.includes("/f_auto") && !img.includes("/q_auto")) {
-          return img.replace(/\/upload\//, "/upload/f_auto,q_auto:best/");
+          return img.replace(
+            /\/upload\//,
+            "/upload/f_auto,q_auto:best/"
+          );
         }
       }
+
       return img;
     }
 
     if (img.startsWith("data:")) return img;
 
-    // Public ID from Cloudinary — build URL via env cloud name
-    // The backend serializer handles this — so this is a fallback only
-    const backendBase = api.defaults.baseURL
-      ? api.defaults.baseURL.replace(/\/+$/, "").replace(/\/admin_app|\/user_app/, "")
-      : "http://127.0.0.1:8000";
+    const backendBase = api.defaults.baseURL?.replace(/\/+$/, "");
+
     return `${backendBase}${img.startsWith("/") ? "" : "/"}${img}`;
   };
 
