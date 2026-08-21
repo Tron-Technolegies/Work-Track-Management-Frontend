@@ -66,7 +66,7 @@ function Screenshots() {
       if (img.includes("res.cloudinary.com")) {
         if (!img.includes("/f_auto") && !img.includes("/q_auto")) {
           return img.replace(
-            /\/upload\//,
+            /\/s\//,
             "/upload/f_auto,q_auto:best/"
           );
         }

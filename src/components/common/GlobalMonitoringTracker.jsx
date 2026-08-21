@@ -1,23 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import html2canvas from "html2canvas"; // 1. Moved to the top
 import api from "../../api/api";
 
-/**
- * GlobalMonitoringTracker
- * =======================
- * Runs across the entire application while the user is logged in.
- * Whenever the user is clocked in:
- *   - Automatically records page transitions as Website Usage (user_app/start-website/)
- *   - Periodically logs Application Usage (user_app/start-application/)
- *   - Synchronizes with backend session status and custom clock-in/out events
- */
 const GlobalMonitoringTracker = () => {
   const location = useLocation();
   const isClockedInRef = useRef(false);
   const isOnBreakRef = useRef(false);
   const periodicTimerRef = useRef(null);
+  const screenshotTimerRef = useRef(null);
 
-  // Helper to determine browser name
   const getBrowserName = () => {
     const ua = navigator.userAgent;
     if (ua.includes("Edg/")) return "Microsoft Edge";
@@ -27,7 +19,6 @@ const GlobalMonitoringTracker = () => {
     return "Web Browser";
   };
 
-  // Helper to get formatted page title
   const getFormattedTitle = () => {
     const rawTitle = document.title || "Work Track";
     const path = location.pathname.replace("/user/", "").replace("/", " - ") || "Dashboard";
@@ -35,7 +26,34 @@ const GlobalMonitoringTracker = () => {
     return `${rawTitle} | ${formatted}`;
   };
 
-  // Log active website usage
+  // Screenshot capture and upload function
+const captureAndUploadScreenshot = async (reason = "periodic") => {
+  if (!isClockedInRef.current || isOnBreakRef.current) return;
+  const userRole = localStorage.getItem("user_role") || "";
+  if (userRole === "admin" || userRole === "super_admin") return;
+
+  try {
+    const canvas = await html2canvas(document.body, {
+      useCORS: true,
+      scale: 0.75,
+    });
+
+    // 1. Generate Base64 Data URL expected by backend
+    const base64Image = canvas.toDataURL("image/jpeg", 0.7);
+
+    // 2. Send JSON payload
+    await api.post("user_app/upload-screenshot/", {
+      image: base64Image,
+      captured_at: new Date().toISOString(),
+      reason: reason,
+    });
+
+    console.log("✅ Screenshot captured & uploaded successfully");
+  } catch (err) {
+    console.debug("Screenshot upload failed:", err?.response?.data || err.message);
+  }
+};
+
   const logWebsiteUsage = async () => {
     if (!isClockedInRef.current || isOnBreakRef.current) return;
     const userRole = localStorage.getItem("user_role") || "";
@@ -48,12 +66,10 @@ const GlobalMonitoringTracker = () => {
         page_title: getFormattedTitle(),
       });
     } catch (err) {
-      // Silently ignore or debug log
       console.debug("Website tracking ping:", err?.response?.data?.message || err.message);
     }
   };
 
-  // Log active application usage
   const logApplicationUsage = async () => {
     if (!isClockedInRef.current || isOnBreakRef.current) return;
     const userRole = localStorage.getItem("user_role") || "";
@@ -69,7 +85,6 @@ const GlobalMonitoringTracker = () => {
     }
   };
 
-  // Check current clock-in session status from backend
   const checkSessionStatus = async () => {
     const userRole = localStorage.getItem("user_role") || "";
     if (userRole === "admin" || userRole === "super_admin") return;
@@ -84,24 +99,23 @@ const GlobalMonitoringTracker = () => {
       if (clockedIn && !onBreak) {
         logWebsiteUsage();
         logApplicationUsage();
+        captureAndUploadScreenshot("periodic"); // 2. Trigger on initial active session check
       }
     } catch {
-      // If error (e.g. unauthenticated), mark as false
       isClockedInRef.current = false;
       isOnBreakRef.current = false;
     }
   };
 
-  // Initial check & periodic session poll
   useEffect(() => {
     checkSessionStatus();
 
-    // Event listeners for clock-in, clock-out, break-start, break-end
     const handleClockIn = () => {
       isClockedInRef.current = true;
       isOnBreakRef.current = false;
       logWebsiteUsage();
       logApplicationUsage();
+      captureAndUploadScreenshot("periodic"); // 3. Trigger immediately when clocked in
     };
 
     const handleClockOut = () => {
@@ -117,6 +131,7 @@ const GlobalMonitoringTracker = () => {
       isOnBreakRef.current = false;
       logWebsiteUsage();
       logApplicationUsage();
+      captureAndUploadScreenshot("periodic");
     };
 
     window.addEventListener("worktrack:clock-in", handleClockIn);
@@ -124,7 +139,7 @@ const GlobalMonitoringTracker = () => {
     window.addEventListener("worktrack:break-start", handleBreakStart);
     window.addEventListener("worktrack:break-end", handleBreakEnd);
 
-    // Periodic heartbeat every 60 seconds
+    // Heartbeat every 60 seconds
     periodicTimerRef.current = setInterval(() => {
       if (isClockedInRef.current && !isOnBreakRef.current) {
         logWebsiteUsage();
@@ -132,16 +147,23 @@ const GlobalMonitoringTracker = () => {
       }
     }, 60000);
 
+    // Screenshot timer (every 5 minutes / 300 seconds)
+    screenshotTimerRef.current = setInterval(() => {
+      if (isClockedInRef.current && !isOnBreakRef.current) {
+        captureAndUploadScreenshot("periodic"); // 4. Trigger periodically
+      }
+    }, 300000);
+
     return () => {
       window.removeEventListener("worktrack:clock-in", handleClockIn);
       window.removeEventListener("worktrack:clock-out", handleClockOut);
       window.removeEventListener("worktrack:break-start", handleBreakStart);
       window.removeEventListener("worktrack:break-end", handleBreakEnd);
       if (periodicTimerRef.current) clearInterval(periodicTimerRef.current);
+      if (screenshotTimerRef.current) clearInterval(screenshotTimerRef.current);
     };
   }, []);
 
-  // Track page / route navigation
   useEffect(() => {
     if (isClockedInRef.current) {
       logWebsiteUsage();
@@ -149,7 +171,7 @@ const GlobalMonitoringTracker = () => {
     }
   }, [location.pathname]);
 
-  return null; // Headless component
+  return null;
 };
 
 export default GlobalMonitoringTracker;
